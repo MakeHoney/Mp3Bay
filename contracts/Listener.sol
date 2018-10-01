@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-import "./SongManager.sol";
+import "./libraries/SongLib.sol";
 
 contract Listener {
     address etherAccount;
@@ -15,10 +15,6 @@ contract Listener {
         etherAccount = _etherAccount;
         name = _name;
     }
-
-    // function buySong() internal payable onlyOwner {
-
-    // }
 
     function withdraw() public onlyOwner {
         address _contract = this;

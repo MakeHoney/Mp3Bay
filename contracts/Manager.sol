@@ -26,9 +26,9 @@ contract Manager is Ownable {
         accountToListenerAddr[msg.sender] = new Listener(msg.sender, _name);
     }
 
-
     // 두 함수로 외부에서 반복문 돌며 string 차례로 반환
     // promise all ?
+    // 외부에 배열 길이를 넘겨주기위한 메소드
     function getNumberOfArtist() public view returns (uint) {
         return allArtistsAddrs.length;
     }
