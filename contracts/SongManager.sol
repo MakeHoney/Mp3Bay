@@ -8,7 +8,7 @@ import "./Manager.sol";
         view / pure / external / internal
 
     */
-
+    
 contract SongManager is Manager {
 
     event NewSong(uint songId, string title);
@@ -54,7 +54,9 @@ contract SongManager is Manager {
         address artistAccount = songIdToArtistAccount[_id];
         artistAccount.transfer(msg.value);
 
-        /*
+        
+        /*  error : The constructor should be payable if you send value.
+
         address _contract = this;
         uint fee = 10;
         uint toArtist = msg.value * (100 - fee) / 10;
@@ -97,7 +99,6 @@ contract SongManager is Manager {
         return songIds;
     }
 
-    // 위에 songs 구조체 배열로도 동일 정보를 얻을 수 있음 (대신 메소드 사용할 시 원하는 정보만 return 가능)
     // 필요한 메소드인지 다시 생각
     function getSongBySongId(uint songId) public view returns (
         string,

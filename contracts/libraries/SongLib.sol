@@ -5,7 +5,7 @@ library SongLib {
         address ipfsHash;
         string artistName;
         string title;
-        // price;
+        // uint price;
     }
 
     struct MapSong {

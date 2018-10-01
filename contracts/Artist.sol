@@ -1,7 +1,5 @@
 pragma solidity ^0.4.23;
 
-import "./SongManager.sol";
-
 contract Artist {
     address etherAccount;
     string name;

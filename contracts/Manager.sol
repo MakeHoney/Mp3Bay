@@ -14,11 +14,8 @@ contract Manager is Ownable {
 
     // TODO: addressing exception for same name of user
     function registerArtist(string _name) external {
-        // add account -> addr mapping
         accountToArtistAddr[msg.sender] = new Artist(msg.sender, _name);
-        // artist address 배열에 추가
         allArtistsAddrs.push(accountToArtistAddr[msg.sender]);
-        // add name -> account mapping
         artistNameToArtistAccount[_name] = msg.sender;
     }
 
@@ -28,6 +25,7 @@ contract Manager is Ownable {
 
     // 두 함수로 외부에서 반복문 돌며 string 차례로 반환
     // promise all ?
+    
     // 외부에 배열 길이를 넘겨주기위한 메소드
     function getNumberOfArtist() public view returns (uint) {
         return allArtistsAddrs.length;
