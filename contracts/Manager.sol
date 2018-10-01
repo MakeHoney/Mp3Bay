@@ -3,16 +3,16 @@ pragma solidity ^0.4.23;
 import "./Ownable.sol";
 import "./Artist.sol";
 import "./Listener.sol";
+import "./libraries/SongLib.sol";
 
 contract Manager is Ownable {
     mapping (address => address) public accountToArtistAddr;
     mapping (address => address) public accountToListenerAddr;
-
     mapping (string => address) artistNameToArtistAccount;
 
     address[] public allArtistsAddrs;
 
-    // TODO: addressing exception for same name user
+    // TODO: addressing exception for same name of user
     function registerArtist(string _name) external {
         // add account -> addr mapping
         accountToArtistAddr[msg.sender] = new Artist(msg.sender, _name);

@@ -11,7 +11,7 @@ contract Artist {
         _;
     }
 
-    constructor (address _etherAccount, string _name) public {
+    constructor (address _etherAccount, string _name) public payable {
         etherAccount = _etherAccount;
         name = _name;
     }

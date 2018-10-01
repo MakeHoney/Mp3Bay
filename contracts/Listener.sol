@@ -1,7 +1,5 @@
 pragma solidity ^0.4.23;
 
-import "./libraries/SongLib.sol";
-
 contract Listener {
     address etherAccount;
     string name;
@@ -11,7 +9,7 @@ contract Listener {
         _;
     }
 
-    constructor (address _etherAccount, string _name) public {
+    constructor (address _etherAccount, string _name) public payable {
         etherAccount = _etherAccount;
         name = _name;
     }

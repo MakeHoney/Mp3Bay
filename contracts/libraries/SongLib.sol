@@ -7,4 +7,8 @@ library SongLib {
         string title;
         // price;
     }
+
+    struct MapSong {
+        mapping (uint => SongLib.Song) songIdToSong;
+    }
 }
