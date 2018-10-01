@@ -8,6 +8,4 @@ contract Listener {
         etherAccount = _etherAccount;
         name = _name;
     }
-
-
 }
