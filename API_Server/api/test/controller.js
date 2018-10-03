@@ -4,7 +4,6 @@ const http = require('http')
 exports.loadMusic = (req, res, next) => {
     // respond로 req가 온다? 미들웨어 알아보기
     const requestFromBrowser = res.req
-    console.log(requestFromBrowser.headers)
     const opt = {
         host: '13.209.8.64',
         port: 80,
