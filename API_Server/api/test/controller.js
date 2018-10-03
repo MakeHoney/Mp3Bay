@@ -3,7 +3,7 @@ const http = require('http')
 // GET /test
 exports.loadMusic = (req, res, next) => {
     // respond로 req가 온다? 미들웨어 알아보기
-    const requestFromBrowser = res.req
+    const reqHeaders = res.req.headers
     const opt = {
         host: '13.209.8.64',
         port: 80,
@@ -16,13 +16,13 @@ exports.loadMusic = (req, res, next) => {
     }
     
     let flag = false
-    if(!requestFromBrowser.headers['accept'].includes('text')) {
-        if (requestFromBrowser.headers['user-agent'].includes('Firefox')) {
-            if (requestFromBrowser.headers['accept'].includes('audio')) {
+    if(!reqHeaders['accept'].includes('text')) {
+        if (reqHeaders['user-agent'].includes('Firefox')) {
+            if (reqHeaders['accept'].includes('audio')) {
                 flag = true
             }
-        } else if (requestFromBrowser.headers['user-agent'].includes('Chrome')) {
-            if (requestFromBrowser.headers['accept'] === '*/*') {
+        } else if (reqHeaders['user-agent'].includes('Chrome')) {
+            if (reqHeaders['accept'] === '*/*') {
                 flag = true
             }
         }
