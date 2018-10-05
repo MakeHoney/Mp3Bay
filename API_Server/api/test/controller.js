@@ -40,7 +40,7 @@ exports.loadMusic = (req, res, next) => {
             response.on('end', () => {
                 body = Buffer.concat(chunks)
                 // TODO: header 설정 middleware로 빼기
-                // res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
+                res.set("Cache-Control", "private, no-cache, no-store, must-revalidate");
                 
                 res.send(body)
             })
