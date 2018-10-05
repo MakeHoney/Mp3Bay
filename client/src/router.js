@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './components/Home.vue'
+import Audio from './components/Audio.vue'
 import Artists from './components/Artists.vue'
 import Artist from './components/Artist.vue'
 import RegisterArtist from './components/RegisterArtist.vue'
@@ -17,6 +18,11 @@ export default new Router({
         component: Home
     },
     {
+        path: '/audio',
+        name: 'audio',
+        component: Audio
+    },
+    {
         path: '/artists',
         name: 'artists',
         component: Artists
@@ -30,6 +36,6 @@ export default new Router({
         path: '/register',
         name: 'register-artist',
         component: RegisterArtist
-    }
+}
   ]
 })

@@ -1,13 +1,10 @@
 <template>
     <div class="home">
-        <audio controls controlsList="nodownload">
-            <source src="http://localhost:3000/test" type="audio/mpeg">
-        </audio>
+        <div>
+            <router-link to="#">MP3Bay</router-link>
+        </div>
+        <div>
+            <router-link to="#">I'm an Artist!</router-link>
+        </div>
     </div>
 </template>
-
-<script>
-export default {
-    name: 'home'
-}
-</script>

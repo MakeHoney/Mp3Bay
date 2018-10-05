@@ -1,8 +1,9 @@
 <template>
   <div id="app">
       <div id="nav">
-          <router-link to="/">audio</router-link>|
-          <router-link to="/artists">artists</router-link>|
+          <router-link to="/">Home</router-link> |
+          <router-link to="/audio">audio</router-link> |
+          <router-link to="/artists">artists</router-link> |
           <router-link to="/register">register artist</router-link>
       </div>
       <router-view/>
@@ -11,8 +12,8 @@
 
 <script>
 export default {
-    beforeCreate() {
-        this.$store.dispatch('registerWeb3')
+    async created() {
+        await this.$store.dispatch('registerWeb3')
     }
 }
 </script>

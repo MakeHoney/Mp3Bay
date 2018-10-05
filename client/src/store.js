@@ -15,7 +15,11 @@ export default new Vuex.Store({
         balance: null,
         error: null
     },
-    contractInstance: null
+    contractInstance: null,
+    artists: {
+        addresses: null,
+        names: null
+    }
   },
   mutations: {
     registerWeb3Instance (state, payload) {
@@ -32,9 +36,13 @@ export default new Vuex.Store({
         state.web3 = web3Copy;
     },
     registerContractInstance (state, payload) {
-        console.log('Manager contract instance:', payload);
-
         state.contractInstance = () => payload;
+    },
+    setArtistAddresses(state, payload) {
+        state.artists.addresses = payload
+    },
+    setArtistNames(state, payload) {
+        state.artists.names = payload
     }
   },
   actions: {
@@ -49,6 +57,18 @@ export default new Vuex.Store({
         let result = await getContract
         .catch(err => { console.error('error in action getContractInstance', err) });
         commit('registerContractInstance', result);
+    },
+    async getArtistAddresses({ commit, state }) {
+        let result = await state.contractInstance().methods.getAllArtistAddrs().call()
+        commit('setArtistAddresses', result)
+
+    },
+    async getArtistNames({ commit, state }) {
+        let result = []
+        for(let i = 0; i < state.artists.addresses.length; i++) {
+            result.push(await state.contractInstance().methods.getArtistNameByIndex(i).call())
+        }
+        commit('setArtistNames', result)
     }
   }
 })

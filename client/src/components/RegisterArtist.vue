@@ -28,7 +28,7 @@ export default {
                 from: this.$store.state.web3.coinbase
             }, (err, result) => {
                 if (err) console.log('error occured', err)
-                else console.log(result)
+                // else console.log(result)
             })
         }
     },

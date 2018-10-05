@@ -1,19 +1,15 @@
 <template>
     <div class="artists">
         <h1>This page will show the list of registerd artists</h1>
-        <!-- <button @click="setArtistData">check</button> -->
-        <div v-if="allArtistsAddr.length === namesOfArtists.length">
-            <div v-for="(name, index) in namesOfArtists" :key="name.id">
-                <router-link :to="{name: 'artist', params: {id: index}}">{{ name }}</router-link>
-            </div>
-        </div>
-        <div v-else>
-            <li>loading...</li>
+        <div v-for="(name, index) in namesOfArtists" :key="name.id">
+            <router-link :to="{name: 'artist', params: {id: index}}">{{ name }}</router-link>
         </div>
     </div>
 </template>
 
 <script>
+import store from '../store'
+
 export default {
     name: 'artists',
     data() {
@@ -35,11 +31,16 @@ export default {
             }
         }
     },
-    // watch 속성 사용하여 가수 등록시 자동 refresh?
-    mounted() {
-        console.log('dispatching getContractInstance')
-        this.$store.dispatch('getContractInstance')
-        this.setArtistData()
+    async beforeRouteEnter(to, from, next) {
+        if(store.state.artists.addresses === null) {
+            await store.dispatch('getContractInstance')
+            await store.dispatch('getArtistAddresses')
+            await store.dispatch('getArtistNames')
+        }
+        next(vm => {
+            vm.allArtistsAddr = store.state.artists.addresses
+            vm.namesOfArtists = store.state.artists.names
+        })
     }
 }
 </script>
