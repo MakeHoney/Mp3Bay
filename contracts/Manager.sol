@@ -14,7 +14,7 @@ contract Manager is Ownable {
 
     // TODO: addressing exception for same name of user
     function registerArtist(string _name) external {
-        accountToArtistAddr[msg.sender] = new Artist(msg.sender, _name);
+        accountToArtistAddr[msg.sender] = new Artist(msg.sender, _name, allArtistsAddrs.length);
         allArtistsAddrs.push(accountToArtistAddr[msg.sender]);
         artistNameToArtistAccount[_name] = msg.sender;
     }

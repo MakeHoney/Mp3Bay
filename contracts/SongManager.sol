@@ -31,13 +31,12 @@ contract SongManager is Manager {
         require(accountToListenerAddr[_listenerAccount] != 0, "msg.sender isn't listener!");
         _;
     }
-
+    
     function registerSong(address _ipfsHash, string _title) public onlyArtist(msg.sender) {
         // create a song
         // 이미 존재하는 곡 exception handling
         Artist artist = Artist(accountToArtistAddr[msg.sender]);
-        string memory artistName = artist.getArtistName();
-        SongLib.Song memory song = SongLib.Song(_ipfsHash, artistName, _title);
+        SongLib.Song memory song = SongLib.Song(_ipfsHash, artist.getArtistName(), _title, artist.getID());
         uint id = songs.push(song) - 1;
 
         // add song into artist' song list.

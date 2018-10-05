@@ -5,6 +5,7 @@ library SongLib {
         address ipfsHash;
         string artistName;
         string title;
+        uint artistId;
         // uint price;
     }
 
