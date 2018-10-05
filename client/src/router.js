@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './components/Home.vue'
-import Audio from './components/Audio.vue'
+import Player from './components/Player.vue'
 import Artists from './components/Artists.vue'
 import Artist from './components/Artist.vue'
 import RegisterArtist from './components/RegisterArtist.vue'
@@ -18,9 +18,9 @@ export default new Router({
         component: Home
     },
     {
-        path: '/audio',
-        name: 'audio',
-        component: Audio
+        path: '/player',
+        name: 'player',
+        component: Player
     },
     {
         path: '/artists',
