@@ -11,13 +11,13 @@ import "./Manager.sol";
     
 contract SongManager is Manager {
 
-    event NewSong(uint songId, string title);
+    event NewSong(uint songID, string title);
 
     SongLib.Song[] public songs;
 
     mapping (address => SongLib.MapSong) listenerAccountToSongs;
     mapping (address => uint) public listenerAccountToSongCount;    
-    mapping (uint => address) public songIdToArtistAccount;
+    mapping (uint => address) public songIDToArtistAccount;
     mapping (address => uint) public artistAccountToSongCount;
 
     constructor() public payable {}
@@ -40,7 +40,7 @@ contract SongManager is Manager {
         uint id = songs.push(song) - 1;
 
         // add song into artist' song list.
-        songIdToArtistAccount[id] = msg.sender;
+        songIDToArtistAccount[id] = msg.sender;
         artistAccountToSongCount[msg.sender]++;
 
         emit NewSong(id, _title);
@@ -48,9 +48,9 @@ contract SongManager is Manager {
 
     function buySong(uint _id) public payable onlyListener(msg.sender) {
         // pay for music
-        require(listenerAccountToSongs[msg.sender].songIdToSong[_id].ipfsHash == 0, "the song already exsits!");
+        require(listenerAccountToSongs[msg.sender].songIDToSong[_id].ipfsHash == 0, "the song already exsits!");
         require(msg.value == 1 ether, "not enough or too much ether to buy a song!");
-        address artistAccount = songIdToArtistAccount[_id];
+        address artistAccount = songIDToArtistAccount[_id];
         artistAccount.transfer(msg.value);
 
         
@@ -66,44 +66,45 @@ contract SongManager is Manager {
         */
 
         // add song into listener' song list.
-        listenerAccountToSongs[msg.sender].songIdToSong[_id] = songs[_id];
+        listenerAccountToSongs[msg.sender].songIDToSong[_id] = songs[_id];
         listenerAccountToSongCount[msg.sender]++;
     }
 
     // is this needed?
-    function getSongIdsByArtistId(uint _idx) public view returns (uint[]) {
+    function getSongIDsByArtistID(uint _idx) public view returns (uint[]) {
         string memory name = getArtistNameByIndex(_idx);
         address artistAccount = artistNameToArtistAccount[name];
-        uint[] memory songIds = new uint[](artistAccountToSongCount[artistAccount]);
+        uint[] memory songIDs = new uint[](artistAccountToSongCount[artistAccount]);
         uint count = 0;
 
         for(uint i = 0; i < songs.length; i++) {
-            if(songIdToArtistAccount[i] == artistAccount) {
-                songIds[count++] = i;
+            if(songIDToArtistAccount[i] == artistAccount) {
+                songIDs[count++] = i;
             }
         }
-        return songIds;
+        return songIDs;
     }
 
-    function getSongIdsByArtistName(string _name) public view returns (uint[]) {
+    function getSongIDsByArtistName(string _name) public view returns (uint[]) {
         address artistAccount = artistNameToArtistAccount[_name];
-        uint[] memory songIds = new uint[](artistAccountToSongCount[artistAccount]);
+        uint[] memory songIDs = new uint[](artistAccountToSongCount[artistAccount]);
         uint count = 0;
 
         for(uint i = 0; i < songs.length; i++) {
-            if(songIdToArtistAccount[i] == artistAccount) {
-                songIds[count++] = i;
+            if(songIDToArtistAccount[i] == artistAccount) {
+                songIDs[count++] = i;
             }
         }
-        return songIds;
+        return songIDs;
     }
 
     // 필요한 메소드인지 다시 생각
-    function getSongBySongId(uint songId) public view returns (
+    function getSongBySongID(uint songID) public view returns (
         string,
+        uint,
         string
     ) {
-        return (songs[songId].artistName, songs[songId].title);
+        return (songs[songID].artistName, songs[songID].artistID, songs[songID].title);
     }
 
     // fallback

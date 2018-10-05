@@ -5,11 +5,11 @@ library SongLib {
         address ipfsHash;
         string artistName;
         string title;
-        uint artistId;
+        uint artistID;
         // uint price;
     }
 
     struct MapSong {
-        mapping (uint => SongLib.Song) songIdToSong;
+        mapping (uint => SongLib.Song) songIDToSong;
     }
 }

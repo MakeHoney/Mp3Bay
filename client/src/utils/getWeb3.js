@@ -16,11 +16,11 @@ let getWeb3 = new Promise((resolve, reject) => {
     }
 }).then(result => {
     return new Promise((resolve, reject) => {
-        result.web3().eth.net.getNetworkType((err, networkId) => {
+        result.web3().eth.net.getNetworkType((err, networkID) => {
             if(err) {
                 reject(new Error('Unable to retrieve network ID'))
             } else {
-                result = Object.assign({}, result, { networkId })
+                result = Object.assign({}, result, { networkID })
                 resolve(result)
             }
         })
