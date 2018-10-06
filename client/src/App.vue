@@ -12,9 +12,6 @@
 
 <script>
 export default {
-    async created() {
-        await this.$store.dispatch('registerWeb3')
-    }
 }
 </script>
 

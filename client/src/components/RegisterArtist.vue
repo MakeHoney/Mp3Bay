@@ -26,9 +26,13 @@ export default {
                 gas: 1000000,
                 value: 0,
                 from: this.$store.state.web3.coinbase
-            }, (err, result) => {
-                if (err) console.log('error occured', err)
-                // else console.log(result)
+            }, async (err, result) => {
+                if (err) {
+                    console.log('error occured', err)
+                } else {
+                    await this.$store.dispatch('getArtistAddresses')
+                    this.$store.state.artists.isThereNew = true
+                }
             })
         }
     },

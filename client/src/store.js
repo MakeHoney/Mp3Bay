@@ -18,7 +18,8 @@ export default new Vuex.Store({
     contractInstance: null,
     artists: {
         addresses: null,
-        names: null
+        names: null,
+        isThereNew: true
     }
   },
   mutations: {
@@ -61,7 +62,6 @@ export default new Vuex.Store({
     async getArtistAddresses({ commit, state }) {
         let result = await state.contractInstance().methods.getAllArtistAddrs().call()
         commit('setArtistAddresses', result)
-
     },
     async getArtistNames({ commit, state }) {
         let result = []

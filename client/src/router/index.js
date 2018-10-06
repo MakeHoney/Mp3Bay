@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import NProgress from 'nprogress'
 import { RouteHelper } from './helpers'
+import { CheckPerson } from '@/utils/checkPerson'
 import Home from '@/components/Home'
 import Player from '@/components/Player'
 import Artists from '@/components/Artists'
@@ -43,13 +44,21 @@ const router = new Router({
 })
 
 router.beforeEach(async (to, from, next) => {
+    NProgress.start()
+    await RouteHelper.setBasicInform()
     if(to.name === 'register-artist') {
-        
+        let flag = await CheckPerson.isArtist()
+        console.log(flag)
+        flag 
+        ? next()
+        : next({ name: 'home' })
     } else if (to.name === 'artists') {
         await RouteHelper.beforeArtists()
+        next()
+    } else {
+        next()
     }
-    NProgress.start()
-    next()
+    
 })
 
 router.afterEach((to, from) => {
