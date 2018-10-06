@@ -4,7 +4,7 @@
           <router-link to="/">Home</router-link> |
           <router-link to="/player">player</router-link> |
           <router-link to="/artists">artists</router-link> |
-          <router-link to="/register">register artist</router-link>
+          <router-link to="/register-artist">register artist</router-link>
       </div>
       <router-view/>
   </div>

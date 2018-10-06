@@ -1,5 +1,5 @@
 <template>
-    <div class="register">
+    <div class="register-artist">
         <h1>This is page for registering artist</h1>
         <input v-model="artistName" type="text">
         <button @click="registerArtist">submit</button>

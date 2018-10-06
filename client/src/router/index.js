@@ -8,6 +8,7 @@ import Player from '@/components/Player'
 import Artists from '@/components/Artists'
 import Artist from '@/components/Artist'
 import RegisterArtist from '@/components/RegisterArtist'
+import artistProfile from '@/components/artistProfile'
 
 Vue.use(Router)
 
@@ -36,7 +37,13 @@ const router = new Router({
         component: Artist
     },
     {
-        path: '/register',
+        // URL 수정 필요
+        path: '/artist/profile',
+        name: 'artist-profile',
+        component: artistProfile
+    },
+    {
+        path: '/register-artist',
         name: 'register-artist',
         component: RegisterArtist
     }
@@ -46,15 +53,21 @@ const router = new Router({
 router.beforeEach(async (to, from, next) => {
     NProgress.start()
     await RouteHelper.setBasicInform()
-    if(to.name === 'register-artist') {
+    if(to.name === 'artist-profile') {
         let flag = await CheckPerson.isArtist()
-        console.log(flag)
-        flag 
-        ? next()
-        : next({ name: 'home' })
+        if(await CheckPerson.isArtist()) {
+            next()
+        } else {
+            alert('아티스트 등록을 먼저 해주세요!')
+            next({ name: 'register-artist' })
+        }
     } else if (to.name === 'artists') {
         await RouteHelper.beforeArtists()
         next()
+    } else if (to.name === 'register-artist') {
+        // 이미 아티스트로 등록돼 있다면 알림(alert())후 리디렉션
+        next()
+        
     } else {
         next()
     }
