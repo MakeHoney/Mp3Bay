@@ -1,12 +1,13 @@
 import Web3 from 'web3'
 
-let getWeb3 = new Promise((resolve, reject) => {
+let getWeb3 = new Promise(async (resolve, reject) => {
     let web3js = window.web3
 
     if(typeof web3js !== 'undefined') {
         let web3 = new Web3(web3js.currentProvider)
         resolve({
-            injectedWeb3: web3.isConnected,
+            // injectedWeb3: web3.isConnected,
+            injectedWeb3: await web3.eth.net.isListening(),
             web3() {
                 return web3
             }
