@@ -9,7 +9,6 @@ export const RouteHelper = {
         if(!store.state.contractInstance) await store.dispatch('getContractInstance')
         // isInjected로 하면 계속 값이 undefined로 바뀜 listening이라 그런 것 같음.
         if(!store.state.web3.coinbase) {
-            console.log(store.state.web3.isInjected)
             await store.dispatch('registerWeb3')
         }
     },

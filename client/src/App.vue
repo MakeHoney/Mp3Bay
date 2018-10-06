@@ -6,7 +6,10 @@
           <router-link to="/artists">artists</router-link> |
           <router-link to="/register-artist">register artist</router-link>
       </div>
-      <router-view/>
+      <keep-alive include="player">
+          <router-view></router-view>
+      </keep-alive>
+      <!-- <router-view/> -->
   </div>
 </template>
 
@@ -23,7 +26,7 @@ export default {
 }
 
 #nprogress .bar {
-  background: #29d;
+  background: rgb(228, 54, 54);
 
   position: fixed;
   z-index: 1031;
@@ -41,7 +44,7 @@ export default {
   right: 0px;
   width: 100px;
   height: 100%;
-  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+  box-shadow: 0 0 10px rgb(228, 54, 54), 0 0 5px rgb(228, 54, 54);
   opacity: 1.0;
 
   -webkit-transform: rotate(3deg) translate(0px, -4px);
@@ -64,8 +67,8 @@ export default {
   box-sizing: border-box;
 
   border: solid 2px transparent;
-  border-top-color: #29d;
-  border-left-color: #29d;
+  border-top-color: rgb(228, 54, 54);
+  border-left-color: rgb(228, 54, 54);
   border-radius: 50%;
 
   -webkit-animation: nprogress-spinner 400ms linear infinite;

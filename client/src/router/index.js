@@ -55,8 +55,8 @@ router.beforeEach(async (to, from, next) => {
     if(to.name !== 'home') {
         await RouteHelper.setBasicInform()
     }
+    // change this with switch statement
     if(to.name === 'artist-profile') {
-        let flag = await CheckPerson.isArtist()
         if(await CheckPerson.isArtist()) {
             next()
         } else {
