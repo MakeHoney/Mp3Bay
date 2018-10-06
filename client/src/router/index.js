@@ -52,7 +52,9 @@ const router = new Router({
 
 router.beforeEach(async (to, from, next) => {
     NProgress.start()
-    await RouteHelper.setBasicInform()
+    if(to.name !== 'home') {
+        await RouteHelper.setBasicInform()
+    }
     if(to.name === 'artist-profile') {
         let flag = await CheckPerson.isArtist()
         if(await CheckPerson.isArtist()) {

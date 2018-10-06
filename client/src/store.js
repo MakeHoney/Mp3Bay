@@ -18,8 +18,7 @@ export default new Vuex.Store({
     contractInstance: null,
     artists: {
         addresses: null,
-        names: null,
-        isThereNew: true
+        names: null
     }
   },
   mutations: {

@@ -1,24 +1,32 @@
 import store from '@/store'
 
+/**
+ * TODO: Class로 선언하기
+ */
+
 export const RouteHelper = {
     async setBasicInform() {
         if(!store.state.contractInstance) await store.dispatch('getContractInstance')
-        if(!store.state.web3.isInjected) {
+        // isInjected로 하면 계속 값이 undefined로 바뀜 listening이라 그런 것 같음.
+        if(!store.state.web3.coinbase) {
             console.log(store.state.web3.isInjected)
             await store.dispatch('registerWeb3')
         }
     },
     async beforeArtists() {
-        /**
-         * TODO: contract listener 만들어서 동기화 문제 해결하기 (Origin Protocol 참고)
-         **/
-        await store.dispatch('getArtistAddresses')
-
-        if(
-            store.state.artists.isThereNew
-        ) {
+        // store object(artists) init
+        if(!store.state.artists.addresses) {
+            await store.dispatch('getArtistAddresses')
             await store.dispatch('getArtistNames')
-            store.state.artists.isThereNew = false
+        }
+
+        let artists = await store.state.contractInstance().methods.getAllArtistAddrs().call()
+        let artistNumFromContract = artists.length
+        let artistNumFromStore = store.state.artists.addresses.length
+
+        if(artistNumFromContract !== artistNumFromStore) {
+            await store.dispatch('getArtistAddresses')
+            await store.dispatch('getArtistNames')
         }
     }
 }
