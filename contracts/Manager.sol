@@ -23,12 +23,21 @@ contract Manager is Ownable {
         accountToListenerAddr[msg.sender] = new Listener(msg.sender, _name);
     }
 
+    function getArtistByArtistAcc(address _acc) public view returns (
+        string name,
+        uint id
+    ) {
+        address artistAddr = accountToArtistAddr[_acc];
+        Artist artist = Artist(artistAddr);
+        return (artist.getName(), artist.getID());
+    }
+
     // artist -> artists
     function getAllArtistAddrs() public view returns (address[]) {
         return allArtistsAddrs;
     }
 
     function getArtistNameByIndex(uint _idx) public view returns (string) {
-        return Artist(allArtistsAddrs[_idx]).getArtistName();
+        return Artist(allArtistsAddrs[_idx]).getName();
     }
 }

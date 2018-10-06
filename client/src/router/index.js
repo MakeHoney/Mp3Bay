@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import NProgress from 'nprogress'
+import store from '@/store'
 import { RouteHelper } from './helpers'
 import { CheckPerson } from '@/utils/checkPerson'
 import Home from '@/components/Home'
@@ -50,10 +51,13 @@ const router = new Router({
   ]
 })
 
+
+// next 좀 더 면밀히 알아본 뒤 수정
 router.beforeEach(async (to, from, next) => {
     NProgress.start()
     if(to.name !== 'home') {
         await RouteHelper.setBasicInform()
+        next()
     }
     // change this with switch statement
     if(to.name === 'artist-profile') {
@@ -67,9 +71,18 @@ router.beforeEach(async (to, from, next) => {
         await RouteHelper.beforeArtists()
         next()
     } else if (to.name === 'register-artist') {
-        // 이미 아티스트로 등록돼 있다면 알림(alert())후 리디렉션
-        next()
-        
+        if(await CheckPerson.isArtist()) {
+            let { name, id } = await RouteHelper
+            .getArtistInfoByArtistAcc(store.state.web3.coinbase)
+            
+            alert(` 이미 아티스트 등록이 되어있습니다.\n
+            아티스트명: ${name}\n
+            아티스트 ID: ${id}`)
+            
+            next({ name: 'artist-profile' })
+        } else {
+            next()
+        }
     } else {
         next()
     }

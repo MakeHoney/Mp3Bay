@@ -36,7 +36,7 @@ contract SongManager is Manager {
         // create a song
         // 이미 존재하는 곡 exception handling
         Artist artist = Artist(accountToArtistAddr[msg.sender]);
-        SongLib.Song memory song = SongLib.Song(_ipfsHash, artist.getArtistName(), _title, artist.getID());
+        SongLib.Song memory song = SongLib.Song(_ipfsHash, artist.getName(), _title, artist.getID());
         uint id = songs.push(song) - 1;
 
         // add song into artist' song list.

@@ -14,8 +14,11 @@ export const RouteHelper = {
     },
     async beforeArtists() {
         // store object(artists) init
-        if(!store.state.artists.addresses) {
+        if(!store.state.artists.addresses){
             await store.dispatch('getArtistAddresses')
+        }
+
+        if(!store.state.artists.names) {
             await store.dispatch('getArtistNames')
         }
 
@@ -27,5 +30,8 @@ export const RouteHelper = {
             await store.dispatch('getArtistAddresses')
             await store.dispatch('getArtistNames')
         }
+    },
+    async getArtistInfoByArtistAcc(artistAccount) {
+        return await store.state.contractInstance().methods.getArtistByArtistAcc(artistAccount).call()
     }
 }

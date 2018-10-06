@@ -16,7 +16,7 @@ contract Artist {
         id = _id;
     }
 
-    function getArtistName() public view returns (string) {
+    function getName() public view returns (string) {
         return name;
     }
 
