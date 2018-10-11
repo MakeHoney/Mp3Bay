@@ -3,7 +3,9 @@ const http = require('http')
 // GET /test
 exports.loadMusic = (req, res, next) => {
     // respond로 req가 온다? 미들웨어 알아보기
-    const reqHeaders = res.req.headers
+    // const reqHeaders = res.req.headers
+    const reqHeaders = req.headers
+    console.log(req.headers)
     const opt = {
         host: '13.209.8.64',
         port: 80,
@@ -16,6 +18,7 @@ exports.loadMusic = (req, res, next) => {
     }
     
     // browser fingerprinting
+    // req 헤더의 path도 추가
     let flag = false
     if(!reqHeaders['accept'].includes('text')) {
         if (reqHeaders['user-agent'].includes('Firefox')) {
@@ -32,7 +35,7 @@ exports.loadMusic = (req, res, next) => {
     if(flag) {
         let request = http.request(opt, response => {
             let chunks = []
-            let body;
+            let body
     
             response.on('data', chunk => {
                 chunks.push(Buffer.from(chunk))
