@@ -165,7 +165,7 @@ const ABI = [
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "getAllArtistAddrs",
+		"name": "getAllArtistsAddrs",
 		"outputs": [
 			{
 				"name": "",

@@ -59,7 +59,7 @@ export default new Vuex.Store({
         commit('registerContractInstance', result);
     },
     async getArtistAddresses({ commit, state }) {
-        let result = await state.contractInstance().methods.getAllArtistAddrs().call()
+        let result = await state.contractInstance().methods.getAllArtistsAddrs().call()
         commit('setArtistAddresses', result)
     },
     async getArtistNames({ commit, state }) {

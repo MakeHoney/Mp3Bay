@@ -33,7 +33,7 @@ contract Manager is Ownable {
     }
 
     // artist -> artists
-    function getAllArtistAddrs() public view returns (address[]) {
+    function getAllArtistsAddrs() public view returns (address[]) {
         return allArtistsAddrs;
     }
 

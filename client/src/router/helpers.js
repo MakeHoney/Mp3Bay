@@ -22,7 +22,7 @@ export const RouteHelper = {
             await store.dispatch('getArtistNames')
         }
 
-        let artists = await store.state.contractInstance().methods.getAllArtistAddrs().call()
+        let artists = await store.state.contractInstance().methods.getAllArtistsAddrs().call()
         let artistNumFromContract = artists.length
         let artistNumFromStore = store.state.artists.addresses.length
 
