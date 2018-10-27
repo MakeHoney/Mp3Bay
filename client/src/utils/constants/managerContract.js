@@ -1,5 +1,112 @@
 const ABI = [
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "buySong",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "songID",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "title",
+				"type": "string"
+			}
+		],
+		"name": "NewSong",
+		"type": "event"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "registerArtist",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "registerListener",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_ipfsHash",
+				"type": "address"
+			},
+			{
+				"name": "_title",
+				"type": "string"
+			}
+		],
+		"name": "registerSong",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "fallback"
+	},
+	{
+		"inputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "accountToArtistAddr",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [
 			{
@@ -42,26 +149,28 @@ const ABI = [
 		"inputs": [
 			{
 				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "artistAccountToSongCount",
+		"outputs": [
+			{
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "songs",
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAllArtistsAddrs",
 		"outputs": [
 			{
-				"name": "ipfsHash",
-				"type": "address"
-			},
-			{
-				"name": "artistName",
-				"type": "string"
-			},
-			{
-				"name": "title",
-				"type": "string"
-			},
-			{
-				"name": "artistID",
-				"type": "uint256"
+				"name": "",
+				"type": "address[]"
 			}
 		],
 		"payable": false,
@@ -95,15 +204,15 @@ const ABI = [
 		"constant": true,
 		"inputs": [
 			{
-				"name": "",
+				"name": "_idx",
 				"type": "uint256"
 			}
 		],
-		"name": "songIDToArtistAccount",
+		"name": "getArtistNameByIndex",
 		"outputs": [
 			{
 				"name": "",
-				"type": "address"
+				"type": "string"
 			}
 		],
 		"payable": false,
@@ -114,62 +223,23 @@ const ABI = [
 		"constant": true,
 		"inputs": [
 			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "accountToArtistAddr",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "artistAccountToSongCount",
-		"outputs": [
-			{
-				"name": "",
+				"name": "songID",
 				"type": "uint256"
 			}
 		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "buySong",
-		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getAllArtistsAddrs",
+		"name": "getSongBySongID",
 		"outputs": [
 			{
 				"name": "",
-				"type": "address[]"
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "string"
 			}
 		],
 		"payable": false,
@@ -218,71 +288,6 @@ const ABI = [
 		"constant": true,
 		"inputs": [
 			{
-				"name": "_idx",
-				"type": "uint256"
-			}
-		],
-		"name": "getArtistNameByIndex",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_name",
-				"type": "string"
-			}
-		],
-		"name": "registerArtist",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_ipfsHash",
-				"type": "address"
-			},
-			{
-				"name": "_title",
-				"type": "string"
-			}
-		],
-		"name": "registerSong",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_name",
-				"type": "string"
-			}
-		],
-		"name": "registerListener",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
 				"name": "",
 				"type": "address"
 			}
@@ -302,23 +307,15 @@ const ABI = [
 		"constant": true,
 		"inputs": [
 			{
-				"name": "songID",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "getSongBySongID",
+		"name": "songIDToArtistAccount",
 		"outputs": [
 			{
 				"name": "",
-				"type": "string"
-			},
-			{
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"name": "",
-				"type": "string"
+				"type": "address"
 			}
 		],
 		"payable": false,
@@ -326,35 +323,38 @@ const ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "constructor"
-	},
-	{
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "fallback"
-	},
-	{
-		"anonymous": false,
+		"constant": true,
 		"inputs": [
 			{
-				"indexed": false,
-				"name": "songID",
+				"name": "",
 				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "title",
-				"type": "string"
 			}
 		],
-		"name": "NewSong",
-		"type": "event"
+		"name": "songs",
+		"outputs": [
+			{
+				"name": "ipfsHash",
+				"type": "address"
+			},
+			{
+				"name": "artistName",
+				"type": "string"
+			},
+			{
+				"name": "title",
+				"type": "string"
+			},
+			{
+				"name": "artistID",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]
 
-const address = '0x6396959b28ee354e124b399a39683db432f87ad1'
+const address = '0xb939fa450a0e19c448555cfabdad5e25e3b10429'
 
 export { ABI, address }

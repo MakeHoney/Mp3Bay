@@ -2,7 +2,7 @@
     <div class="artists">
         <h1>This page will show the list of registerd artists</h1>
         <div v-for="(name, index) in namesOfArtists" :key="name.id">
-            <router-link :to="{name: 'artist', params: {id: index}}">{{ name }}</router-link>
+            <router-link :to="{name: 'artist', params: { id: index, name: name }}">{{ name }}</router-link>
         </div>
     </div>
 </template>

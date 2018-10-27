@@ -1,13 +1,13 @@
 import store from '@/store'
 
 /**
- * TODO: Class로 선언하기
+ * TODO: define it as a class
  */
 
 export const RouteHelper = {
     async setBasicInform() {
+        // setting for contract and connection to user account
         if(!store.state.contractInstance) await store.dispatch('getContractInstance')
-        // isInjected로 하면 계속 값이 undefined로 바뀜 listening이라 그런 것 같음.
         if(!store.state.web3.coinbase) {
             await store.dispatch('registerWeb3')
         }
@@ -23,9 +23,15 @@ export const RouteHelper = {
         }
 
         let artists = await store.state.contractInstance().methods.getAllArtistsAddrs().call()
+
+        /**
+         * check the page whether it keeps up-to-date on the number of artists
+         * by comparing the number of artists from contract with that of store
+         */
         let artistNumFromContract = artists.length
         let artistNumFromStore = store.state.artists.addresses.length
 
+        // if not, update it
         if(artistNumFromContract !== artistNumFromStore) {
             await store.dispatch('getArtistAddresses')
             await store.dispatch('getArtistNames')

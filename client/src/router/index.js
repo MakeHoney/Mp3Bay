@@ -9,7 +9,7 @@ import Player from '@/components/Player'
 import Artists from '@/components/Artists'
 import Artist from '@/components/Artist'
 import RegisterArtist from '@/components/RegisterArtist'
-import artistProfile from '@/components/artistProfile'
+import ArtistProfile from '@/components/ArtistProfile/Index'
 
 Vue.use(Router)
 
@@ -41,7 +41,7 @@ const router = new Router({
         // URL 수정 필요
         path: '/artist/profile',
         name: 'artist-profile',
-        component: artistProfile
+        component: ArtistProfile
     },
     {
         path: '/register-artist',
@@ -55,10 +55,13 @@ const router = new Router({
 // next 좀 더 면밀히 알아본 뒤 수정
 router.beforeEach(async (to, from, next) => {
     NProgress.start()
+
+    // home doesn't need information of contract and user account
     if(to.name !== 'home') {
         await RouteHelper.setBasicInform()
         next()
     }
+
     // change this with switch statement
     if(to.name === 'artist-profile') {
         if(await CheckPerson.isArtist()) {
