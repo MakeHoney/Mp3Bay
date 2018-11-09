@@ -6,6 +6,7 @@ let getWeb3 = new Promise(async (resolve, reject) => {
     if(typeof web3js !== 'undefined') {
         let web3 = new Web3(web3js.currentProvider)
         resolve({
+            // isInjected
             injectedWeb3: await web3.eth.net.isListening(),
             web3() {
                 return web3

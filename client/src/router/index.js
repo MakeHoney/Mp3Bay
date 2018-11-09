@@ -51,7 +51,6 @@ const router = new Router({
   ]
 })
 
-
 // next 좀 더 면밀히 알아본 뒤 수정
 router.beforeEach(async (to, from, next) => {
     NProgress.start()
