@@ -9,7 +9,7 @@ export const RouteHelper = {
         // setting for contract and connection to user account
         if(!store.state.contractInstance) await store.dispatch('getContractInstance')
         if(!store.state.web3.coinbase) {
-            await store.dispatch('registerWeb3')
+            await store.dispatch('checkWeb3')
         }
     },
     async beforeArtists() {

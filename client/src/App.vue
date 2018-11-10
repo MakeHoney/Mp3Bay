@@ -14,8 +14,12 @@
 </template>
 
 <script>
-export default {
-}
+    export default {
+        created () {
+            this.$store.dispatch('checkWeb3')
+            this.$store.dispatch('getContractInstance')
+        }
+    }
 </script>
 
 
