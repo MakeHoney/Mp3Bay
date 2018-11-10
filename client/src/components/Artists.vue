@@ -8,26 +8,29 @@
 </template>
 
 <script>
-import store from '../store/index'
-export default {
-    name: 'artists',
-    data() {
-        return {
-            allArtistsAddr: [],
-            namesOfArtists: []
-        }
-    },
-    computed: {
-        contractMethods() {
-            return this.$store.state.contractInstance().methods
-        }
-    },
-    methods: {
+    import { mapState } from 'vuex'
+    export default {
+        name: 'artists',
+        data() {
+            return {
+                allArtistsAddr: [],
+                namesOfArtists: []
+            }
+        },
+        computed: {
+            ...mapState('blockSync', [
+               'contractInstance'
+            ]),
+            contractMethods() {
+                return this.contractInstance().methods
+            }
+        },
+        methods: {
 
-    },
-    mounted() {
-        this.allArtistsAddr = this.$store.state.artists.addresses
-        this.namesOfArtists = this.$store.state.artists.names
+        },
+        mounted() {
+            this.allArtistsAddr = this.$store.state.artists.addresses
+            this.namesOfArtists = this.$store.state.artists.names
+        }
     }
-}
 </script>

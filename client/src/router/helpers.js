@@ -7,9 +7,9 @@ import store from '@/store'
 export const RouteHelper = {
     async setBasicInform() {
         // setting for contract and connection to user account
-        if(!store.state.contractInstance) await store.dispatch('getContractInstance')
-        if(!store.state.web3.coinbase) {
-            await store.dispatch('checkWeb3')
+        if(!store.state.blockSync.contractInstance) await store.dispatch('blockSync/getContractInstance')
+        if(!store.state.blockSync.web3.coinbase) {
+            await store.dispatch('blockSync/checkWeb3')
         }
     },
     async beforeArtists() {
@@ -22,7 +22,7 @@ export const RouteHelper = {
             await store.dispatch('getArtistNames')
         }
 
-        let artists = await store.state.contractInstance().methods.getAllArtistsAddrs().call()
+        let artists = await store.state.blockSync.contractInstance().methods.getAllArtistsAddrs().call()
 
         /**
          * check the page whether it keeps up-to-date on the number of artists
@@ -38,6 +38,6 @@ export const RouteHelper = {
         }
     },
     async getArtistInfoByArtistAcc(artistAccount) {
-        return await store.state.contractInstance().methods.getArtistByArtistAcc(artistAccount).call()
+        return await store.state.blockSync.contractInstance().methods.getArtistByArtistAcc(artistAccount).call()
     }
 }

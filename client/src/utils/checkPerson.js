@@ -8,13 +8,13 @@ import store from '@/store'
 export const CheckPerson = {
     async isArtist() {
         let flag
-        let contractMethods = store.state.contractInstance().methods
-        let userAccount = store.state.web3.coinbase
+        let contractMethods = store.state.blockSync.contractInstance().methods
+        let userAccount = store.state.blockSync.web3.coinbase
         let artistAddr = await contractMethods.accountToArtistAddr(userAccount).call()
         artistAddr === '0x0000000000000000000000000000000000000000'
         ? flag = false
         : flag = true
-        
+
         return flag
     }
 }

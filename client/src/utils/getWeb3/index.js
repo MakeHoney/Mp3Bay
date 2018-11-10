@@ -48,16 +48,16 @@ export const pollWeb3 = state => {
 
     setInterval(async () => {
         if (typeof (await web3.eth.getAccounts())[0] === 'undefined') {
-            store.commit('resetWeb3Instance')
+            store.commit('blockSync/resetWeb3Instance')
         } else if (state.web3.web3Instance) {
-            if ((await web3.eth.getAccounts())[0] !== store.state.web3.coinbase) {
+            if ((await web3.eth.getAccounts())[0] !== state.web3.coinbase) {
                 let newCoinbase = (await web3.eth.getAccounts())[0]
                 web3.eth.getBalance(newCoinbase, (err, newBalance) => {
                     if (err) {
                         // 수정 필요
                         console.log(err)
                     } else {
-                        store.commit('changeCoinbase', {
+                        store.commit('blockSync/changeCoinbase', {
                             coinbase: newCoinbase,
                             balance: parseInt(newBalance, 10)
                         })

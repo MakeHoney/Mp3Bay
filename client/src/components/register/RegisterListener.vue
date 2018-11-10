@@ -52,12 +52,14 @@
             }
         },
         computed: {
+            ...mapGetters('blockSync', [
+                'web3'
+            ]),
             ...mapGetters([
-                'web3',
                 'user'
             ]),
             contractMethods() {
-                return this.$store.state.contractInstance().methods
+                return this.$store.state.blockSync.contractInstance().methods
             }
         }
     }

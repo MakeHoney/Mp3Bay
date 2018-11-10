@@ -81,7 +81,7 @@ router.beforeEach(async (to, from, next) => {
     } else if (to.name === 'register-artist') {
         if(await CheckPerson.isArtist()) {
             let { name, id } = await RouteHelper
-                .getArtistInfoByArtistAcc(store.state.web3.coinbase)
+                .getArtistInfoByArtistAcc(store.state.blockSync.web3.coinbase)
 
             alert(` 이미 아티스트 등록이 되어있습니다.\n
             아티스트명: ${name}\n

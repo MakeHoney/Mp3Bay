@@ -34,7 +34,7 @@
     export default {
         name: 'nav-bar',
         computed: {
-            ...mapGetters([
+            ...mapGetters('blockSync', [
                 'web3'
             ])
         }

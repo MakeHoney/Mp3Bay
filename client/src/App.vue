@@ -18,8 +18,8 @@
             NavBar
         },
         created () {
-            this.$store.dispatch('checkWeb3')
-            this.$store.dispatch('getContractInstance')
+            this.$store.dispatch('blockSync/checkWeb3')
+            this.$store.dispatch('blockSync/getContractInstance')
         }
     }
 </script>

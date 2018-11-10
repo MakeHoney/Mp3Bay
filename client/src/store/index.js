@@ -36,13 +36,13 @@ export default new Vuex.Store({
     },
     actions: {
         async getArtistAddresses({ commit, state }) {
-            let result = await state.contractInstance().methods.getAllArtistsAddrs().call()
+            let result = await state.blockSync.contractInstance().methods.getAllArtistsAddrs().call()
             commit('setArtistAddresses', result)
         },
         async getArtistNames({ commit, state }) {
             let result = []
             for(let i = 0; i < state.artists.addresses.length; i++) {
-                result.push(await state.contractInstance().methods.getArtistNameByIndex(i).call())
+                result.push(await state.blockSync.contractInstance().methods.getArtistNameByIndex(i).call())
             }
             commit('setArtistNames', result)
         }
