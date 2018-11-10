@@ -6,6 +6,9 @@ import "./Listener.sol";
 import "./libraries/SongLib.sol";
 
 contract Manager is Ownable {
+    event ListenerCreated(address listenerAccount, address listenerAddr, string name);
+    event ArtistCreated(address artistAccount, address artistAddr, string name);
+
     mapping (address => address) public accountToArtistAddr;
     mapping (address => address) public accountToListenerAddr;
     mapping (string => address) artistNameToArtistAccount;
@@ -17,10 +20,12 @@ contract Manager is Ownable {
         accountToArtistAddr[msg.sender] = new Artist(msg.sender, _name, allArtistsAddrs.length);
         allArtistsAddrs.push(accountToArtistAddr[msg.sender]);
         artistNameToArtistAccount[_name] = msg.sender;
+        emit ArtistCreated(msg.sender, accountToArtistAddr[msg.sender], _name);
     }
 
     function registerListener(string _name) external {
         accountToListenerAddr[msg.sender] = new Listener(msg.sender, _name);
+        emit ListenerCreated(msg.sender, accountToListenerAddr[msg.sender], _name);
     }
 
     function getArtistByArtistAcc(address _acc) public view returns (
