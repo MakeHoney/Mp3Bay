@@ -8,7 +8,7 @@ import Home from '@/components/Home'
 import Player from '@/components/Player'
 import Artists from '@/components/Artists'
 import Artist from '@/components/Artist'
-import RegisterArtist from '@/components/RegisterArtist'
+import RegisterArtist from '@/components/register/RegisterArtist'
 import RegisterListener from '@/components/register/RegisterListener'
 import ArtistProfile from '@/components/ArtistProfile/Index'
 

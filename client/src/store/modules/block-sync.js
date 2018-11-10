@@ -11,6 +11,10 @@ const state = {
     contractInstance: null
 }
 
+const getters = {
+    contractMethods: state => state.contractInstance().methods
+}
+
 const mutations = {
     setWeb3Meta (state, payload) {
         let web3Copy = state.web3

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import { mapState, mapGetters } from 'vuex'
     export default {
         name: 'register-listener',
         data () {
@@ -38,13 +38,15 @@
         methods: {
             async submitForm (formData) {
                 try {
-                    let result = await this.contractMethods.registerListener(formData.listenerName).send({
+                    const result = await this.contractMethods.registerListener(formData.listenerName).send({
                         gas: 1000000,
                         value: 0,
                         from: this.web3.coinbase
                     })
-                    this.user.type
-                    result.events.ListenerCreated.returnValues
+
+                    const { name, artistAddr } = result.events.ListenerCreated.returnValues;
+                    [this.user.type, this.user.name, this.user.address]
+                    = ['Listener', name, artistAddr]
 
                 } catch(err) {
                     console.error('Error occurred at RegisterListener.vue', err)
@@ -52,15 +54,14 @@
             }
         },
         computed: {
-            ...mapState('blockSync', [
-                'web3'
-            ]),
-            ...mapState([
-                'user'
-            ]),
-            contractMethods() {
-                return this.$store.state.blockSync.contractInstance().methods
-            }
+            ...mapState({
+                web3: state => state.blockSync.web3,
+                contractInstance: state => state.blockSync.contractInstance,
+                user: state => state.user
+            }),
+            ...mapGetters('blockSync', [
+                'contractMethods'
+            ])
         }
     }
 </script>

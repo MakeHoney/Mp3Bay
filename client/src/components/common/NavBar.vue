@@ -22,6 +22,8 @@
                     <b-dropdown-item href="#">Network: {{ web3.networkID }}</b-dropdown-item>
                     <b-dropdown-item href="#">Account: {{ web3.coinbase }}</b-dropdown-item>
                     <b-dropdown-item href="#">Balance: {{ web3.balance }} Wei</b-dropdown-item>
+                    <b-dropdown-item href="#">type: {{ user.type }}</b-dropdown-item>
+                    <b-dropdown-item href="#">name: {{ user.name }}</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>
 
@@ -34,9 +36,10 @@
     export default {
         name: 'nav-bar',
         computed: {
-            ...mapState('blockSync', [
-                'web3'
-            ])
+            ...mapState({
+                web3: state => state.blockSync.web3,
+                user: state => state.user
+            })
         }
     }
 </script>

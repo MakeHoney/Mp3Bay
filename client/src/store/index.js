@@ -10,7 +10,8 @@ export default new Vuex.Store({
     },
     state: {
         user: {
-            type: 0,
+            type: null,
+            name: null,
             address: null
         },
         artists: {
