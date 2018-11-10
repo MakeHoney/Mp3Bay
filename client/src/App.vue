@@ -1,20 +1,22 @@
 <template>
   <div id="app">
-      <div id="nav">
-          <router-link to="/">Home</router-link> |
-          <router-link to="/player">player</router-link> |
-          <router-link to="/artists">artists</router-link> |
-          <router-link to="/register-artist">register artist</router-link>
+      <nav-bar/>
+      <div class="container">
+          <keep-alive include="player">
+              <router-view></router-view>
+          </keep-alive>
       </div>
-      <keep-alive include="player">
-          <router-view></router-view>
-      </keep-alive>
       <!-- <router-view/> -->
   </div>
 </template>
 
 <script>
+    import NavBar from './common/NavBar'
     export default {
+        name: 'app',
+        components: {
+            NavBar
+        },
         created () {
             this.$store.dispatch('checkWeb3')
             this.$store.dispatch('getContractInstance')
@@ -30,7 +32,7 @@
 }
 
 #nprogress .bar {
-  background: rgb(228, 54, 54);
+  background: white;
 
   position: fixed;
   z-index: 1031;
@@ -48,7 +50,7 @@
   right: 0px;
   width: 100px;
   height: 100%;
-  box-shadow: 0 0 10px rgb(228, 54, 54), 0 0 5px rgb(228, 54, 54);
+  box-shadow: 0 0 10px white, 0 0 5px white;
   opacity: 1.0;
 
   -webkit-transform: rotate(3deg) translate(0px, -4px);
@@ -71,8 +73,8 @@
   box-sizing: border-box;
 
   border: solid 2px transparent;
-  border-top-color: rgb(228, 54, 54);
-  border-left-color: rgb(228, 54, 54);
+  border-top-color: white;
+  border-left-color: white;
   border-radius: 50%;
 
   -webkit-animation: nprogress-spinner 400ms linear infinite;

@@ -19,6 +19,9 @@ export default new Vuex.Store({
             names: null
         }
     },
+    getters: {
+        web3: state => state.web3
+    },
     mutations: {
         setWeb3Meta (state, payload) {
             let web3Copy = state.web3

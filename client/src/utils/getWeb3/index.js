@@ -57,7 +57,7 @@ export const pollWeb3 = state => {
                         // 수정 필요
                         console.log(err)
                     } else {
-                        store.commit('pollWeb3Instance', {
+                        store.commit('changeCoinbase', {
                             coinbase: newCoinbase,
                             balance: parseInt(newBalance, 10)
                         })
