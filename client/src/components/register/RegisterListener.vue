@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapState } from 'vuex'
     export default {
         name: 'register-listener',
         data () {
@@ -52,10 +52,10 @@
             }
         },
         computed: {
-            ...mapGetters('blockSync', [
+            ...mapState('blockSync', [
                 'web3'
             ]),
-            ...mapGetters([
+            ...mapState([
                 'user'
             ]),
             contractMethods() {

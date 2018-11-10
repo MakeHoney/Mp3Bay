@@ -30,11 +30,11 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapState } from 'vuex'
     export default {
         name: 'nav-bar',
         computed: {
-            ...mapGetters('blockSync', [
+            ...mapState('blockSync', [
                 'web3'
             ])
         }
