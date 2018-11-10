@@ -10,6 +10,8 @@
                 <b-nav-item :to="{ name: 'player' }">Player</b-nav-item>
                 <b-nav-item :to=" { name: 'artists' } ">Artists</b-nav-item>
                 <b-nav-item :to=" { name: 'register-artist' } ">Register Artist</b-nav-item>
+                <b-nav-item :to=" { name: 'register-listener' } ">Register Listener</b-nav-item>
+
             </b-navbar-nav>
 
             <b-navbar-nav v-if="web3.web3Instance" class="ml-auto">

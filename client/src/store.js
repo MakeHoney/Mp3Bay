@@ -14,13 +14,24 @@ export default new Vuex.Store({
             balance: null
         },
         contractInstance: null,
+        user: {
+            type: 0,
+            address: null
+        },
         artists: {
             addresses: null,
             names: null
+        },
+        listeners: {
+
         }
     },
     getters: {
-        web3: state => state.web3
+        web3: state => state.web3,
+        contractInstance: state => state.contractInstance,
+        user: state => state.user,
+        artists: state => state.artists,
+        listeners: state => state.listeners
     },
     mutations: {
         setWeb3Meta (state, payload) {

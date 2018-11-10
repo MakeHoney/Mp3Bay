@@ -1,17 +1,25 @@
 const ABI = [
     {
-        "constant": false,
+        "anonymous": false,
         "inputs": [
             {
-                "name": "_id",
-                "type": "uint256"
+                "indexed": false,
+                "name": "listenerAccount",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "listenerAddr",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "name",
+                "type": "string"
             }
         ],
-        "name": "buySong",
-        "outputs": [],
-        "payable": true,
-        "stateMutability": "payable",
-        "type": "function"
+        "name": "ListenerCreated",
+        "type": "event"
     },
     {
         "anonymous": false,
@@ -29,6 +37,20 @@ const ABI = [
         ],
         "name": "NewSong",
         "type": "event"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_id",
+                "type": "uint256"
+            }
+        ],
+        "name": "buySong",
+        "outputs": [],
+        "payable": true,
+        "stateMutability": "payable",
+        "type": "function"
     },
     {
         "constant": false,
@@ -77,15 +99,15 @@ const ABI = [
         "type": "function"
     },
     {
-        "payable": true,
-        "stateMutability": "payable",
-        "type": "fallback"
-    },
-    {
         "inputs": [],
         "payable": true,
         "stateMutability": "payable",
         "type": "constructor"
+    },
+    {
+        "payable": true,
+        "stateMutability": "payable",
+        "type": "fallback"
     },
     {
         "constant": true,
@@ -355,6 +377,6 @@ const ABI = [
     }
 ]
 
-const address = '0xb939fa450a0e19c448555cfabdad5e25e3b10429'
+const address = '0xcef824405b4f82eabd181172a48e695e708d0c00'
 
 export { ABI, address }
