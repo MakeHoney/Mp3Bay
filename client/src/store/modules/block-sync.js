@@ -11,11 +11,6 @@ const state = {
     contractInstance: null
 }
 
-const getters = {
-    web3: state => state.web3,
-    contractInstance: state => state.contractInstance
-}
-
 const mutations = {
     setWeb3Meta (state, payload) {
         let web3Copy = state.web3
@@ -63,7 +58,6 @@ const actions = {
 export default {
     namespaced: true,
     state,
-    getters,
     mutations,
     actions
 }
