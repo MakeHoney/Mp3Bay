@@ -18,9 +18,10 @@
             }
         },
         computed: {
-            ...mapState('blockSync', [
-               'contractInstance'
-            ]),
+            ...mapState({
+                contractInstance: state => state.blockSync.contractInstance,
+                artists: state => state.artists
+            }),
             contractMethods() {
                 return this.contractInstance().methods
             }
@@ -29,8 +30,8 @@
 
         },
         mounted() {
-            this.allArtistsAddr = this.$store.state.artists.addresses
-            this.namesOfArtists = this.$store.state.artists.names
+            this.allArtistsAddr = this.artists.addresses
+            this.namesOfArtists = this.artists.names
         }
     }
 </script>

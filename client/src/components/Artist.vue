@@ -7,13 +7,13 @@
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            id: this.$route.params.id,
-            name: this.$route.params.name
+    export default {
+        data() {
+            return {
+                id: this.$route.params.id,
+                name: this.$route.params.name
+            }
         }
     }
-}
 </script>
 
