@@ -21,11 +21,6 @@ export default new Vuex.Store({
 
         }
     },
-    getters: {
-        user: state => state.user,
-        artists: state => state.artists,
-        listeners: state => state.listeners
-    },
     mutations: {
         setArtistAddresses(state, payload) {
             state.artists.addresses = payload
