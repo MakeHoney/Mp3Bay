@@ -1,5 +1,5 @@
 import Web3 from 'web3'
-import store from '../../store'
+import store from '../../store/index'
 
 export const getWeb3 = new Promise((resolve, reject) => {
     let isUserConnected;
