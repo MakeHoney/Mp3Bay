@@ -38,6 +38,6 @@ export const RouteHelper = {
         }
     },
     async getArtistInfoByArtistAcc(artistAccount) {
-        return await store.state.blockSync.contractInstance().methods.getArtistByArtistAcc(artistAccount).call()
+        return await store.state.blockSync.contractInstance().methods.getArtistByAcc(artistAccount).call()
     }
 }
