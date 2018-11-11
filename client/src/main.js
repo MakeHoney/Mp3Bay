@@ -7,6 +7,8 @@ import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+// store.dispatch('blockSync/checkWeb3')
+// store.dispatch('blockSync/getContractInstance')
 
 // using style-loader
 

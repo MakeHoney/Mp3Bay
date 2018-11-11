@@ -63,8 +63,8 @@
             }
         },
         mounted() {
-            console.log('dispatching getContractInstance')
-            this.$store.dispatch('blockSync/getContractInstance')
+            // console.log('dispatching getContractInstance')
+            // this.$store.dispatch('blockSync/getContractInstance')
         }
     }
 </script>

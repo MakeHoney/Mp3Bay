@@ -69,7 +69,7 @@ router.beforeEach(async (to, from, next) => {
 
     // change this with switch statement
     if(to.name === 'artist-profile') {
-        if(await CheckPerson.isArtist()) {
+        if((await CheckPerson.userType()) === 'artist') {
             next()
         } else {
             alert('아티스트 등록을 먼저 해주세요!')
@@ -79,7 +79,7 @@ router.beforeEach(async (to, from, next) => {
         await RouteHelper.beforeArtists()
         next()
     } else if (to.name === 'register-artist') {
-        if(await CheckPerson.isArtist()) {
+        if((await CheckPerson.userType()) === 'artist') {
             let { name, id } = await RouteHelper
                 .getArtistInfoByArtistAcc(store.state.blockSync.web3.coinbase)
 

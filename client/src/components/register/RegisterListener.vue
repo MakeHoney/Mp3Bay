@@ -45,8 +45,8 @@
                     })
 
                     const { name, artistAddr } = result.events.ListenerCreated.returnValues;
-                    [this.user.type, this.user.name, this.user.address]
-                    = ['Listener', name, artistAddr]
+                    [this.user.type, this.user.name, this.user.address] =
+                        ['Listener', name, artistAddr]
 
                 } catch(err) {
                     console.error('Error occurred at RegisterListener.vue', err)

@@ -4,6 +4,28 @@ const ABI = [
         "inputs": [
             {
                 "indexed": false,
+                "name": "artistAccount",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "artistAddr",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "name",
+                "type": "string"
+            }
+        ],
+        "name": "ArtistCreated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
                 "name": "listenerAccount",
                 "type": "address"
             },
@@ -377,6 +399,6 @@ const ABI = [
     }
 ]
 
-const address = '0xcef824405b4f82eabd181172a48e695e708d0c00'
+const address = '0xb0af77201e28ac73b2e8c213086a9d8f50041a78'
 
 export { ABI, address }

@@ -12,15 +12,33 @@
 
 <script>
     import NavBar from './components/common/NavBar'
+    import { CheckPerson } from './utils/checkPerson'
+    import { mapState } from 'vuex'
     export default {
         name: 'app',
+        computed: {
+            ...mapState({
+                user: state => state.user,
+                contractInstance: state => state.blockSync.contractInstance
+            })
+        },
         components: {
             NavBar
         },
-        created () {
-            this.$store.dispatch('blockSync/checkWeb3')
-            this.$store.dispatch('blockSync/getContractInstance')
+        watch: {
+            // async contractInstance () {
+            //     console.log(await CheckPerson.userType())
+            //     this.user.type = await CheckPerson.userType()
+            // }
+        },
+        async created () {
+            await this.$store.dispatch('blockSync/checkWeb3')
+            await this.$store.dispatch('blockSync/getContractInstance')
+            this.user.type = await CheckPerson.userType()
         }
+        // async updated () {
+        //     this.user.type = await CheckPerson.userType()
+        // }
     }
 </script>
 
