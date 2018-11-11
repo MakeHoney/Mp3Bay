@@ -25,20 +25,11 @@
         components: {
             NavBar
         },
-        watch: {
-            // async contractInstance () {
-            //     console.log(await CheckPerson.userType())
-            //     this.user.type = await CheckPerson.userType()
-            // }
-        },
         async created () {
             await this.$store.dispatch('blockSync/checkWeb3')
             await this.$store.dispatch('blockSync/getContractInstance')
             this.user.type = await CheckPerson.userType()
         }
-        // async updated () {
-        //     this.user.type = await CheckPerson.userType()
-        // }
     }
 </script>
 

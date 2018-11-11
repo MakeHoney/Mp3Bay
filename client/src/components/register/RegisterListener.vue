@@ -38,15 +38,16 @@
         methods: {
             async submitForm (formData) {
                 try {
+                    console.log('formData', formData.listenerName)
                     const result = await this.contractMethods.registerListener(formData.listenerName).send({
                         gas: 1000000,
                         value: 0,
                         from: this.web3.coinbase
                     })
 
-                    const { name, artistAddr } = result.events.ListenerCreated.returnValues;
+                    const { name, listenerAddr } = result.events.ListenerCreated.returnValues;
                     [this.user.type, this.user.name, this.user.address] =
-                        ['Listener', name, artistAddr]
+                        ['Listener', name, listenerAddr]
 
                 } catch(err) {
                     console.error('Error occurred at RegisterListener.vue', err)

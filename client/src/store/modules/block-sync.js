@@ -17,6 +17,7 @@ const getters = {
 
 const mutations = {
     setWeb3Meta (state, payload) {
+        // localStorage.setItem('coinbase', payload.coinbase)
         let web3Copy = state.web3
         web3Copy.web3Instance = payload.web3
         web3Copy.networkID = payload.networkID
@@ -37,6 +38,7 @@ const mutations = {
         state.web3.networkID = null
         state.web3.coinbase = null
         state.web3.balance = null
+        // localStorage.removeItem('coinbase')
     }
 }
 
@@ -46,6 +48,7 @@ const actions = {
             let result = await getWeb3
             commit('setWeb3Meta', result)
         } catch (err) {
+            console.log(err)
             pollWeb3(state)
         }
     },
