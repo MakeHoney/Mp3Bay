@@ -14,6 +14,10 @@ contract Listener {
         name = _name;
     }
 
+    function getName() public view returns (string) {
+        return name;
+    }
+
     function withdraw() public onlyOwner {
         address _contract = this;
         etherAccount.transfer(_contract.balance);

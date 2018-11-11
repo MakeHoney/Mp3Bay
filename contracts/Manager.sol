@@ -28,7 +28,7 @@ contract Manager is Ownable {
         emit ListenerCreated(msg.sender, accountToListenerAddr[msg.sender], _name);
     }
 
-    function getArtistByArtistAcc(address _acc) public view returns (
+    function getArtistByAcc(address _acc) public view returns (
         string name,
         uint id
     ) {
@@ -44,5 +44,13 @@ contract Manager is Ownable {
 
     function getArtistNameByIndex(uint _idx) public view returns (string) {
         return Artist(allArtistsAddrs[_idx]).getName();
+    }
+
+    function getListenerByAcc(address _acc) public view returns (
+        string name,
+    ) {
+        address listenerAddr = accountToListenerAddr[_acc];
+        Listener listener = Listener(listenerAddr);
+        return listener.getName();
     }
 }
