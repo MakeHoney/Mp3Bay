@@ -3,6 +3,25 @@ const ABI = [
         "constant": true,
         "inputs": [
             {
+                "name": "_acc",
+                "type": "address"
+            }
+        ],
+        "name": "getListenerByAcc",
+        "outputs": [
+            {
+                "name": "name",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
                 "name": "",
                 "type": "address"
             }
@@ -55,6 +74,29 @@ const ABI = [
         "constant": true,
         "inputs": [
             {
+                "name": "_acc",
+                "type": "address"
+            }
+        ],
+        "name": "getArtistByAcc",
+        "outputs": [
+            {
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "name": "id",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
                 "name": "",
                 "type": "uint256"
             }
@@ -75,29 +117,6 @@ const ABI = [
             },
             {
                 "name": "artistID",
-                "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "_acc",
-                "type": "address"
-            }
-        ],
-        "name": "getArtistByArtistAcc",
-        "outputs": [
-            {
-                "name": "name",
-                "type": "string"
-            },
-            {
-                "name": "id",
                 "type": "uint256"
             }
         ],
@@ -352,9 +371,53 @@ const ABI = [
         ],
         "name": "NewSong",
         "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "listenerAccount",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "listenerAddr",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "name",
+                "type": "string"
+            }
+        ],
+        "name": "ListenerCreated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "artistAccount",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "artistAddr",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "name",
+                "type": "string"
+            }
+        ],
+        "name": "ArtistCreated",
+        "type": "event"
     }
 ]
 
-const address = '0xb0af77201e28ac73b2e8c213086a9d8f50041a78'
+const address = '0xc206c30eb6d2517caa10fd69c969da40cf0dfb67'
 
 export { ABI, address }

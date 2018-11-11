@@ -38,7 +38,6 @@
         methods: {
             async submitForm (formData) {
                 try {
-                    console.log('formData', formData.listenerName)
                     const result = await this.contractMethods.registerListener(formData.listenerName).send({
                         gas: 1000000,
                         value: 0,
