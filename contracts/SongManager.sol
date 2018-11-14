@@ -34,10 +34,10 @@ contract SongManager is Manager {
 
     function registerSong(string _title, address _ipfsHash) public onlyArtist(msg.sender) {
         // 이미 존재하는 곡 exception handling
+        uint id = songs.length;
         Artist artist = Artist(accountToArtistAddr[msg.sender]);
-        SongLib.Song memory song = SongLib.Song(artist.getName(), _title, artist.getID());
-        uint id = songs.push(song) - 1;
-
+        SongLib.Song memory song = SongLib.Song(id, artist.getName(), _title, artist.getID());
+        songs.push(song);
         // add song into artist' song list.
         songIDToArtistAccount[id] = msg.sender;
         artistAccountToSongCount[msg.sender]++;
@@ -47,7 +47,9 @@ contract SongManager is Manager {
 
     function buySong(uint _id) public payable onlyListener(msg.sender) {
         // pay for music
-        require(listenerAccountToSongs[msg.sender].songIDToSong[_id].artistID == 0, "the song already exsits!");
+
+        // wrong condition sentence (id == 100) need to be changed
+        require(listenerAccountToSongs[msg.sender].songIDToSong[_id].id == 100, "the song already exsits!");
         require(msg.value == 1 ether, "not enough or too much ether to buy a song!");
         address artistAccount = songIDToArtistAccount[_id];
         artistAccount.transfer(msg.value);
