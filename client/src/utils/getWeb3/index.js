@@ -6,8 +6,8 @@ export const getWeb3 = async () => {
     const web3 = new Web3(window.web3.currentProvider)
     const coinbase = (await web3.eth.getAccounts())[0]
     typeof coinbase === 'undefined'
-        ? isUserConnected = false
-        : isUserConnected = true
+    ? isUserConnected = false
+    : isUserConnected = true
 
     if (isUserConnected) {
         result = { web3() { return web3 }, coinbase }
