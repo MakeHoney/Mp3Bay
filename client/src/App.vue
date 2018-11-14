@@ -28,7 +28,7 @@
         async created () {
             await this.$store.dispatch('blockSync/checkWeb3')
             await this.$store.dispatch('blockSync/getContractInstance')
-            this.user.type = await CheckPerson.userType()
+            // this.user.type = await CheckPerson.userType()
         }
     }
 </script>

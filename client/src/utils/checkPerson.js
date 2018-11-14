@@ -37,6 +37,7 @@ export const CheckPerson = {
     },
     async userType () {
         if (!(await this.isArtist()) && !(await this.isListener())) {
+            store.state.user.name = null
             return null
         }
         // router helper와 같은 메소드를 사용함 --> 라이브러리 따로 만들어서 코드 재사용융 높이기

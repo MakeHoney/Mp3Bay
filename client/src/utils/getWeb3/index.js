@@ -1,5 +1,5 @@
 import Web3 from 'web3'
-import store from '../../store/index'
+import { CheckPerson } from '../checkPerson'
 
 export const getWeb3 = new Promise(async (resolve, reject) => {
     let isUserConnected
@@ -43,26 +43,28 @@ export const getWeb3 = new Promise(async (resolve, reject) => {
     })
 })
 
-export const pollWeb3 = state => {
+export const pollWeb3 = ({ state, rootState }) => {
     let web3 = new Web3(window.web3.currentProvider)
 
     setInterval(async () => {
         if (typeof (await web3.eth.getAccounts())[0] === 'undefined') {
-            store.commit('blockSync/resetWeb3Instance')
+            resetWeb3Instance(state)
+            resetUserInfo(state)
+            // userClear
         } else if (state.web3.web3Instance) {
             if ((await web3.eth.getAccounts())[0] !== state.web3.coinbase) {
-                let newCoinbase = (await web3.eth.getAccounts())[0]
-                web3.eth.getBalance(newCoinbase, (err, newBalance) => {
-                    if (err) {
-                        // 수정 필요
-                        console.log(err)
-                    } else {
-                        store.commit('blockSync/changeCoinbase', {
-                            coinbase: newCoinbase,
-                            balance: parseInt(newBalance, 10)
-                        })
-                    }
-                })
+                try {
+                    let newCoinbase = (await web3.eth.getAccounts())[0]
+                    let newBalance = await web3.eth.getBalance(newCoinbase)
+                    changeCoinbase(state, {
+                        coinbase: newCoinbase,
+                        balance: parseInt(newBalance, 10)
+                    })
+                    rootState.user.type = await CheckPerson.userType()
+                } catch (err) {
+                    console.error('error occurred in pollWeb3', err)
+                    throw err
+                }
             }
         } else {
             let web3Copy = state.web3
@@ -71,6 +73,27 @@ export const pollWeb3 = state => {
             web3Copy.coinbase = (await web3.eth.getAccounts())[0]
             web3Copy.balance =  await web3.eth.getBalance(state.web3.coinbase)
             state.web3 = web3Copy
+
+            rootState.user.type = await CheckPerson.userType()
+
+            // userCheck
         }
     }, 2000)
+}
+
+const changeCoinbase = (state, payload) => {
+    state.web3.coinbase = payload.coinbase
+    state.web3.balance = parseInt(payload.balance, 10)
+}
+
+const resetWeb3Instance = state => {
+    state.web3.web3Instance = null
+    state.web3.networkID = null
+    state.web3.coinbase = null
+    state.web3.balance = null
+}
+
+const resetUserInfo = state => {
+    state.user.name = null
+    state.user.type = null
 }
