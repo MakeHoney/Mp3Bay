@@ -50,7 +50,6 @@ export const pollWeb3 = ({ state, rootState }) => {
         if (typeof (await web3.eth.getAccounts())[0] === 'undefined') {
             resetWeb3Instance(state)
             resetUserInfo(state)
-            // userClear
         } else if (state.web3.web3Instance) {
             if ((await web3.eth.getAccounts())[0] !== state.web3.coinbase) {
                 try {
@@ -75,8 +74,6 @@ export const pollWeb3 = ({ state, rootState }) => {
             state.web3 = web3Copy
 
             rootState.user.type = await CheckPerson.userType()
-
-            // userCheck
         }
     }, 2000)
 }
