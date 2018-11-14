@@ -3,20 +3,20 @@ pragma solidity ^0.4.23;
 import "./libraries/SongLib.sol";
 import "./Manager.sol";
 
-    /* 
-        TODO: memory <-> storage
-        view / pure / external / internal
+/*
+    TODO: memory <-> storage
+    view / pure / external / internal
 
-    */
-    
+*/
+
 contract SongManager is Manager {
 
-    event NewSong(uint songID, string title);
+    event SongCreated(uint songID, string title, address ipfsHash);
 
     SongLib.Song[] public songs;
 
     mapping (address => SongLib.MapSong) listenerAccountToSongs;
-    mapping (address => uint) public listenerAccountToSongCount;    
+    mapping (address => uint) public listenerAccountToSongCount;
     mapping (uint => address) public songIDToArtistAccount;
     mapping (address => uint) public artistAccountToSongCount;
 
@@ -31,29 +31,28 @@ contract SongManager is Manager {
         require(accountToListenerAddr[_listenerAccount] != 0, "msg.sender isn't listener!");
         _;
     }
-    
-    function registerSong(address _ipfsHash, string _title) public onlyArtist(msg.sender) {
-        // create a song
+
+    function registerSong(string _title, address _ipfsHash) public onlyArtist(msg.sender) {
         // 이미 존재하는 곡 exception handling
         Artist artist = Artist(accountToArtistAddr[msg.sender]);
-        SongLib.Song memory song = SongLib.Song(_ipfsHash, artist.getName(), _title, artist.getID());
+        SongLib.Song memory song = SongLib.Song(artist.getName(), _title, artist.getID());
         uint id = songs.push(song) - 1;
 
         // add song into artist' song list.
         songIDToArtistAccount[id] = msg.sender;
         artistAccountToSongCount[msg.sender]++;
 
-        emit NewSong(id, _title);
+        emit SongCreated(id, _title, _ipfsHash);
     }
 
     function buySong(uint _id) public payable onlyListener(msg.sender) {
         // pay for music
-        require(listenerAccountToSongs[msg.sender].songIDToSong[_id].ipfsHash == 0, "the song already exsits!");
+        require(listenerAccountToSongs[msg.sender].songIDToSong[_id].artistID == 0, "the song already exsits!");
         require(msg.value == 1 ether, "not enough or too much ether to buy a song!");
         address artistAccount = songIDToArtistAccount[_id];
         artistAccount.transfer(msg.value);
 
-        
+
         /*  error : The constructor should be payable if you send value.
 
         address _contract = this;

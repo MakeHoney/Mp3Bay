@@ -2,7 +2,6 @@ pragma solidity ^0.4.23;
 
 library SongLib {
     struct Song {
-        address ipfsHash;
         string artistName;
         string title;
         uint artistID;
@@ -10,6 +9,6 @@ library SongLib {
     }
 
     struct MapSong {
-        mapping (uint => SongLib.Song) songIDToSong;
+        mapping (uint => Song) songIDToSong;
     }
 }

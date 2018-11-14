@@ -15,17 +15,13 @@ contract Manager is Ownable {
 
     address[] public allArtistsAddrs;
 
+    // Artist
     // TODO: addressing exception for same name of user
     function registerArtist(string _name) external {
-        accountToArtistAddr[msg.sender] = new Artist(msg.sender, _name, allArtistsAddrs.length);
+        accountToArtistAddr[msg.sender] = new Artist(_name, allArtistsAddrs.length);
         allArtistsAddrs.push(accountToArtistAddr[msg.sender]);
         artistNameToArtistAccount[_name] = msg.sender;
         emit ArtistCreated(msg.sender, accountToArtistAddr[msg.sender], _name);
-    }
-
-    function registerListener(string _name) external {
-        accountToListenerAddr[msg.sender] = new Listener(msg.sender, _name);
-        emit ListenerCreated(msg.sender, accountToListenerAddr[msg.sender], _name);
     }
 
     function getArtistByAcc(address _acc) public view returns (
@@ -37,7 +33,6 @@ contract Manager is Ownable {
         return (artist.getName(), artist.getID());
     }
 
-    // artist -> artists
     function getAllArtistsAddrs() public view returns (address[]) {
         return allArtistsAddrs;
     }
@@ -46,8 +41,14 @@ contract Manager is Ownable {
         return Artist(allArtistsAddrs[_idx]).getName();
     }
 
+    // Listener
+    function registerListener(string _name) external {
+        accountToListenerAddr[msg.sender] = new Listener(_name);
+        emit ListenerCreated(msg.sender, accountToListenerAddr[msg.sender], _name);
+    }
+
     function getListenerByAcc(address _acc) public view returns (
-        string name,
+        string name
     ) {
         address listenerAddr = accountToListenerAddr[_acc];
         Listener listener = Listener(listenerAddr);

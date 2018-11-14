@@ -1,17 +1,12 @@
 pragma solidity ^0.4.23;
 
-contract Artist {
-    address etherAccount;
+import "./Ownable.sol";
+
+contract Artist is Ownable {
     string name;
     uint id;
-    
-    modifier onlyOwner {
-        require(msg.sender == etherAccount, "Permission denied");
-        _;
-    }
 
-    constructor (address _etherAccount, string _name, uint _id) public payable {
-        etherAccount = _etherAccount;
+    constructor (string _name, uint _id) public payable {
         name = _name;
         id = _id;
     }
@@ -24,12 +19,13 @@ contract Artist {
         return id;
     }
 
-    function withdraw() public onlyOwner {
+    function withdraw() external onlyOwner {
         address _contract = this;
-        etherAccount.transfer(_contract.balance);
+        address owner = getOwner();
+        owner.transfer(_contract.balance);
     }
 
-    function checkBalance() public view onlyOwner returns (uint) {
+    function checkBalance() external view onlyOwner returns (uint) {
         address _contract = this;
         return _contract.balance;
     }

@@ -1,7 +1,7 @@
 pragma solidity ^0.4.23;
 
 contract Ownable {
-    address owner;
+    address private owner;
     constructor() public payable {
         owner = msg.sender;
     }
@@ -9,5 +9,9 @@ contract Ownable {
     modifier onlyOwner {
         require(msg.sender == owner, "Permission denied.");
         _;
+    }
+
+    function getOwner() internal view onlyOwner returns (address) {
+        return owner;
     }
 }

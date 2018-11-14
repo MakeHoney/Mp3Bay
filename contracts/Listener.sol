@@ -1,16 +1,11 @@
 pragma solidity ^0.4.23;
 
-contract Listener {
-    address etherAccount;
+import "./Ownable.sol";
+
+contract Listener is Ownable {
     string name;
 
-    modifier onlyOwner {
-        require(msg.sender == etherAccount, "Permission denied");
-        _;
-    }
-
-    constructor (address _etherAccount, string _name) public payable {
-        etherAccount = _etherAccount;
+    constructor (string _name) public payable {
         name = _name;
     }
 
@@ -18,12 +13,13 @@ contract Listener {
         return name;
     }
 
-    function withdraw() public onlyOwner {
+    function withdraw() external onlyOwner {
         address _contract = this;
-        etherAccount.transfer(_contract.balance);
+        address owner = getOwner();
+        owner.transfer(_contract.balance);
     }
 
-    function checkBalance() public view onlyOwner returns (uint) {
+    function checkBalance() external view onlyOwner returns (uint) {
         address _contract = this;
         return _contract.balance;
     }
