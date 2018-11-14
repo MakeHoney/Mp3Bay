@@ -1,5 +1,5 @@
-import { getWeb3, pollWeb3 } from "../../utils/getWeb3/index"
-import { getContract } from "../../utils/getContract/index"
+import { getWeb3, pollWeb3 } from "../../utils/getWeb3"
+import { getContract } from "../../utils/getContract"
 
 const state = {
     web3: {
@@ -17,7 +17,6 @@ const getters = {
 
 const mutations = {
     setWeb3Meta (state, payload) {
-        // localStorage.setItem('coinbase', payload.coinbase)
         const { result, rootState } = payload
         let web3Copy = state.web3
         web3Copy.web3Instance = result.web3
@@ -25,6 +24,7 @@ const mutations = {
         web3Copy.coinbase = result.coinbase
         web3Copy.balance = parseInt(result.balance, 10)
         state.web3 = web3Copy
+
         pollWeb3({ state, rootState })
     },
     setContractInstance (state, payload) {
@@ -35,14 +35,14 @@ const mutations = {
 const actions = {
     async checkWeb3({ commit, rootState, state }) {
         try {
-            let result = await getWeb3
+            let result = await getWeb3()
             commit('setWeb3Meta', {
                 result,
                 rootState
             })
         } catch (err) {
             console.log(err)
-            pollWeb3(state)
+            pollWeb3({ state, rootState })
         }
     },
     async getContractInstance({ commit }) {

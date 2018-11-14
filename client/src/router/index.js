@@ -10,7 +10,7 @@ import Artists from '@/components/Artists'
 import Artist from '@/components/Artist'
 import RegisterArtist from '@/components/register/RegisterArtist'
 import RegisterListener from '@/components/register/RegisterListener'
-import ArtistProfile from '@/components/ArtistProfile/Index'
+import ArtistProfile from '@/components/artist-profile/Index'
 
 Vue.use(Router)
 
