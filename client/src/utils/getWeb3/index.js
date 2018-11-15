@@ -29,8 +29,8 @@ export const pollWeb3 = ({ state, rootState }) => {
     let web3 = new Web3(window.web3.currentProvider)
     setInterval(async () => {
         if (typeof (await web3.eth.getAccounts())[0] === 'undefined') {
-            resetWeb3Instance(state)
-            resetUserInfo(rootState)
+            clearWeb3Instance(state)
+            clearUserInfo(rootState)
         } else if (state.web3.web3Instance && ((await web3.eth.getAccounts())[0] !== state.web3.coinbase)) {
             try {
                 let newCoinbase = (await web3.eth.getAccounts())[0]
@@ -61,14 +61,14 @@ const changeCoinbase = (state, payload) => {
     state.web3.balance = parseInt(payload.balance, 10)
 }
 
-const resetWeb3Instance = state => {
+const clearWeb3Instance = state => {
     state.web3.web3Instance = null
     state.web3.networkID = null
     state.web3.coinbase = null
     state.web3.balance = null
 }
 
-const resetUserInfo = rootState => {
+const clearUserInfo = rootState => {
     rootState.user.name = null
     rootState.user.type = null
 }
