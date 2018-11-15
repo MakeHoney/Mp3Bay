@@ -14,11 +14,11 @@ export const getWeb3 = async () => {
 
         let networkID = await result.web3().eth.net.getNetworkType()
             .catch(err => { throw new Error(`Unable to retrieve network ID, log: ${err}`) })
-        result = Object.assign({}, result, { networkID })
+        result = Object.assign(result, { networkID })
 
         let balance = await result.web3().eth.getBalance(result.coinbase)
             .catch(err => { throw new Error(`Unable to retrieve balance for address: ${result.coinbase}, log: ${err} `) })
-        result = Object.assign({}, result, { balance })
+        result = Object.assign(result, { balance })
     } else {
         throw new Error('Unable to connect to Metamask')
     }
