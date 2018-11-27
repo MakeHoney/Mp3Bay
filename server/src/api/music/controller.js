@@ -13,9 +13,10 @@ export const controller = {
 
       console.log(events)
 
-
+      const foo = await utils.lib.ipfsService.loadFile('QmWx16SWKaTFp4WDNYvRxru8wmJp8LWF4Pg6PAtbHBSk32')
+      console.log(foo)
       res.json({
-        events
+        foo
       })
     } catch (err) {
       res.status(500).json({
