@@ -2,7 +2,7 @@ import fetch from 'cross-fetch'
 import MapCache from 'map-cache'
 import FormData from 'form-data'
 import { IPFS_CONST } from './constants'
-
+import http from 'http'
 /**
  * reason for using async function: to use try catch
  **/
@@ -51,8 +51,8 @@ class IpfsService {
     if(this.mapCache.has(ipfsHash)) {
       return this.mapCache.get(ipfsHash)
     }
-    const response = await this.loadFile(ipfsHash)
-    const obj = response.json()
+    const res = await this.loadFile(ipfsHash)
+    const obj = res.json()
     this.mapCache.set(ipfsHash, obj)
     return obj
   }
@@ -67,6 +67,36 @@ class IpfsService {
 
   getewayUrlForHash (ipfsHashStr) {
     return `${this.gateway}/ipfs/${ipfsHashStr}`
+  }
+
+  loadAudioBinary (ipfsHash) {
+    const httpReqOptions = {
+      host: IPFS_CONST.host,
+      port: 8080,
+      path: `/ipfs/${ipfsHash}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+
+    return new Promise(resolve => {
+      let request = http.request(httpReqOptions, res => {
+        let chunks = []
+        let body
+        res.on('data', chunk => {
+          // chunks.push(Buffer.from(chunk))
+          chunks.push(chunk)
+        })
+
+        // error => reject
+        res.on('end', () => {
+          body = Buffer.concat(chunks)
+          resolve(body)
+        })
+      })
+      request.end()
+    })
+
   }
 }
 
