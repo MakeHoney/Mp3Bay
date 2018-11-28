@@ -3,6 +3,7 @@ import { utils } from '../../utils'
 export const controller = {
   // song id를 받아서 블록에서 조회(emitter) ipfshash를 통해서 ipfs load
   async load (req, res) {
+    const songID = req.query.id
     try {
       const tmpHash = 'QmWx16SWKaTFp4WDNYvRxru8wmJp8LWF4Pg6PAtbHBSk32'
       const contract = await utils.getContract
