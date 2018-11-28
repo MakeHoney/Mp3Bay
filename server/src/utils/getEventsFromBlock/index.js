@@ -10,8 +10,12 @@ export const getEventsFromBlock = async (eventName, filter) => {
 
   if (filter) option.filter = filter
 
-  const events = await utils.getContract
+  // const contract = await utils.getContract
+
+  const events = (await utils.getContract)
     .getPastEvents(eventName, option)
+
+  if(!events) throw new Error("Song doesn't exist")
 
   // song event에 artist 메타데이터 추가
   for (let i in events) {
