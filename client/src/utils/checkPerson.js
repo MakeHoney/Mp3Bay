@@ -11,8 +11,8 @@ export const CheckPerson = {
         let userAccount = store.state.blockSync.web3.coinbase
 
         try {
-            let artistAddr = await contractMethods.accountToArtistAddr(userAccount).call()
-            artistAddr === '0x0000000000000000000000000000000000000000'
+          let artistAddr = await contractMethods.accountToArtistAddr(userAccount).call()
+            artistAddr === '0x0000000000000000000000000000000000000000' || artistAddr === null
             ? flag = false
             : flag = true
             return flag
@@ -27,7 +27,7 @@ export const CheckPerson = {
 
         try {
             let listenerAddr = await contractMethods.accountToListenerAddr(userAccount).call()
-            listenerAddr === '0x0000000000000000000000000000000000000000'
+            listenerAddr === '0x0000000000000000000000000000000000000000' || listenerAddr === null
             ? flag = false
             : flag = true
             return flag
