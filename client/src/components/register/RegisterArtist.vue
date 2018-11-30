@@ -54,7 +54,7 @@
                     from: this.$store.state.web3.coinbase
                 }, async (err, result) => {
                     if (err) {
-                        console.log('error occured', err)
+                        console.log('error occurred', err)
                     } else {
                         await this.$store.dispatch('getArtistAddresses')
                         this.$store.state.artists.isThereNew = true
