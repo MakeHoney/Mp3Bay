@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-import "./libraries/SongLib.sol";
+import "./SongLib.sol";
 import "./Manager.sol";
 
 /*
@@ -11,7 +11,7 @@ import "./Manager.sol";
 
 contract SongManager is Manager {
 
-    event SongCreated(uint songID, string title, address ipfsHash);
+    event SongCreated(uint songID, string title, string ipfsHash);
 
     SongLib.Song[] public songs;
 
@@ -32,7 +32,7 @@ contract SongManager is Manager {
         _;
     }
 
-    function registerSong(string _title, address _ipfsHash) public onlyArtist(msg.sender) {
+    function registerSong(string _title, string _ipfsHash) public onlyArtist(msg.sender) {
         // 이미 존재하는 곡 exception handling
         uint id = songs.length;
         Artist artist = Artist(accountToArtistAddr[msg.sender]);

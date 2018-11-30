@@ -3,7 +3,7 @@ pragma solidity ^0.4.23;
 import "./Ownable.sol";
 import "./Artist.sol";
 import "./Listener.sol";
-import "./libraries/SongLib.sol";
+import "./SongLib.sol";
 
 contract Manager is Ownable {
     event ListenerCreated(address listenerAccount, address listenerAddr, string name);
