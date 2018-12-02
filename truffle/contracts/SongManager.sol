@@ -11,7 +11,7 @@ import "./Manager.sol";
 
 contract SongManager is Manager {
 
-    event SongCreated(uint songID, string title, string ipfsHash);
+    event SongCreated(uint indexed songID, string title, string ipfsHash);
 
     SongLib.Song[] public songs;
 
