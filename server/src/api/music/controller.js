@@ -3,13 +3,18 @@ import { utils } from '../../utils'
 export const controller = {
   // song id를 받아서 블록에서 조회(emitter) ipfshash를 통해서 ipfs load
   async loadSong (req, res) {
-    const songID = [req.query.id]
+    const songID = [parseInt(req.query.id)]
     try {
       // input: id, output: ipfsHash
       const filter = { songID }
-      const songs = await utils.getEventsFromBlock('SongCreated', filter)
+
       // 일단은 음원 한개만
+      const songs = await utils.getEventsFromBlock('SongCreated', filter)
       const ipfsHash = songs[0].ipfsHash
+
+      // const song = await utils.getEventsFromBlock('SongCreated', filter)
+      // const ipfsHash = song.ipfsHash
+
       const audio = await utils.lib.ipfsService.loadAudioBinary(ipfsHash)
       console.log(audio)
       res.send(audio)
