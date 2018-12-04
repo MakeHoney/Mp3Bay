@@ -40,18 +40,24 @@ export const pollWeb3 = ({ state, rootState }) => {
                     balance: parseInt(newBalance, 10)
                 })
                 rootState.user.type = await CheckPerson.userType()
+              console.log( rootState.user.type )
             } catch (err) {
                 console.error('error occurred in pollWeb3', err)
                 throw err
             }
         } else {
-            let web3Copy = state.web3
-            web3Copy.web3Instance = () => web3
-            web3Copy.networkID = await web3.eth.net.getNetworkType()
-            web3Copy.coinbase = (await web3.eth.getAccounts())[0]
-            web3Copy.balance =  await web3.eth.getBalance(state.web3.coinbase)
-            state.web3 = web3Copy
-            rootState.user.type = await CheckPerson.userType()
+            try {
+              let web3Copy = state.web3
+              web3Copy.web3Instance = () => web3
+              web3Copy.networkID = await web3.eth.net.getNetworkType()
+              web3Copy.coinbase = (await web3.eth.getAccounts())[0]
+              web3Copy.balance = await web3.eth.getBalance(state.web3.coinbase)
+              state.web3 = web3Copy
+              console.log('here')
+              rootState.user.type = await CheckPerson.userType()
+            } catch (err) {
+              console.error(err)
+            }
         }
     }, 2000)
 }

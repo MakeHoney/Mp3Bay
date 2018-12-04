@@ -50,7 +50,16 @@ export const CheckPerson = {
         } else {
             let contractMethods = store.getters['blockSync/contractMethods']
             let userAccount = store.state.blockSync.web3.coinbase
+          console.log(userAccount)
+
+
+          try {
             let name = await contractMethods.getListenerByAcc(userAccount).call()
+          } catch (err) {
+                console.log(err)
+          }
+
+          console.log('flag2')
             store.state.user.name = name
             return 'Listener'
         }
