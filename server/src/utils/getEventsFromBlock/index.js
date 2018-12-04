@@ -7,10 +7,8 @@ export const getEventsFromBlock = async (eventName, filter) => {
     fromBlock: 0,
     toBlock: 'latest'
   }
-
   if (filter) option.filter = filter
 
-  // TODO: filter doesn't work! it should be fixed
   const contract = await utils.getContract
   const events = await contract.getPastEvents(eventName, option)
   console.log(events)
