@@ -24,7 +24,6 @@
     "cors": "^2.8.5",
     "cross-fetch": "^2.2.3",
     "express": "^4.16.4",
-    "form-data": "^2.3.3",
     "ipfs": "^0.33.1",
     "map-cache": "^0.2.2",
     "mocha": "^5.2.0",

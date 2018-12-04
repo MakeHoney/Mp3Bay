@@ -1,6 +1,5 @@
 import fetch from 'cross-fetch'
 import MapCache from 'map-cache'
-import FormData from 'form-data'
 import { IPFS_CONST } from './constants'
 import http from 'http'
 /**
