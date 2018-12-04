@@ -5,7 +5,6 @@ export const controller = {
   async loadSong (req, res) {
     const songID = [parseInt(req.query.id)]
     try {
-      // input: id, output: ipfsHash
       const filter = { songID }
       // // 일단은 음원 한개만
       const songs = await utils.getEventsFromBlock('SongCreated', filter)
