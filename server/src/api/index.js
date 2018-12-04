@@ -1,9 +1,9 @@
 import express from 'express'
 import music from './music'
-import upload from './upload'
+import artist from './artist'
 const router = express.Router()
 
 router.use('/music', music)
-router.use('/upload', upload)
+router.use('/artist', artist)
 
 export default router

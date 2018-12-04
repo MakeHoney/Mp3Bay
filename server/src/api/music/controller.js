@@ -12,6 +12,7 @@ export const controller = {
 
       const { audio } = await utils.lib.ipfsService.loadObjFromFile(ipfsHash)
       const file = Buffer.from(audio.data)
+
       res.send(file)
     } catch (err) {
       res.status(500).json({

@@ -9,7 +9,16 @@ export const controller = {
         ipfsHash
       })
     } catch (err) {
-      res.statu(500).json({
+      res.status(500).json({
+        message: err.message
+      })
+    }
+  },
+  async loadPicture (req, res) {
+    try {
+      // artistID 인자로 받기
+    } catch (err) {
+      res.status(500).json({
         message: err.message
       })
     }
