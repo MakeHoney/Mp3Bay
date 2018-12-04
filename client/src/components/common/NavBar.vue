@@ -5,15 +5,19 @@
         <b-navbar-brand class="home-link-button" :to="{ name: 'home' }">MP3Bay</b-navbar-brand>
 
         <b-collapse is-nav id="nav_collapse">
-            <b-navbar-nav>
-                <b-nav-item :to="{ name: 'player' }">Player</b-nav-item>
-                <b-nav-item :to=" { name: 'artists' } ">Artists</b-nav-item>
-            </b-navbar-nav>
-
-            <b-navbar-nav v-if="!user.type">
-                <b-nav-item :to=" { name: 'register-artist' } ">Register Artist</b-nav-item>
-                <b-nav-item :to=" { name: 'register-listener' } ">Register Listener</b-nav-item>
-            </b-navbar-nav>
+            <div v-if="web3.web3Instance">
+                <b-navbar-nav v-if="!user.type">
+                    <b-nav-item :to="{ name: 'register-artist' }">Register Artist</b-nav-item>
+                    <b-nav-item :to="{ name: 'register-listener' }">Register Listener</b-nav-item>
+                </b-navbar-nav>
+                <b-navbar-nav v-else-if="user.type === 'Listener'">
+                    <b-nav-item :to="{ name: 'player' }">Playlist</b-nav-item>
+                    <b-nav-item :to="{ name: 'artists' }">Artists</b-nav-item>
+                </b-navbar-nav>
+                <b-navbar-nav v-else="user.type === 'Artist'">
+                    <b-nav-item :to="{ name: 'player' }">Register Song</b-nav-item>
+                </b-navbar-nav>
+            </div>
 
             <b-navbar-nav v-if="web3.web3Instance" class="ml-auto">
                 <!-- make condition -->
