@@ -57,7 +57,6 @@
     computed: {
       ...mapState({
         web3: state => state.blockSync.web3,
-        contractInstance: state => state.blockSync.contractInstance,
         user: state => state.user
       }),
       ...mapGetters('blockSync', [
