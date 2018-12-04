@@ -25,43 +25,44 @@
 </template>
 
 <script>
-    import { mapState, mapGetters } from 'vuex'
-    export default {
-        name: 'register-listener',
-        data () {
-            return {
-                formData: {
-                    listenerName: ''
-                }
-            }
-        },
-        methods: {
-            async submitForm (formData) {
-                try {
-                    const result = await this.contractMethods.registerListener(formData.listenerName).send({
-                        gas: 1000000,
-                        value: 0,
-                        from: this.web3.coinbase
-                    })
-
-                    const { name, listenerAddr } = result.events.ListenerCreated.returnValues;
-                    [this.user.type, this.user.name, this.user.address] =
-                        ['Listener', name, listenerAddr]
-
-                } catch(err) {
-                    console.error('Error occurred at RegisterListener.vue', err)
-                }
-            }
-        },
-        computed: {
-            ...mapState({
-                web3: state => state.blockSync.web3,
-                contractInstance: state => state.blockSync.contractInstance,
-                user: state => state.user
-            }),
-            ...mapGetters('blockSync', [
-                'contractMethods'
-            ])
+  import { mapState, mapGetters } from 'vuex'
+  export default {
+    name: 'register-listener',
+    data () {
+      return {
+        formData: {
+          listenerName: ''
         }
+      }
+    },
+    methods: {
+      async submitForm (formData) {
+        try {
+          const result = await this.contractMethods.registerListener(formData.listenerName).send({
+            gas: 1000000,
+            value: 0,
+            from: this.web3.coinbase
+          })
+
+          const { name, listenerAddr } = result.events.ListenerCreated.returnValues
+          this.user.type = 'Listener'
+          this.user.name = name
+          this.user.address = listenerAddr
+
+        } catch(err) {
+          console.error('Error occurred at RegisterListener.vue', err)
+        }
+      }
+    },
+    computed: {
+      ...mapState({
+        web3: state => state.blockSync.web3,
+        contractInstance: state => state.blockSync.contractInstance,
+        user: state => state.user
+      }),
+      ...mapGetters('blockSync', [
+        'contractMethods'
+      ])
     }
+  }
 </script>
