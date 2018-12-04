@@ -6,10 +6,10 @@
         <div v-else-if="!user.type">
             <h1>등록을 해주세요!</h1>
         </div>
-        <div v-else>
+        <div v-else-if="user.type === 'Artist'">
             <h1>환영합니다!</h1>
-            <img src="http://localhost:8888/artist/load-picture?id=0" alt="">
-            <button @click="foo">push</button>
+            <img v-if="user.artistID"
+                 :src="artistPicURL" alt="">
         </div>
     </div>
 </template>
@@ -20,14 +20,7 @@
     name: 'home',
     data () {
       return {
-
-      }
-    },
-    methods: {
-      async foo () {
-        const url = 'http://localhost:8888/artist/load-picture'
-        const { id } = await this.contractMethods.getArtistByAcc(this.web3.coinbase).call()
-        await this.$axios.get(`${url}?id=${id}`)
+        // artistPicURL: `http://localhost:8888/artist/load-picture?id=${this.user.artistID}`
       }
     },
     computed: {
@@ -37,7 +30,12 @@
       }),
       ...mapGetters('blockSync', [
         'contractMethods'
-      ])
+      ]),
+      // data 속성에서 computed 속성으로 옮기니 해결됐음 이유 알아보기
+      // err message: Property or method is not defined on the instance but referenced during render
+      artistPicURL () {
+        return `http://localhost:8888/artist/load-picture?id=${this.user.artistID}`
+      }
     }
   }
 </script>
