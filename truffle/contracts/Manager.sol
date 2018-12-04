@@ -17,11 +17,11 @@ contract Manager is Ownable {
 
     // Artist
     // TODO: addressing exception for same name of user
-    function registerArtist(string _name) external {
+    function registerArtist(string _name, string pictureHash) external {
         accountToArtistAddr[msg.sender] = new Artist(_name, allArtistsAddrs.length);
         allArtistsAddrs.push(accountToArtistAddr[msg.sender]);
         artistNameToArtistAccount[_name] = msg.sender;
-        emit ArtistCreated(msg.sender, accountToArtistAddr[msg.sender], _name);
+        emit ArtistCreated(msg.sender, accountToArtistAddr[msg.sender], _name, allArtistsAddrs.length - 1, pictureHash);
     }
 
     function getArtistByAcc(address _acc) public view returns (
