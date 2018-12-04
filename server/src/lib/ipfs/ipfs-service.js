@@ -21,9 +21,8 @@ class IpfsService {
     } else {
       file = new Blob([JSON.stringify(obj)])
     }
-
+    // console.log(file)
     const ipfsHash = await this.saveFile(file)
-
 
     // Caching
     this.mapCache.set(ipfsHash, obj)
@@ -35,6 +34,7 @@ class IpfsService {
     try {
       const formData = new FormData()
       formData.append('file', file)
+      console.log(formData)
       const rawRes = await fetch(`${this.api}/api/v0/add`, {
         method: 'POST',
         body: formData
@@ -69,6 +69,7 @@ class IpfsService {
     return `${this.gateway}/ipfs/${ipfsHashStr}`
   }
 
+  // this function is deprecated.
   loadAudioBinary (ipfsHash) {
     const httpReqOptions = {
       host: IPFS_CONST.host,
@@ -90,6 +91,7 @@ class IpfsService {
 
         // error => reject
         res.on('end', () => {
+          console.log(chunks)
           body = Buffer.concat(chunks)
           resolve(body)
         })

@@ -7,17 +7,13 @@ export const controller = {
     try {
       // input: id, output: ipfsHash
       const filter = { songID }
-
-      // 일단은 음원 한개만
+      // // 일단은 음원 한개만
       const songs = await utils.getEventsFromBlock('SongCreated', filter)
       const ipfsHash = songs[0].ipfsHash
 
-      // const song = await utils.getEventsFromBlock('SongCreated', filter)
-      // const ipfsHash = song.ipfsHash
-
-      const audio = await utils.lib.ipfsService.loadAudioBinary(ipfsHash)
-      console.log(audio)
-      res.send(audio)
+      const { audio } = await utils.lib.ipfsService.loadObjFromFile(ipfsHash)
+      const file = Buffer.from(audio.data)
+      res.send(file)
     } catch (err) {
       res.status(500).json({
         message: err.message
@@ -26,9 +22,23 @@ export const controller = {
   },
   async registerSong (req, res) {
     try {
+      // 유저 어카운트도 함께 넘어와야 등록가능
+      // const userAccount = req.userAccount
       const file = req.file.buffer
-      const ipfsHash = await utils.lib.ipfsService.saveFile(file)
+      const ipfsHash = await utils.lib.ipfsService.saveObjAsFile({ audio: file })
       console.log(ipfsHash)
+
+      // save into blockchain
+      const contract = await utils.getContract
+      await contract.methods.registerSong('title', ipfsHash).send({
+        from: '0xd03ea8624C8C5987235048901fB614fDcA89b117',
+        gas: 1000000
+      })
+      // await contract.methods.registerSong(title, ipfsHash).send({
+      //   from: userAccount,
+      //   gas: 1000000
+      // })
+
       res.json({
         message: 'successfully uploaded.',
         ipfsHash
