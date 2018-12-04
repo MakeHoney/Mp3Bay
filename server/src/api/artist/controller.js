@@ -15,18 +15,18 @@ export const controller = {
     }
   },
   async loadPicture (req, res) {
+    const artistID = [parseInt(req.query.id)]
     try {
       const filter = { artistID }
-      // // 일단은 음원 한개만
-      const songs = await utils.getEventsFromBlock('ArtistCreated', filter)
-      const ipfsHash = songs[0].ipfsHash
+      const pictures = await utils.getEventsFromBlock('ArtistCreated', filter)
+      console.log(pictures)
+      const pictureHash = pictures[0].pictureHash
 
-      const { picture } = await utils.lib.ipfsService.loadObjFromFile('QmPx2caFcCtf4R5QDsVhgn7y8Hni7KuxVMQArTwG7BuVdE')
-      console.log(picture)
+      const { picture } = await utils.lib.ipfsService.loadObjFromFile(pictureHash)
       const file = Buffer.from(picture.data)
 
       res.writeHead(200, {'Content-Type': 'image/gif' })
-      res.end(file, 'binary')
+      res.end(file)
     } catch (err) {
       res.status(500).json({
         message: err.message
