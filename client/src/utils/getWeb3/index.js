@@ -53,7 +53,6 @@ export const pollWeb3 = ({ state, rootState }) => {
               web3Copy.coinbase = (await web3.eth.getAccounts())[0]
               web3Copy.balance = await web3.eth.getBalance(state.web3.coinbase)
               state.web3 = web3Copy
-              console.log('here')
               rootState.user.type = await CheckPerson.userType()
             } catch (err) {
               console.error(err)

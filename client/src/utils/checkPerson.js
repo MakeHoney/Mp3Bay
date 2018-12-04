@@ -46,7 +46,6 @@ export const CheckPerson = {
         let userAccount = store.state.blockSync.web3.coinbase
         // solidity에서 return value 2개 이상일시 destructuring assignment로 받는 것인지 확인하기
         let { name, id } = await contractMethods.getArtistByAcc(userAccount).call()
-        console.log(id)
         // store.state.user.address는 어디서 초기화 할지 생각 // 해당 프로퍼티가 필요한지도 생각
         store.state.user.name = name
         store.state.user.artistID = id
