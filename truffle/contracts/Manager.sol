@@ -7,7 +7,7 @@ import "./SongLib.sol";
 
 contract Manager is Ownable {
     event ListenerCreated(address listenerAccount, address listenerAddr, string name);
-    event ArtistCreated(address artistAccount, address artistAddr, string name);
+    event ArtistCreated(address artistAccount, address artistAddr, string name, uint indexed artistID, string pictureHash);
 
     mapping (address => address) public accountToArtistAddr;
     mapping (address => address) public accountToListenerAddr;
