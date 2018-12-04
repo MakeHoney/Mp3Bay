@@ -19,6 +19,14 @@
                 </b-col>
             </b-row>
 
+
+            <b-row class="my-1">
+                <b-col sm="2"><label for="input-artistPic">Artist Picture:</label></b-col>
+                <b-col sm="9">
+                    <input type="file" @change="onFileSelected">
+                </b-col>
+            </b-row>
+
             <input type="submit" id="submit" value="Register">
         </b-container>
     </form>
@@ -32,26 +40,36 @@
       return {
         formData: {
           artistName: ''
-        }
+        },
+        selectedFile: null
       }
     },
     methods: {
       async submitForm (formData) {
         try {
-          const result = await this.contractMethods.registerArtist(formData.artistName).send({
-            gas: 1000000,
-            value: 0,
-            from: this.web3.coinbase
+          const ipfsHash = await this.savePictureIntoIPFS()
+          const result = await this.contractMethods.registerArtist(formData.artistName, ipfsHash).send({
+            from: this.web3.coinbase,
+            gas: 1000000
           })
-
           const { name, artistAddr } = result.events.ArtistCreated.returnValues
           this.user.type = 'Artist'
           this.user.name = name
           this.user.address = artistAddr
-
         } catch(err) {
           console.error('Error occurred at RegisterArtist.vue', err)
         }
+      },
+      onFileSelected (event) {
+        this.selectedFile = event.target.files[0]
+      },
+      async savePictureIntoIPFS () {
+        const url = 'http://localhost:8888/artist/upload-picture'
+        let formData = new FormData()
+        formData.append('picture', this.selectedFile)
+
+        let { data } = await this.$axios.post(url, formData)
+        return data.ipfsHash
       }
     },
     computed: {
