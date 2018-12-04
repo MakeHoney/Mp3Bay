@@ -12,7 +12,9 @@ export default new Vuex.Store({
     user: {
       type: null,
       name: null,
-      address: null
+      address: null,
+      artistID: null,
+      listenerID: null
     },
     artists: {
       addresses: null,
