@@ -7,7 +7,9 @@ export const controller = {
     try {
       const filter = { songID }
       // // 일단은 음원 한개만
-      const songs = await utils.getEventsFromBlock('SongCreated', filter)
+      const events = await utils.event.getEventsFromBlock('SongCreated', filter)
+      const songs = await utils.event.getDataFromEvents('SongCreated', events)
+
       const ipfsHash = songs[0].ipfsHash
 
       const { audio } = await utils.lib.ipfsService.loadObjFromFile(ipfsHash)
