@@ -18,7 +18,8 @@ export const controller = {
     const artistID = [parseInt(req.query.id)]
     try {
       const filter = { artistID }
-      const pictures = await utils.getEventsFromBlock('ArtistCreated', filter)
+      const events = await utils.event.getEventsFromBlock('ArtistCreated', filter)
+      const pictures = await utils.event.getDataFromEvents('ArtistCreated', events)
       console.log(pictures)
       const pictureHash = pictures[0].pictureHash
 
