@@ -16,33 +16,6 @@ export const event = {
     if(!events.length) throw new Error("Song doesn't exist")
 
     return events
-    // TODO: 이하 코드 밖으로 빼기 (이벤트 종류에따라 달라짐)
-
-
-    // song event에 artist 메타데이터 추가
-    // let songArray = []
-    // for (let i in events) {
-    //   const songData = events[i].returnValues
-    //   const obj = Object.assign(
-    //     { songID: songData.songID },
-    //     { ipfsHash: songData.ipfsHash },
-    //     { title: songData.title  })
-    //   songArray.push(obj)
-    //   // songArray[i].data = await utils.lib.ipfsService.loadObjFromFile(songArray[i].ipfsHash)
-    // }
-    // console.log(songArray)
-    // return songArray
-    //
-    // let picArray = []
-    // for (let i in events) {
-    //   const picData = events[i].returnValues
-    //   const obj = Object.assign(
-    //     { artistID: picData.artistID },
-    //     { pictureHash: picData.pictureHash }
-    //   )
-    //   picArray.push(obj)
-    // }
-    // return picArray
   },
   async getDataFromEvents (eventName, events) {
     const keyLists = {
