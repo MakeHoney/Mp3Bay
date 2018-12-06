@@ -1,10 +1,11 @@
-import express from 'express'
+import { Router } from 'express'
 import { controller } from './controller'
 import multer from 'multer'
 const upload = multer({ storage: multer.memoryStorage() })
-const router = express.Router()
+const mid = upload.single('audioFile')
+const router = Router()
 
 // GET /music/load?id=12
 router.get('/load', controller.loadSong)
-router.post('/save', upload.single('file'), controller.registerSong)
+router.post('/save', mid, controller.registerSong)
 export default router
