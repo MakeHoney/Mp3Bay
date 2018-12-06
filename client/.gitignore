@@ -22,3 +22,4 @@ yarn-error.log*
 
 # etc
 src/utils/getContract/contracts
+src/config.js
