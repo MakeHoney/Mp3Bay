@@ -29,7 +29,7 @@
                     </b-col>
                 </b-row>
             </div>
-            <b-btn class="mt-3" variant="outline-danger" block @click="hideRegisterForm">등록</b-btn>
+            <b-btn class="mt-3" variant="outline-danger" block @click="submitUploadForm">등록</b-btn>
         </b-modal>
 
         <b-modal ref="songList" hide-footer title="나의 음악">
@@ -42,18 +42,26 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     data() {
       return {
-        title: ''
+        title: '',
+        selectedFile: null
       }
     },
     methods: {
       showRegisterForm () {
         this.$refs.registerForm.show()
       },
-      hideRegisterForm () {
+      async submitUploadForm () {
+        // form이 비어있는 경우 예외처리 필요
+        const result = await this.uploadSong()
+        console.log(result)
+        // progressbar 넣기
+        alert('업로드가 완료되었습니다.')
         this.$refs.registerForm.hide()
+        this.clearForm()
       },
       showSongList () {
         this.$refs.songList.show()
@@ -62,13 +70,26 @@
         this.$refs.songList.hide()
       },
       async uploadSong () {
-        const url = 'http://localhost:8888/music/save'
         let formData = new FormData()
-        formData.append('userAccount')
-        formData.append('title')
-        formData.append('audioFile')
-        const result = await this.$axios.post(url, formData)
+        const url = 'http://localhost:8888/music/save'
+        formData.append('userAccount', this.web3.coinbase)
+        formData.append('title', this.title)
+        formData.append('audioFile', this.selectedFile)
+        const { data } = await this.$axios.post(url, formData)
+        return data.ipfsHash
+      },
+      onFileSelected (event) {
+        this.selectedFile = event.target.files[0]
+      },
+      clearForm () {
+        this.title = ''
+        this.selectedFile = null
       }
+    },
+    computed: {
+      ...mapState('blockSync', [
+        'web3'
+      ])
     }
   }
 </script>
