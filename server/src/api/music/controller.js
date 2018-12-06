@@ -24,8 +24,7 @@ export const controller = {
   },
   async registerSong (req, res) {
     try {
-      // 유저 어카운트도 함께 넘어와야 등록가능
-      // const userAccount = req.userAccount
+      const userAccount = req.body.userAccount
       const file = req.file.buffer
       const ipfsHash = await utils.lib.ipfsService.saveObjAsFile({ audio: file })
       console.log(ipfsHash)
@@ -33,17 +32,13 @@ export const controller = {
       // save into blockchain
       const contract = await utils.getContract
       await contract.methods.registerSong('title', ipfsHash).send({
-        from: '0xd03ea8624C8C5987235048901fB614fDcA89b117',
+        from: userAccount,
         gas: 1000000
       })
-      // await contract.methods.registerSong(title, ipfsHash).send({
-      //   from: userAccount,
-      //   gas: 1000000
-      // })
 
       res.json({
         message: 'successfully uploaded.',
-        ipfsHash
+        // ipfsHash
       })
     } catch (err) {
       res.status(500).json({
