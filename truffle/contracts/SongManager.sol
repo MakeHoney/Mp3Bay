@@ -72,6 +72,7 @@ contract SongManager is Manager {
     }
 
     // is this needed?
+    // TODO: idx -> name -> acc를 idx -> acc로 개선하기
     function getSongIDsByArtistID(uint _idx) public view returns (uint[]) {
         string memory name = getArtistNameByIndex(_idx);
         address artistAccount = artistNameToArtistAccount[name];
@@ -101,9 +102,9 @@ contract SongManager is Manager {
 
     // 필요한 메소드인지 다시 생각
     function getSongBySongID(uint songID) public view returns (
-        string,
-        uint,
-        string
+        string artistName,
+        uint artistID,
+        string title
     ) {
         return (songs[songID].artistName, songs[songID].artistID, songs[songID].title);
     }
