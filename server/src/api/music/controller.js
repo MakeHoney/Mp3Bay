@@ -38,7 +38,7 @@ export const controller = {
 
       res.json({
         message: 'successfully uploaded.',
-        // ipfsHash
+        ipfsHash
       })
     } catch (err) {
       res.status(500).json({
