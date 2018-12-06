@@ -61,7 +61,14 @@
       hideSongList () {
         this.$refs.songList.hide()
       },
-
+      async uploadSong () {
+        const url = 'http://localhost:8888/music/save'
+        let formData = new FormData()
+        formData.append('userAccount')
+        formData.append('title')
+        formData.append('audioFile')
+        const result = await this.$axios.post(url, formData)
+      }
     }
   }
 </script>
