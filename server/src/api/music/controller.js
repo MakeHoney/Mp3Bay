@@ -6,10 +6,9 @@ export const controller = {
     const songID = [parseInt(req.query.id)]
     try {
       const filter = { songID }
-      // // 일단은 음원 한개만
+
       const events = await utils.event.getEventsFromBlock('SongCreated', filter)
       const songs = await utils.event.getDataFromEvents('SongCreated', events)
-
       const ipfsHash = songs[0].ipfsHash
 
       const { audio } = await utils.lib.ipfsService.loadObjFromFile(ipfsHash)
@@ -24,14 +23,15 @@ export const controller = {
   },
   async registerSong (req, res) {
     try {
-      const userAccount = req.body.userAccount
       const file = req.file.buffer
+      const title = req.body.title
+      const userAccount = req.body.userAccount
       const ipfsHash = await utils.lib.ipfsService.saveObjAsFile({ audio: file })
       console.log(ipfsHash)
 
       // save into blockchain
       const contract = await utils.getContract
-      await contract.methods.registerSong('title', ipfsHash).send({
+      await contract.methods.registerSong(title, ipfsHash).send({
         from: userAccount,
         gas: 1000000
       })
