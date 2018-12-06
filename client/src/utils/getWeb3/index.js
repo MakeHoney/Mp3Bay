@@ -41,7 +41,9 @@ export const pollWeb3 = ({ state, rootState }) => {
           balance: parseInt(newBalance, 10)
         })
         rootState.user.type = await CheckPerson.userType()
-        console.log( rootState.user.type )
+        if(window.location.href !== 'http://localhost:8081/') {
+          window.location.replace('http://localhost:8081/')
+        }
       } catch (err) {
         console.error('error occurred in pollWeb3', err)
         throw err
