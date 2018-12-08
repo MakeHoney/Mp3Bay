@@ -1,10 +1,13 @@
 import { utils } from '../../utils'
 
 export const controller = {
-  async savePicture (req, res) {
+  async saveUserInfo (req, res) {
     try {
-      const file = req.file.buffer
-      const ipfsHash = await utils.lib.ipfsService.saveObjAsFile({ picture: file })
+      const picture = req.files['picture'][0].buffer
+      const description = req.body.description
+      console.log(picture)
+      console.log(description)
+      const ipfsHash = await utils.lib.ipfsService.saveObjAsFile({ picture, description})
       res.json({
         ipfsHash
       })
@@ -19,15 +22,34 @@ export const controller = {
     try {
       const filter = { artistID }
       const events = await utils.event.getEventsFromBlock('ArtistCreated', filter)
-      const pictures = await utils.event.getDataFromEvents('ArtistCreated', events)
-      console.log(pictures)
-      const pictureHash = pictures[0].pictureHash
+      const userInfo = await utils.event.getDataFromEvents('ArtistCreated', events)
+      console.log(userInfo)
+      const pictureHash = userInfo[0].pictureHash
 
       const { picture } = await utils.lib.ipfsService.loadObjFromFile(pictureHash)
-      const file = Buffer.from(picture.data)
-
+      const file = Buffer.from(picture)
       res.writeHead(200, {'Content-Type': 'image/gif' })
       res.end(file)
+    } catch (err) {
+      res.status(500).json({
+        message: err.message
+      })
+    }
+  },
+  async loadDescription (req, res) {
+    const artistID = [parseInt(req.query.id)]
+    try {
+      const filter = { artistID }
+      const events = await utils.event.getEventsFromBlock('ArtistCreated', filter)
+      const userInfo = await utils.event.getDataFromEvents('ArtistCreated', events)
+      console.log(userInfo)
+      const pictureHash = userInfo[0].pictureHash
+
+      const { description } = await utils.lib.ipfsService.loadObjFromFile(pictureHash)
+      // const file = Buffer.from(description)
+      res.json({
+        description
+      })
     } catch (err) {
       res.status(500).json({
         message: err.message
