@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import NProgress from 'nprogress'
 import store from '@/store'
 import { RouteHelper } from './helpers'
-import { CheckPerson } from '@/utils/checkPerson'
+import { userIdentification } from '../utils'
 import Home from '@/components/Home'
 import Player from '@/components/Player'
 import Artists from '@/components/Artists'
@@ -69,17 +69,17 @@ router.beforeEach(async (to, from, next) => {
 
     // change this with switch statement
     if(to.name === 'artist-profile') {
-        if((await CheckPerson.userType()) === 'Artist') {
+        if((await userIdentification.userType()) === 'Artist') {
             next()
         } else {
             alert('아티스트 등록을 먼저 해주세요!')
             next({ name: 'register-artist' })
         }
     } else if (to.name === 'artists') {
-        await RouteHelper.beforeArtists()
+        // await RouteHelper.beforeArtists()
         next()
     } else if (to.name === 'register-artist') {
-        if((await CheckPerson.userType()) === 'Artist') {
+        if((await userIdentification.userType()) === 'Artist') {
             let { name, id } = await RouteHelper
                 .getArtistInfoByArtistAcc(store.state.blockSync.web3.coinbase)
 
