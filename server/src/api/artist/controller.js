@@ -24,9 +24,9 @@ export const controller = {
       const events = await utils.event.getEventsFromBlock('ArtistCreated', filter)
       const userInfo = await utils.event.getDataFromEvents('ArtistCreated', events)
       console.log(userInfo)
-      const pictureHash = userInfo[0].pictureHash
+      const userInfoHash = userInfo[0].userInfoHash
 
-      const { picture } = await utils.lib.ipfsService.loadObjFromFile(pictureHash)
+      const { picture } = await utils.lib.ipfsService.loadObjFromFile(userInfoHash)
       const file = Buffer.from(picture)
       res.writeHead(200, {'Content-Type': 'image/gif' })
       res.end(file)
@@ -43,9 +43,9 @@ export const controller = {
       const events = await utils.event.getEventsFromBlock('ArtistCreated', filter)
       const userInfo = await utils.event.getDataFromEvents('ArtistCreated', events)
       console.log(userInfo)
-      const pictureHash = userInfo[0].pictureHash
+      const userInfoHash = userInfo[0].userInfoHash
 
-      const { description } = await utils.lib.ipfsService.loadObjFromFile(pictureHash)
+      const { description } = await utils.lib.ipfsService.loadObjFromFile(userInfoHash)
       // const file = Buffer.from(description)
       res.json({
         description
