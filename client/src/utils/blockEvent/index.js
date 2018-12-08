@@ -1,4 +1,4 @@
-import {utils} from "../../../../server/src/utils"
+import { getContract } from '../../utils'
 
 export default {
   async getEventsFromBlock (eventName, filter) {
@@ -9,7 +9,7 @@ export default {
     }
     if (filter) option.filter = filter
 
-    const contract = await utils.getContract
+    const contract = await getContract
     const events = await contract.getPastEvents(eventName, option)
     console.log(events)
     console.log(option)
@@ -21,7 +21,8 @@ export default {
   async getDataFromEvents (eventName, events) {
     const keyLists = {
       SongCreated: [ 'songID', 'ipfsHash', 'title' ],
-      ArtistCreated: [ 'artistID', 'pictureHash' ]
+      // need description
+      ArtistCreated: [ 'artistID', 'pictureHash', 'name' ]
     }
     const keyList = keyLists[eventName].slice()
     let result = []
