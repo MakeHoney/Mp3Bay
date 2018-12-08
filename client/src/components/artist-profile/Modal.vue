@@ -45,6 +45,7 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
+  import config from '../../config'
   export default {
     data() {
       return {
@@ -86,7 +87,7 @@
       },
       async uploadSong () {
         let formData = new FormData()
-        const url = 'http://localhost:8888/music/save'
+        const url = `${config.API_HOST}/music/save`
         formData.append('userAccount', this.web3.coinbase)
         formData.append('title', this.title)
         formData.append('audioFile', this.selectedFile)

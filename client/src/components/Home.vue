@@ -16,6 +16,7 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
+  import config from '../config'
   export default {
     name: 'home',
     data () {
@@ -34,7 +35,7 @@
       // data 속성에서 computed 속성으로 옮기니 해결됐음 이유 알아보기
       // err message: Property or method is not defined on the instance but referenced during render
       artistPicURL () {
-        return `http://localhost:8888/artist/load-picture?id=${this.user.artistID}`
+        return `${config.API_HOST}/artist/load-picture?id=${this.user.artistID}`
       }
     }
   }

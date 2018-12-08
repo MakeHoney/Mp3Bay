@@ -34,6 +34,7 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
+  import config from '../../config'
   export default {
     name: 'register-artist',
     data () {
@@ -64,7 +65,7 @@
         this.selectedFile = event.target.files[0]
       },
       async savePictureIntoIPFS () {
-        const url = 'http://localhost:8888/artist/upload-picture'
+        const url = `${config.API_HOST}/artist/upload-picture`
         let formData = new FormData()
         formData.append('picture', this.selectedFile)
 
