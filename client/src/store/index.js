@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { blockSync } from './modules'
+import config from '../config'
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     },
     listeners: {
 
-    }
+    },
+    apiHost: config.API_HOST
   },
   mutations: {
     setArtistAddresses(state, payload) {
