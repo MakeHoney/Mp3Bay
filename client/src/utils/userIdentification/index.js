@@ -4,7 +4,7 @@ import store from '@/store'
  * TODO: Class로 재정의하여 contractMethod, userAccount, flag 등 class 변수로 재사용하기
  */
 
-export const CheckPerson = {
+export default {
   async isArtist() {
     let flag
     let contractMethods = store.getters['blockSync/contractMethods']
@@ -17,7 +17,7 @@ export const CheckPerson = {
         : flag = true
       return flag
     } catch (err) {
-      console.error('error in checkPerson', err)
+      console.error('error in user identification module', err)
     }
   },
   async isListener() {
@@ -32,7 +32,7 @@ export const CheckPerson = {
         : flag = true
       return flag
     } catch (err) {
-      console.error('error in checkPerson', err)
+      console.error('error in user identification module', err)
     }
   },
   async userType () {
