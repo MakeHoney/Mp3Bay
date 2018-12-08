@@ -1,5 +1,6 @@
 import Web3 from 'web3'
 import { CheckPerson } from '../checkPerson'
+import config from '../../config'
 
 export const getWeb3 = async () => {
   let isUserConnected, result
@@ -41,8 +42,8 @@ export const pollWeb3 = ({ state, rootState }) => {
           balance: parseInt(newBalance, 10)
         })
         rootState.user.type = await CheckPerson.userType()
-        if(window.location.href !== 'http://localhost:8081/') {
-          window.location.replace('http://localhost:8081/')
+        if(window.location.href !== `${config.HOST}/`) {
+          window.location.replace('/')
         }
       } catch (err) {
         console.error('error occurred in pollWeb3', err)
