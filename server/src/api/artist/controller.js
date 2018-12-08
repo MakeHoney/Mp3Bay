@@ -24,8 +24,7 @@ export const controller = {
       const pictureHash = pictures[0].pictureHash
 
       const { picture } = await utils.lib.ipfsService.loadObjFromFile(pictureHash)
-      const file = Buffer.from(picture.data)
-
+      const file = Buffer.from(picture)
       res.writeHead(200, {'Content-Type': 'image/gif' })
       res.end(file)
     } catch (err) {
