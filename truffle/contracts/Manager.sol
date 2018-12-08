@@ -7,7 +7,7 @@ import "./SongLib.sol";
 
 contract Manager is Ownable {
     event ListenerCreated(address listenerAccount, address listenerAddr, string name);
-    event ArtistCreated(address artistAccount, address artistAddr, string name, uint indexed artistID, string pictureHash);
+    event ArtistCreated(uint indexed artistID, string name, string userInfoHash, address artistAccount, address artistAddr);
 
     mapping (address => address) public accountToArtistAddr;
     mapping (address => address) public accountToListenerAddr;
@@ -17,11 +17,11 @@ contract Manager is Ownable {
 
     // Artist
     // TODO: addressing exception for same name of user
-    function registerArtist(string _name, string pictureHash) external {
+    function registerArtist(string _name, string userInfoHash) external {
         accountToArtistAddr[msg.sender] = new Artist(_name, allArtistsAddrs.length);
         allArtistsAddrs.push(accountToArtistAddr[msg.sender]);
         artistNameToArtistAccount[_name] = msg.sender;
-        emit ArtistCreated(msg.sender, accountToArtistAddr[msg.sender], _name, allArtistsAddrs.length - 1, pictureHash);
+        emit ArtistCreated(allArtistsAddrs.length - 1, _name, userInfoHash, msg.sender, accountToArtistAddr[msg.sender]);
     }
 
     function getArtistByAcc(address _acc) public view returns (
