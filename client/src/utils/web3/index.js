@@ -1,5 +1,5 @@
 import Web3 from 'web3'
-import utils from '../../utils'
+import { userIdentification } from '../../utils'
 import config from '../../config'
 
 export default {
@@ -41,7 +41,7 @@ export default {
             coinbase: newCoinbase,
             balance: parseInt(newBalance, 10)
           })
-          rootState.user.type = await utils.userIdentification.userType()
+          rootState.user.type = await userIdentification.userType()
           if(window.location.href !== `${config.HOST}/`) {
             window.location.replace('/')
           }
@@ -57,7 +57,7 @@ export default {
           web3Copy.coinbase = (await web3.eth.getAccounts())[0]
           web3Copy.balance = await web3.eth.getBalance(state.web3.coinbase)
           state.web3 = web3Copy
-          rootState.user.type = await utils.userIdentification.userType()
+          rootState.user.type = await userIdentification.userType()
         } catch (err) {
           console.error(err)
         }

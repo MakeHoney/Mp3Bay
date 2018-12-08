@@ -1,4 +1,4 @@
-import utils from "../../utils"
+import { web3, getContract } from "../../utils"
 
 const state = {
     web3: {
@@ -24,7 +24,7 @@ const mutations = {
         web3Copy.balance = parseInt(result.balance, 10)
         state.web3 = web3Copy
 
-        utils.web3.pollWeb3({ state, rootState })
+        web3.pollWeb3({ state, rootState })
     },
     setContractInstance (state, payload) {
         state.contractInstance = () => payload
@@ -34,19 +34,19 @@ const mutations = {
 const actions = {
     async checkWeb3({ commit, rootState, state }) {
         try {
-            let result = await utils.web3.getWeb3()
+            let result = await web3.getWeb3()
             commit('setWeb3Meta', {
                 result,
                 rootState
             })
         } catch (err) {
             console.log(err)
-            utils.web3.pollWeb3({ state, rootState })
+            web3.pollWeb3({ state, rootState })
         }
     },
     async getContractInstance({ commit }) {
         try {
-            let result = await utils.getContract
+            let result = await getContract
             commit('setContractInstance', result)
         } catch (err) {
             throw console.error('Error in action getContractInstance', err)
