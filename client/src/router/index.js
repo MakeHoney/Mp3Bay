@@ -76,7 +76,7 @@ router.beforeEach(async (to, from, next) => {
             next({ name: 'register-artist' })
         }
     } else if (to.name === 'artists') {
-        await RouteHelper.beforeArtists()
+        // await RouteHelper.beforeArtists()
         next()
     } else if (to.name === 'register-artist') {
         if((await userIdentification.userType()) === 'Artist') {
