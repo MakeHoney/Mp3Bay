@@ -6,9 +6,11 @@
             tag="article"
             class="mb-2">
         <p class="card-text">
-            Zico는 래퍼이다.
+            <!-- 길어지면 ... 표시 -->
+            {{description}}
         </p>
-        <b-button href="#" variant="danger">Go somewhere</b-button>
+        <b-button href="#" variant="danger">Song List</b-button>
+
     </b-card>
 </template>
 
@@ -17,17 +19,18 @@
   export default {
     data() {
       return {
-
+        description: '',
+        pictureHost: ''
       }
     },
     computed: {
       ...mapState([
         'artists',
         'apiHost'
-      ]),
-      pictureHost() {
-        return `${this.apiHost}/artist/load-picture?id=${this.artistID}`
-      }
+      ])
+      // pictureHost() {
+      //   return `${this.apiHost}/artist/load-picture?id=${this.artistID}`
+      // }
     },
     props: {
       artistID: {
@@ -36,6 +39,12 @@
       name: {
         type: String
       }
+    },
+    async mounted () {
+      const url = `${this.apiHost}/artist/load-user-description?id=${this.artistID}`
+      const { data } = await this.$axios.get(url)
+      this.pictureHost = `${this.apiHost}/artist/load-picture?id=${this.artistID}`
+      this.description = data.description
     }
   }
 </script>
