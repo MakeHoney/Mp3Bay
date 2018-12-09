@@ -67,8 +67,8 @@
         } else {
           await this.uploadSong()
           // TODO: progressbar 넣기
-           alert('업로드가 완료되었습니다.')
-           this.$refs.registerForm.hide()
+          alert('업로드가 완료되었습니다.')
+          this.$refs.registerForm.hide()
         }
       },
       async showSongList () {
