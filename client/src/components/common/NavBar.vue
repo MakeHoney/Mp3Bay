@@ -15,13 +15,19 @@
                     <b-nav-item :to="{ name: 'artists' }">Artists</b-nav-item>
                 </b-navbar-nav>
                 <b-navbar-nav v-else="user.type === 'Artist'">
-                    <b-nav-item :to="{ name: 'player' }">Register Song</b-nav-item>
+                    <b-nav-item v-if="user.type === 'Artist'" :to=" { name: 'artist-profile' } ">Artist Page</b-nav-item>
                 </b-navbar-nav>
             </div>
 
             <b-navbar-nav v-if="web3.web3Instance" class="ml-auto">
                 <!-- make condition -->
-                <b-nav-item v-if="user.type === 'Artist'" :to=" { name: 'artist-profile' } ">Artist Page</b-nav-item>
+                <b-nav-form>
+                    <b-button size="sm"
+                              variant="outline-dark"
+                              class="nav-button"
+                              @click="">Get BAT!
+                    </b-button>
+                </b-nav-form>
 
                 <b-nav-item-dropdown text="유저 정보" right>
                     <b-dropdown-item href="#">Network: {{ web3.networkID }}</b-dropdown-item>
@@ -36,16 +42,16 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    export default {
-        name: 'nav-bar',
-        computed: {
-            ...mapState({
-                web3: state => state.blockSync.web3,
-                user: state => state.user
-            })
-        }
+  import { mapState } from 'vuex'
+  export default {
+    name: 'nav-bar',
+    computed: {
+      ...mapState({
+        web3: state => state.blockSync.web3,
+        user: state => state.user
+      })
     }
+  }
 </script>
 
 <style>
