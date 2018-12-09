@@ -9,7 +9,7 @@
             <!-- 길어지면 ... 표시 -->
             {{description}}
         </p>
-        <b-button variant="danger" @click="triggerArtistDetail">Song List</b-button>
+        <b-button variant="danger" @click="triggerArtistDetail">Detail</b-button>
     </b-card>
 </template>
 
