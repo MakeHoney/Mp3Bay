@@ -11,11 +11,13 @@
                 </template>
             </b-card-group>
         </div>
+        <artist-detail/>
     </div>
 </template>
 
 <script>
   import { mapState, mapGetters } from 'vuex'
+  import ArtistDetail from './ArtistDetail'
   import Artist from '@/components/Artist'
   export default {
     name: 'artists',
@@ -36,7 +38,8 @@
 
     },
     components: {
-      Artist
+      Artist,
+      ArtistDetail
     },
     async beforeCreate() {
       await this.$store.dispatch('getArtists')
