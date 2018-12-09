@@ -9,8 +9,7 @@
             <!-- 길어지면 ... 표시 -->
             {{description}}
         </p>
-        <b-button href="#" variant="danger">Song List</b-button>
-
+        <b-button variant="danger" @click="triggerArtistDetail">Song List</b-button>
     </b-card>
 </template>
 
@@ -31,6 +30,16 @@
       // pictureHost() {
       //   return `${this.apiHost}/artist/load-picture?id=${this.artistID}`
       // }
+    },
+    methods: {
+      triggerArtistDetail () {
+        this.$EventBus.$emit('detailButtonClicked', {
+          name: this.name,
+          description: this.description,
+          pictureHost: this.pictureHost,
+          artistID: this.artistID
+        })
+      }
     },
     props: {
       artistID: {
