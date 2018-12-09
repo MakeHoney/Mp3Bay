@@ -20,7 +20,7 @@ export const event = {
   async getDataFromEvents (eventName, events) {
     const keyLists = {
       SongCreated: [ 'songID', 'ipfsHash', 'title' ],
-      ArtistCreated: [ 'artistID', 'pictureHash' ]
+      ArtistCreated: [ 'artistID', 'userInfoHash' ]
     }
     const keyList = keyLists[eventName].slice()
     let result = []

@@ -1,6 +1,7 @@
 <template>
     <div class="artists">
-        <h1>This page will show the list of registered artists</h1>
+        <h1 id="page-title">Artists Registered</h1>
+        <hr id="page-border">
         <div>
             <b-card-group columns>
                 <template v-for="idx in artists.length">
@@ -11,11 +12,13 @@
                 </template>
             </b-card-group>
         </div>
+        <artist-detail/>
     </div>
 </template>
 
 <script>
   import { mapState, mapGetters } from 'vuex'
+  import ArtistDetail from './ArtistDetail'
   import Artist from '@/components/Artist'
   export default {
     name: 'artists',
@@ -36,7 +39,8 @@
 
     },
     components: {
-      Artist
+      Artist,
+      ArtistDetail
     },
     async beforeCreate() {
       await this.$store.dispatch('getArtists')
@@ -59,5 +63,13 @@
         -moz-transform: scale(1.03);
         -ms-transform: scale(1.03);
         -o-transform: scale(1.03);
+    }
+    #page-title {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+    #page-border {
+        border-color: red;
     }
 </style>

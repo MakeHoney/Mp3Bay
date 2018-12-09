@@ -22,7 +22,7 @@ export default {
     const keyLists = {
       SongCreated: [ 'songID', 'ipfsHash', 'title' ],
       // need description
-      ArtistCreated: [ 'artistID', 'pictureHash', 'name' ]
+      ArtistCreated: [ 'artistID', 'userInfoHash', 'name' ]
     }
     const keyList = keyLists[eventName].slice()
     let result = []
