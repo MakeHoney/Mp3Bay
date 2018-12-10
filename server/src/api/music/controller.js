@@ -21,12 +21,39 @@ export const controller = {
       })
     }
   },
+  async loadSongMetaData (req, res) {
+    const songID = [parseInt(req.query.id)]
+    try {
+      const filter = { songID }
+
+      const events = await utils.event.getEventsFromBlock('SongCreated', filter)
+      const songs = await utils.event.getDataFromEvents('SongCreated', events)
+      const ipfsHash = songs[0].ipfsHash
+
+      const { description, youtubeKey } = await utils.lib.ipfsService.loadObjFromFile(ipfsHash)
+
+      res.json({
+        description,
+        youtubeKey
+      })
+    } catch (err) {
+      res.status(500).json({
+        message: err.message
+      })
+    }
+  },
   async registerSong (req, res) {
     try {
-      const file = req.file.buffer
+      const audio = req.files['audioFile'][0].buffer
       const title = req.body.title
       const userAccount = req.body.userAccount
-      const ipfsHash = await utils.lib.ipfsService.saveObjAsFile({ audio: file })
+      const description = req.body.description
+      const youtubeKey = req.body.youtubeKey
+      const ipfsHash = await utils.lib.ipfsService.saveObjAsFile({
+        audio,
+        description,
+        youtubeKey
+      })
       console.log(ipfsHash)
 
       // save into blockchain
