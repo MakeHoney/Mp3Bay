@@ -5,9 +5,10 @@ export const controller = {
     try {
       const picture = req.files['picture'][0].buffer
       const description = req.body.description
-      console.log(picture)
-      console.log(description)
-      const ipfsHash = await utils.lib.ipfsService.saveObjAsFile({ picture, description})
+      const ipfsHash = await utils.lib.ipfsService.saveObjAsFile({
+        picture,
+        description
+      })
       res.json({
         ipfsHash
       })
