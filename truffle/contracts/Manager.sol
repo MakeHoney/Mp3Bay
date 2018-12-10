@@ -4,6 +4,7 @@ import "./Ownable.sol";
 import "./Artist.sol";
 import "./Listener.sol";
 import "./SongLib.sol";
+import "./BayToken.sol";
 
 contract Manager is Ownable {
     event ListenerCreated(address listenerAccount, address listenerAddr, string name);
@@ -14,6 +15,28 @@ contract Manager is Ownable {
     mapping (string => address) artistNameToArtistAccount;
 
     address[] public allArtistsAddrs;
+
+    constructor(address _tokenAddr) public payable {
+        setTokenAddr(_tokenAddr);
+        owner = getOwner();
+    }
+
+    BayToken public tokenAddr;
+    address internal owner;
+
+    function setTokenAddr(address _tokenAddr) public onlyOwner {
+        tokenAddr = BayToken(_tokenAddr);
+    }
+
+    function buyToken() public payable {
+        require(msg.value > 0);
+        uint token = msg.value;
+        owner.transfer(msg.value);
+        for(uint i = 0; i < 14; i++) {
+            token = token / 10;
+        }
+        tokenAddr.transferFrom(owner, msg.sender, token);
+    }
 
     // Artist
     // TODO: addressing exception for same name of user
