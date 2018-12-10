@@ -21,11 +21,9 @@ export default new Vuex.Store({
       addresses: null,
       names: null
     },
-    listeners: {
-
-    },
     apiHost: config.API_HOST,
-    artists: []
+    artists: [],
+    playList: []
   },
   mutations: {
     setArtistAddresses(state, payload) {
@@ -35,7 +33,11 @@ export default new Vuex.Store({
       state.artist.names = payload
     },
     setArtists(state, payload) {
+      console.log(payload)
       state.artists = payload
+    },
+    setPlayList(state, payload) {
+      state.playList = payload
     }
   },
   actions: {
@@ -54,7 +56,27 @@ export default new Vuex.Store({
       const eventName = 'ArtistCreated'
       const events = await blockEvent.getEventsFromBlock(eventName)
       const artists = await blockEvent.getDataFromEvents(eventName, events)
+      // state.artists.length = 0
+      // artists.reverse()
       commit('setArtists', artists)
+    },
+    async initPlayList ({ commit, state }) {
+      const songIDList = await state.blockSync.contractInstance().methods
+        .getSongIDsByListenerAcc().call({
+        from: state.blockSync.web3.coinbase
+      })
+      const list = []
+      songIDList.forEach(async songID => {
+        const song = await state.blockSync.contractInstance().methods
+          .getSongBySongID(songID).call()
+        list.push({
+          title: song.title,
+          artist: song.artistName,
+          src: `${config.API_HOST}/music/load-song?id=${songID}`,
+          pic: `${config.API_HOST}/artist/load-picture?id=${song.artistID}`
+        })
+      })
+      commit('setPlayList', list)
     }
   }
 })
