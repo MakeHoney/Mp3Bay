@@ -38,6 +38,10 @@ contract Manager is Ownable {
         tokenAddr.transferFrom(owner, msg.sender, token);
     }
 
+    function balanceOf() public view returns (uint256) {
+        return tokenAddr.balanceOf(msg.sender);
+    }
+
     // Artist
     // TODO: addressing exception for same name of user
     function registerArtist(string _name, string userInfoHash) external {
