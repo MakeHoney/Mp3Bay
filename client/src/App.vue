@@ -29,7 +29,7 @@
     async created () {
       await this.$store.dispatch('blockSync/checkWeb3')
       await this.$store.dispatch('blockSync/getContractInstance')
-
+      await this.$store.dispatch('initPlayList')
     }
   }
 </script>
