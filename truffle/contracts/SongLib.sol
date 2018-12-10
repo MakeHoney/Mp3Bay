@@ -8,8 +8,4 @@ library SongLib {
         uint artistID;
         // uint price;
     }
-
-    struct MapSong {
-        mapping (uint => Song) songIDToSong;
-    }
 }

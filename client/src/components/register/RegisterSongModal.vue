@@ -1,44 +1,55 @@
 <template>
     <div>
         <div>
-            <b-button @click="showRegisterForm">
-                곡 등록
+            <b-button @click="showRegisterForm"
+                      variant="danger"
+                      style="margin: 10px">
+                Register Song
             </b-button>
-            <b-button @click="showSongList">
-                등록한 음악
+            <b-button @click="showSongList"
+                      variant="danger"
+                      style="margin: 10px">
+                My Song
             </b-button>
         </div>
 
-        <b-modal ref="registerForm" hide-footer title="곡 등록">
+        <b-modal ref="registerForm" hide-footer title="Register Song">
             <div class="d-block text-center">
                 <b-row class="my-1">
-                    <b-col sm="2"><label>Title:</label></b-col>
+                    <b-col sm="2">Title</b-col>
                     <b-col sm="9">
                         <b-form-input id="input-songTitle"
                                       type="text"
+                                      placeholder="Song title"
                                       v-model="title">
                         </b-form-input>
                     </b-col>
                 </b-row>
 
                 <b-row class="my-1">
-                    <b-col sm="2"><label>File:</label></b-col>
+                    <b-col sm="2">File</b-col>
                     <b-col sm="9">
-                        <input type="file" @change="onFileSelected">
+                        <b-form-file v-model="file"
+                                     :state="Boolean(selectedFile)"
+                                     placeholder="Choose a file..."
+                                     @change="onFileSelected">
+                        </b-form-file>
+
+                        <!--<input type="file" @change="onFileSelected">-->
                     </b-col>
                 </b-row>
             </div>
-            <b-btn class="mt-3" variant="outline-danger" block @click="submitUploadForm">등록</b-btn>
+            <b-btn class="mt-3" variant="outline-danger" block @click="submitUploadForm">Register</b-btn>
         </b-modal>
 
-        <b-modal ref="songList" hide-footer title="나의 음악">
+        <b-modal ref="songList" hide-footer title="My Song">
             <div class="d-block text-center">
-                <h3>{{user.name}}님이 등록한 음악</h3>
+                <h3>{{user.name}}'s Song List</h3>
                 <div v-for="songTitle in songTitleList">
                     <p>{{ songTitle }}</p>
                 </div>
             </div>
-            <b-btn class="mt-3" variant="outline-danger" block @click="hideSongList">닫기</b-btn>
+            <b-btn class="mt-3" variant="outline-danger" block @click="hideSongList">Close</b-btn>
         </b-modal>
     </div>
 </template>
@@ -61,13 +72,13 @@
       },
       async submitUploadForm () {
         if (!this.title) {
-          alert('제목을 입력해주세요.')
+          alert('Type the title')
         } else if (!this.selectedFile) {
-          alert('음원파일을 선택해주세요.')
+          alert('Select the audio file')
         } else {
           await this.uploadSong()
           // TODO: progressbar 넣기
-          alert('업로드가 완료되었습니다.')
+          alert('Complete upload')
           this.$refs.registerForm.hide()
         }
       },

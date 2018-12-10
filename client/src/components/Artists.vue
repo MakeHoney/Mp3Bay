@@ -65,11 +65,17 @@
         -o-transform: scale(1.03);
     }
     #page-title {
+        font: 50px/1.2 'Oleo Script', Helvetica, sans-serif;
         text-align: center;
-        font-weight: bold;
         margin-top: 20px;
     }
     #page-border {
         border-color: red;
+    }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 1.5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
     }
 </style>

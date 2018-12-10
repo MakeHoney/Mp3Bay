@@ -2,11 +2,11 @@ pragma solidity ^0.4.23;
 
 import "./SongLib.sol";
 import "./Manager.sol";
+import "./BayToken.sol";
 
 /*
     TODO: memory <-> storage
     view / pure / external / internal
-
 */
 
 contract SongManager is Manager {
@@ -15,12 +15,12 @@ contract SongManager is Manager {
 
     SongLib.Song[] public songs;
 
-    mapping (address => SongLib.MapSong) listenerAccountToSongs;
+    mapping (address => mapping(uint => bool)) public listenerAccountToSongs;
     mapping (address => uint) public listenerAccountToSongCount;
     mapping (uint => address) public songIDToArtistAccount;
     mapping (address => uint) public artistAccountToSongCount;
 
-    constructor() public payable {}
+    constructor(address _tokenAddr) Manager(_tokenAddr) public {}
 
     modifier onlyArtist(address _artistAccount) {
         require(accountToArtistAddr[_artistAccount] != 0, "msg.sender isn't artist!");
@@ -38,9 +38,13 @@ contract SongManager is Manager {
         Artist artist = Artist(accountToArtistAddr[msg.sender]);
         SongLib.Song memory song = SongLib.Song(id, artist.getName(), _title, artist.getID());
         songs.push(song);
+
         // add song into artist' song list.
         songIDToArtistAccount[id] = msg.sender;
         artistAccountToSongCount[msg.sender]++;
+
+        // Offer token as rewards
+        tokenAddr.transferFrom(owner, msg.sender, 10);
 
         emit SongCreated(id, _title, _ipfsHash);
     }
@@ -49,25 +53,16 @@ contract SongManager is Manager {
         // pay for music
 
         // wrong condition sentence (id == 100) need to be changed
-        require(listenerAccountToSongs[msg.sender].songIDToSong[_id].id == 100, "the song already exsits!");
-        require(msg.value == 1 ether, "not enough or too much ether to buy a song!");
+        // require(listenerAccountToSongs[msg.sender].songIDToSong[_id].id == 100, "the song already exsits!");
+        // require(msg.value == 1 ether, "not enough or too much ether to buy a song!");
         address artistAccount = songIDToArtistAccount[_id];
         artistAccount.transfer(msg.value);
 
-
-        /*  error : The constructor should be payable if you send value.
-
-        address _contract = this;
-        uint fee = 10;
-        uint toArtist = msg.value * (100 - fee) / 10;
-        uint toPlatform = msg.value - toArtist;
-
-        artistAccount.transfer(toArtist);
-        _contract.transfer(toPlatform);
-        */
+        // Pay 100 token to artist
+        tokenAddr.transferFrom(msg.sender, artistAccount, 100);
 
         // add song into listener' song list.
-        listenerAccountToSongs[msg.sender].songIDToSong[_id] = songs[_id];
+        listenerAccountToSongs[msg.sender][_id] = true;
         listenerAccountToSongCount[msg.sender]++;
     }
 
@@ -87,13 +82,12 @@ contract SongManager is Manager {
         return songIDs;
     }
 
-    function getSongIDsByArtistName(string _name) public view returns (uint[]) {
-        address artistAccount = artistNameToArtistAccount[_name];
-        uint[] memory songIDs = new uint[](artistAccountToSongCount[artistAccount]);
+    function getSongIDsByListenerAcc() public view returns (uint[]) {
+        uint[] memory songIDs = new uint[](listenerAccountToSongCount[msg.sender]);
         uint count = 0;
 
         for(uint i = 0; i < songs.length; i++) {
-            if(songIDToArtistAccount[i] == artistAccount) {
+            if(listenerAccountToSongs[msg.sender][i]) {
                 songIDs[count++] = i;
             }
         }
