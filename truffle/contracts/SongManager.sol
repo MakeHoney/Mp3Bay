@@ -7,7 +7,6 @@ import "./BayToken.sol";
 /*
     TODO: memory <-> storage
     view / pure / external / internal
-
 */
 
 contract SongManager is Manager {
@@ -21,17 +20,7 @@ contract SongManager is Manager {
     mapping (uint => address) public songIDToArtistAccount;
     mapping (address => uint) public artistAccountToSongCount;
 
-    constructor(address _tokenAddr) public payable {
-        setTokenAddr(_tokenAddr);
-        owner = getOwner();
-    }
-
-    BayToken public tokenAddr;
-    address private owner;
-
-    function setTokenAddr(address _tokenAddr) public onlyOwner {
-        tokenAddr = BayToken(_tokenAddr);
-    }
+    constructor(address _tokenAddr) Manager(_tokenAddr) public {}
 
     modifier onlyArtist(address _artistAccount) {
         require(accountToArtistAddr[_artistAccount] != 0, "msg.sender isn't artist!");
