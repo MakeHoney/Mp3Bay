@@ -8,56 +8,33 @@
                 <h5 id="dsecription">{{ description }}</h5>
                 <hr>
                 <h3>Tracks</h3>
-                <div v-for="song in songList">
-                    <p>
-                        <a href="#" id="song-title">{{ song.title }}</a>
-                        <b-button v-if="!mySongIDList.includes(song.songID)"
-                                  variant="danger"
-                                  size="sm"
-                                  @click="buySong(song.songID)">Buy
-                        </b-button>
-                    </p>
-                </div>
                 <div role="tablist">
-                    <b-card no-body class="mb-1">
-                        <b-card-header header-tag="header" class="p-1" role="tab">
-                            <b-btn block href="#" v-b-toggle.accordion1 variant="info">Accordion 1</b-btn>
-                        </b-card-header>
-                        <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
-                            <b-card-body>
-                                <p class="card-text">
-                                    I start opened because <code>visible</code> is <code>true</code>
-                                </p>
-                                <p class="card-text">
-                                    text
-                                </p>
-                            </b-card-body>
-                        </b-collapse>
-                    </b-card>
-                    <b-card no-body class="mb-1">
-                        <b-card-header header-tag="header" class="p-1" role="tab">
-                            <b-btn block href="#" v-b-toggle.accordion2 variant="info">Accordion 2</b-btn>
-                        </b-card-header>
-                        <b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">
-                            <b-card-body>
-                                <p class="card-text">
-                                    text
-                                </p>
-                            </b-card-body>
-                        </b-collapse>
-                    </b-card>
-                    <b-card no-body class="mb-1">
-                        <b-card-header header-tag="header" class="p-1" role="tab">
-                            <b-btn block href="#" v-b-toggle.accordion3 variant="info">Accordion 3</b-btn>
-                        </b-card-header>
-                        <b-collapse id="accordion3" accordion="my-accordion" role="tabpanel">
-                            <b-card-body>
-                                <p class="card-text">
-                                    text
-                                </p>
-                            </b-card-body>
-                        </b-collapse>
-                    </b-card>
+                    <div v-for="song in songList">
+                        <b-card no-body class="mb-1">
+                            <b-card-header header-tag="header" class="p-1" role="tab">
+                                <b-btn block href="#" v-b-toggle="song.songID" variant="danger">{{song.title}}</b-btn>
+                            </b-card-header>
+                            <b-collapse :id="song.songID" accordion="my-accordion" role="tabpanel">
+                                <b-card-body>
+                                    <div id="song-desc">
+                                        <p>Description</p>
+                                        <p>{{ song.description }}</p>
+                                        <hr>
+                                        <p></p>
+                                        <p>Music Video</p>
+                                        <p class="card-text">
+                                            <youtube :video-id="song.youtubeKey"/>
+                                        </p>
+                                    </div>
+                                    <b-button v-if="!mySongIDList.includes(song.songID)"
+                                              variant="danger"
+                                              size="sm"
+                                              @click="buySong(song.songID)">Buy
+                                    </b-button>
+                                </b-card-body>
+                            </b-collapse>
+                        </b-card>
+                    </div>
                 </div>
             </div>
         </b-modal>
@@ -66,6 +43,7 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
+  import config from '../config'
   export default {
     data () {
       return {
@@ -94,6 +72,9 @@
         this.mySongIDList = await this.contractMethods.getSongIDsByListenerAcc().call({
           from: this.web3.coinbase
         })
+
+        await this.$store.dispatch('initPlayList')
+
         alert('Complete payment')
         this.$refs.createForm.hide()
       },
@@ -106,10 +87,18 @@
         this.artistID = artistID
         const songIDList = await this.contractMethods.getSongIDsByArtistID(artistID).call()
         songIDList.forEach(async songID => {
+          const url = `${config.API_HOST}/music/load-song-meta?id=${songID}`
           const song = await this.contractMethods
             .getSongBySongID(songID).call()
-          this.songList.push({ songID, title: song.title })
+          const { data } = await this.$axios.get(url)
+          this.songList.push({
+            songID,
+            title: song.title,
+            description: data.description,
+            youtubeKey: data.youtubeKey
+          })
         })
+        this.songList.reverse()
         this.$refs.createForm.show()
       }
     },
@@ -127,10 +116,13 @@
     #modal{
         font: 50px/1.2 'Oleo Script', Helvetica, sans-serif;
     }
-    #dsecription, #song-title {
+    #dsecription, #song-desc {
         font-family: 'Nanum Myeongjo';
         font-size: 18px;
         font-weight: bold;
+    }
+    #song-desc hr {
+        border-color: red;
     }
     #artist-pic {
         max-width: 30rem;
