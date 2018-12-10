@@ -6,14 +6,11 @@ import store from '@/store'
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-// store.dispatch('blockSync/checkWeb3')
-// store.dispatch('blockSync/getContractInstance')
-
 // using style-loader
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
+Vue.prototype.$EventBus = new Vue()
 Vue.use(BootstrapVue);
 
 new Vue({
