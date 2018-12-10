@@ -21,7 +21,6 @@ class IpfsService {
     } else {
       file = new Blob([JSON.stringify(obj)])
     }
-    // console.log(file)
     const ipfsHash = await this.saveFile(file)
 
     // Caching
@@ -34,7 +33,6 @@ class IpfsService {
     try {
       const formData = new FormData()
       formData.append('file', file)
-      console.log(formData)
       const rawRes = await fetch(`${this.api}/api/v0/add`, {
         method: 'POST',
         body: formData

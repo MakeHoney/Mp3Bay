@@ -22,18 +22,11 @@
   import Artist from '@/components/Artist'
   export default {
     name: 'artists',
-    data() {
-      return {
-      }
-    },
     computed: {
       ...mapState([
         'artists',
         'apiHost'
       ]),
-      iteration () {
-        this.artists.length
-      }
     },
     methods: {
 

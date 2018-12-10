@@ -1,37 +1,37 @@
 <template>
-  <div id="app">
-      <nav-bar/>
-      <div class="container">
-          <keep-alive include="player">
-              <transition name="router-anim">
-                  <router-view></router-view>
-              </transition>
-          </keep-alive>
-      </div>
-  </div>
+    <div id="app">
+        <nav-bar/>
+        <div class="container">
+            <keep-alive include="player">
+                <transition name="router-anim">
+                    <router-view></router-view>
+                </transition>
+            </keep-alive>
+        </div>
+    </div>
 </template>
 
 <script>
-    import NavBar from './components/common/NavBar'
-    import { mapState } from 'vuex'
-    export default {
-        name: 'app',
-        computed: {
-            ...mapState({
-                user: state => state.user,
-                contractInstance: state => state.blockSync.contractInstance
-            })
-        },
-        components: {
-            NavBar
-        },
-        async created () {
-            await this.$store.dispatch('blockSync/checkWeb3')
-            await this.$store.dispatch('blockSync/getContractInstance')
-        }
+  import NavBar from './components/common/NavBar'
+  import { mapState } from 'vuex'
+  export default {
+    name: 'app',
+    computed: {
+      ...mapState({
+        user: state => state.user,
+        contractInstance: state => state.blockSync.contractInstance
+      })
+    },
+    components: {
+      NavBar
+    },
+    async created () {
+      await this.$store.dispatch('blockSync/checkWeb3')
+      await this.$store.dispatch('blockSync/getContractInstance')
+      await this.$store.dispatch('initPlayList')
     }
+  }
 </script>
-
 
 <style>
     @import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";

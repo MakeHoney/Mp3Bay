@@ -5,7 +5,8 @@ const state = {
         web3Instance: null,
         networkID: null,
         coinbase: null,
-        balance: null
+        balance: null,
+        batBalance: null
     },
     contractInstance: null
 }
@@ -27,7 +28,9 @@ const mutations = {
         web3.pollWeb3({ state, rootState })
     },
     setContractInstance (state, payload) {
-        state.contractInstance = () => payload
+        const { contractInstance, batBalance } = payload
+        state.contractInstance = () => contractInstance
+        state.web3.batBalance = batBalance
     }
 }
 
@@ -40,14 +43,19 @@ const actions = {
                 rootState
             })
         } catch (err) {
-            console.log(err)
             web3.pollWeb3({ state, rootState })
         }
     },
-    async getContractInstance({ commit }) {
+    async getContractInstance({ commit, state }) {
         try {
-            let result = await getContract
-            commit('setContractInstance', result)
+            const contractInstance = await getContract
+            const batBalance = await contractInstance.methods.balanceOf().call({
+                from: state.web3.coinbase
+            })
+            commit('setContractInstance', {
+                contractInstance,
+                batBalance
+            })
         } catch (err) {
             throw console.error('Error in action getContractInstance', err)
         }

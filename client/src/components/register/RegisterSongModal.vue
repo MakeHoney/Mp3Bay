@@ -25,11 +25,32 @@
                         </b-form-input>
                     </b-col>
                 </b-row>
+                <b-row class="my-1">
+                    <b-col sm="2">Desc</b-col>
+                    <b-col sm="9">
+                        <b-form-textarea id="input-songDesc"
+                                         :rows="5"
+                                         :max-rows="20"
+                                         placeholder="Song description"
+                                         v-model="description">
+                        </b-form-textarea>
+                    </b-col>
+                </b-row>
+                <b-row class="my-1">
+                    <b-col sm="2">MV Youtube Key</b-col>
+                    <b-col sm="9">
+                        <b-form-input id="input-youtubeKey"
+                                      type="text"
+                                      placeholder="Youtube key"
+                                      v-model="youtubeKey">
+                        </b-form-input>
+                    </b-col>
+                </b-row>
 
                 <b-row class="my-1">
                     <b-col sm="2">File</b-col>
                     <b-col sm="9">
-                        <b-form-file v-model="file"
+                        <b-form-file v-model="selectedFile"
                                      :state="Boolean(selectedFile)"
                                      placeholder="Choose a file..."
                                      @change="onFileSelected">
@@ -61,6 +82,8 @@
     data() {
       return {
         title: '',
+        description: '',
+        youtubeKey: '',
         songTitleList: [],
         selectedFile: null
       }
@@ -75,6 +98,8 @@
           alert('Type the title')
         } else if (!this.selectedFile) {
           alert('Select the audio file')
+        } else if (!this.description) {
+          alert('Give some description on the song')
         } else {
           await this.uploadSong()
           // TODO: progressbar 넣기
@@ -101,6 +126,8 @@
         const url = `${config.API_HOST}/music/save`
         formData.append('userAccount', this.web3.coinbase)
         formData.append('title', this.title)
+        formData.append('description', this.description)
+        formData.append('youtubeKey', this.youtubeKey)
         formData.append('audioFile', this.selectedFile)
         const { data } = await this.$axios.post(url, formData)
         return data.ipfsHash
@@ -115,6 +142,8 @@
       clearForm () {
         this.title = ''
         this.selectedFile = null
+        this.description = ''
+        this.youtubeKey = ''
       }
     },
     computed: {

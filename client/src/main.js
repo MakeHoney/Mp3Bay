@@ -3,7 +3,8 @@ import axios from 'axios'
 import App from './App.vue'
 import router from '@/router'
 import store from '@/store'
-import BootstrapVue from 'bootstrap-vue';
+import BootstrapVue from 'bootstrap-vue'
+import VueYoutube from 'vue-youtube'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 // using style-loader
@@ -11,7 +12,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.prototype.$EventBus = new Vue()
-Vue.use(BootstrapVue);
+Vue.use(VueYoutube)
+Vue.use(BootstrapVue)
 
 new Vue({
     router,

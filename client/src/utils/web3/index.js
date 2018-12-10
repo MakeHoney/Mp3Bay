@@ -35,11 +35,17 @@ export default {
         // loop for account is changed
       } else if (state.web3.web3Instance && ((await web3.eth.getAccounts())[0] !== state.web3.coinbase)) {
         try {
-          let newCoinbase = (await web3.eth.getAccounts())[0]
-          let newBalance = await web3.eth.getBalance(newCoinbase)
+          const newCoinbase = (await web3.eth.getAccounts())[0]
+          const newBalance = await web3.eth.getBalance(newCoinbase)
+          console.log(state.web3.web3Instance())
+          const newBatBalance = await state.contractInstance()
+            .methods.balanceOf().call({
+            from: newCoinbase
+          })
           changeCoinbase(state, {
             coinbase: newCoinbase,
-            balance: parseInt(newBalance, 10)
+            balance: newBalance,
+            batBalance: newBatBalance
           })
           rootState.user.type = await userIdentification.userType()
           if(window.location.href !== `${config.HOST}/`) {
@@ -56,6 +62,10 @@ export default {
           web3Copy.networkID = await web3.eth.net.getNetworkType()
           web3Copy.coinbase = (await web3.eth.getAccounts())[0]
           web3Copy.balance = await web3.eth.getBalance(state.web3.coinbase)
+          web3Copy.batBalance = await state.contractInstance()
+            .methods.balanceOf().call({
+              from: web3Copy.coinbase
+            })
           state.web3 = web3Copy
           rootState.user.type = await userIdentification.userType()
         } catch (err) {
@@ -69,6 +79,7 @@ export default {
 const changeCoinbase = (state, payload) => {
   state.web3.coinbase = payload.coinbase
   state.web3.balance = parseInt(payload.balance, 10)
+  state.web3.batBalance = parseInt(payload.batBalance, 10)
 }
 
 const clearWeb3Instance = state => {
@@ -76,6 +87,7 @@ const clearWeb3Instance = state => {
   state.web3.networkID = null
   state.web3.coinbase = null
   state.web3.balance = null
+  state.web3.batBalance = null
 }
 
 const clearUserInfo = rootState => {
