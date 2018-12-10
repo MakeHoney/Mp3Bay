@@ -16,19 +16,26 @@
         <b-modal ref="registerForm" hide-footer title="Register Song">
             <div class="d-block text-center">
                 <b-row class="my-1">
-                    <b-col sm="2"><label>Title:</label></b-col>
+                    <b-col sm="2">Title</b-col>
                     <b-col sm="9">
                         <b-form-input id="input-songTitle"
                                       type="text"
+                                      placeholder="Song title"
                                       v-model="title">
                         </b-form-input>
                     </b-col>
                 </b-row>
 
                 <b-row class="my-1">
-                    <b-col sm="2"><label>File:</label></b-col>
+                    <b-col sm="2">File</b-col>
                     <b-col sm="9">
-                        <input type="file" @change="onFileSelected">
+                        <b-form-file v-model="file"
+                                     :state="Boolean(selectedFile)"
+                                     placeholder="Choose a file..."
+                                     @change="onFileSelected">
+                        </b-form-file>
+
+                        <!--<input type="file" @change="onFileSelected">-->
                     </b-col>
                 </b-row>
             </div>

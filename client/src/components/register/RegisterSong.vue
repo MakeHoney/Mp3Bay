@@ -1,15 +1,15 @@
 <template>
-    <div class="artist-profile">
+    <div class="register-song">
         <h1 id="page-title">Register Song</h1>
         <hr id="page-border">
         <li id="artist-name">Artist Name: {{ name }}</li>
         <li id="artist-wallet">Wallet: {{ account }}</li>
-        <modal id="register-button"/>
+        <register-song-modal id="register-button"/>
     </div>
 </template>
 
 <script>
-import Modal from './Modal.vue'
+import RegisterSongModal from './RegisterSongModal.vue'
 import { mapState } from 'vuex'
 import { RouteHelper } from '../../router/helpers'
 export default {
@@ -25,7 +25,7 @@ export default {
         ])
     },
     components: {
-        Modal
+      RegisterSongModal
     },
     async mounted() {
         let { name } = await RouteHelper.getArtistInfoByArtistAcc(this.web3.coinbase)
