@@ -1,8 +1,7 @@
 <template>
     <div id="app">
         <nav-bar/>
-        <div clas1s="container">
-            <!--<player/>-->
+        <div class="container">
             <keep-alive include="player">
                 <transition name="router-anim">
                     <router-view></router-view>
@@ -33,7 +32,6 @@
     }
   }
 </script>
-
 
 <style>
     @import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
