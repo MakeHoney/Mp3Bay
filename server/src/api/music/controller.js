@@ -12,7 +12,7 @@ export const controller = {
       const ipfsHash = songs[0].ipfsHash
 
       const { audio } = await utils.lib.ipfsService.loadObjFromFile(ipfsHash)
-      const file = Buffer.from(audio.data)
+      const file = Buffer.from(audio)
 
       res.send(file)
     } catch (err) {
