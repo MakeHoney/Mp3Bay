@@ -15,34 +15,36 @@
                     <b-nav-item :to="{ name: 'artists' }">Artists</b-nav-item>
                 </b-navbar-nav>
                 <b-navbar-nav v-else="user.type === 'Artist'">
-                    <b-nav-item v-if="user.type === 'Artist'" :to=" { name: 'artist-profile' } ">Artist Page</b-nav-item>
+                    <b-nav-item v-if="user.type === 'Artist'" :to=" { name: 'register-song' } ">Register Song</b-nav-item>
                 </b-navbar-nav>
             </div>
 
             <b-navbar-nav v-if="web3.web3Instance" class="ml-auto">
-                <!-- make condition -->
                 <b-nav-form>
                     <b-button size="sm"
                               variant="outline-dark"
                               class="nav-button"
-                              @click="">Get BAT!
+                              @click="triggerGetBAT">
+                        Get BAT
                     </b-button>
                 </b-nav-form>
 
-                <b-nav-item-dropdown text="유저 정보" right>
-                    <b-dropdown-item href="#">Network: {{ web3.networkID }}</b-dropdown-item>
-                    <b-dropdown-item href="#">Account: {{ web3.coinbase }}</b-dropdown-item>
-                    <b-dropdown-item href="#">Balance: {{ web3.balance }} Wei</b-dropdown-item>
-                    <b-dropdown-item href="#">type: {{ user.type }}</b-dropdown-item>
-                    <b-dropdown-item href="#">name: {{ user.name }}</b-dropdown-item>
+                <b-nav-item-dropdown text="User Info" right>
+                    <b-dropdown-item>Network: {{ web3.networkID }}</b-dropdown-item>
+                    <b-dropdown-item>Account: {{ web3.coinbase }}</b-dropdown-item>
+                    <b-dropdown-item>Balance: {{ web3.balance }} Wei</b-dropdown-item>
+                    <b-dropdown-item>type: {{ user.type }}</b-dropdown-item>
+                    <b-dropdown-item>name: {{ user.name }}</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>
         </b-collapse>
+        <get-bat/>
     </b-navbar>
 </template>
 
 <script>
   import { mapState } from 'vuex'
+  import GetBat from './GetBat'
   export default {
     name: 'nav-bar',
     computed: {
@@ -50,6 +52,14 @@
         web3: state => state.blockSync.web3,
         user: state => state.user
       })
+    },
+    methods: {
+      triggerGetBAT () {
+        this.$EventBus.$emit('getBATButtonClicked')
+      }
+    },
+    components: {
+      GetBat
     }
   }
 </script>
