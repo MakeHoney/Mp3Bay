@@ -10,7 +10,7 @@ import Artists from '@/components/Artists'
 import Artist from '@/components/Artist'
 import RegisterArtist from '@/components/register/RegisterArtist'
 import RegisterListener from '@/components/register/RegisterListener'
-import ArtistProfile from '@/components/artist-profile/Index'
+import RegisterSong from '@/components/register/RegisterSong'
 
 Vue.use(Router)
 
@@ -40,9 +40,9 @@ const router = new Router({
         },
         {
             // URL 수정 필요
-            path: '/artist/profile',
-            name: 'artist-profile',
-            component: ArtistProfile
+            path: '/artist/register-song',
+            name: 'register-song',
+            component: RegisterSong
         },
         {
             path: '/register-artist',
@@ -68,7 +68,7 @@ router.beforeEach(async (to, from, next) => {
     }
 
     // change this with switch statement
-    if(to.name === 'artist-profile') {
+    if(to.name === 'register-song') {
         if((await userIdentification.userType()) === 'Artist') {
             next()
         } else {
@@ -87,7 +87,7 @@ router.beforeEach(async (to, from, next) => {
             아티스트명: ${name}\n
             아티스트 ID: ${id}`)
 
-            next({ name: 'artist-profile' })
+            next({ name: 'register-song' })
         } else {
             next()
         }
