@@ -65,17 +65,21 @@
     },
     methods: {
       async buySong (songID) {
-        await this.contractMethods.buySong(songID).send({
-          from: this.web3.coinbase,
-          gas: 200000
-        })
-        this.mySongIDList = await this.contractMethods.getSongIDsByListenerAcc().call({
-          from: this.web3.coinbase
-        })
+        if (this.web3.batBalance >= 100) {
+          await this.contractMethods.buySong(songID).send({
+            from: this.web3.coinbase,
+            gas: 200000
+          })
+          this.mySongIDList = await this.contractMethods.getSongIDsByListenerAcc().call({
+            from: this.web3.coinbase
+          })
 
-        await this.$store.dispatch('initPlayList')
+          await this.$store.dispatch('initPlayList')
 
-        alert('Complete payment')
+          alert('Complete payment')
+        } else {
+          alert ('Not Enough BAT')
+        }
         this.$refs.createForm.hide()
       },
       async triggerDetailModal ({ name, description, pictureHost, artistID }) {
