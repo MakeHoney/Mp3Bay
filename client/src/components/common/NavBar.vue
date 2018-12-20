@@ -12,11 +12,12 @@
                         <b-nav-item :to="{ name: 'register-listener' }">Register Listener</b-nav-item>
                     </b-navbar-nav>
                     <b-navbar-nav v-else-if="user.type === 'Listener'">
-                        <b-nav-item :to="{ name: 'player' }">Playlist</b-nav-item>
                         <b-nav-item :to="{ name: 'artists' }">Artists</b-nav-item>
+                        <b-nav-item :to="{ name: 'artists' }">Flee Market</b-nav-item>
                     </b-navbar-nav>
-                    <b-navbar-nav v-else="user.type === 'Artist'">
-                        <b-nav-item v-if="user.type === 'Artist'" :to=" { name: 'register-song' } ">Register Song</b-nav-item>
+                    <b-navbar-nav v-else>
+                        <b-nav-item :to=" { name: 'register-song' } ">Register Song</b-nav-item>
+                        <b-nav-item :to=" { name: 'register-song' } ">Revenue</b-nav-item>
                     </b-navbar-nav>
                 </div>
 
@@ -30,11 +31,19 @@
                         </b-button>
                     </b-nav-form>
 
+                    <b-nav-form>
+                        <b-button size="sm"
+                                  variant="outline-dark"
+                                  class="nav-button"
+                                  @click="triggerWithdraw">
+                            Withdraw
+                        </b-button>
+                    </b-nav-form>
                     <b-nav-item-dropdown text="User Info" right>
                         <b-dropdown-item>Network: {{ web3.networkID }}</b-dropdown-item>
                         <b-dropdown-item>Account: {{ web3.coinbase }}</b-dropdown-item>
-                        <b-dropdown-item>Balance: {{ web3.balance }} Wei</b-dropdown-item>
-                        <b-dropdown-item>Balance: {{ web3.batBalance }} BAT</b-dropdown-item>
+                        <b-dropdown-item>Balance: {{ computeEther.toFixed(3) }} ETH</b-dropdown-item>
+                        <b-dropdown-item>BAT Balance: {{ web3.batBalance }} BAT</b-dropdown-item>
                         <b-dropdown-item>type: {{ user.type }}</b-dropdown-item>
                         <b-dropdown-item>name: {{ user.name }}</b-dropdown-item>
                     </b-nav-item-dropdown>
@@ -42,9 +51,15 @@
             </b-collapse>
             <get-bat/>
         </b-navbar>
-        <div class="container" v-if="user.type === 'Listener'">
-            <player/>
+        <div>
+            <div class="container" v-if="user.type === 'Listener'">
+                <h1 id="page-title" v-b-toggle.collapse1>Play List</h1>
+                <b-collapse id="collapse1" class="mt-2">
+                        <player/>
+                </b-collapse>
+            </div>
         </div>
+
     </div>
 </template>
 
@@ -58,11 +73,20 @@
       ...mapState({
         web3: state => state.blockSync.web3,
         user: state => state.user
-      })
+      }),
+      computeEther () {
+        let ether = this.web3.balance
+        for (let i = 0; i < 18; i++)
+          ether = ether / 10
+        return ether
+      },
     },
     methods: {
       triggerGetBAT () {
         this.$EventBus.$emit('getBATButtonClicked')
+      },
+      triggerWithdraw () {
+        this.$EventBus.$emit('withdrawButtonClicked')
       }
     },
     components: {
@@ -75,5 +99,13 @@
 <style>
     .home-link-button {
         font-weight: bold;
+    }
+    #page-title {
+        font: 18px/1.2 'Oleo Script', Helvetica, sans-serif;
+        text-align: right;
+        margin-top: 20px;
+    }
+    .nav-button {
+        margin: 3px;
     }
 </style>

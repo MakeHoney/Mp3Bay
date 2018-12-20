@@ -13,6 +13,7 @@
 
 <script>
   import NavBar from './components/common/NavBar'
+  import { userIdentification } from './utils'
   import { mapState } from 'vuex'
   export default {
     name: 'app',
@@ -28,15 +29,22 @@
     async created () {
       await this.$store.dispatch('blockSync/checkWeb3')
       await this.$store.dispatch('blockSync/getContractInstance')
+      // TODO: 수정될 필요 있음. userIdentification이 초기에 이루어지지 않아서
+      // 항상 유저 정보 동기화가 늦었던 것임. 아래 한줄은 initArtistMeta를 실행하기 위해서
+      // store의 artistID를 초기화 시키기 위한 임시방편일 뿐임
+      const type = await userIdentification.userType()
       await this.$store.dispatch('initPlayList')
+      if (type === 'Artist') {
+        await this.$store.dispatch('initArtistMeta')
+      }
     }
   }
 </script>
 
 <style>
-    @import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
     @import url("http://fonts.googleapis.com/css?family=Oleo+Script");
-    /* Make clicks pass-through */
+    @import url("http://fonts.googleapis.com/earlyaccess/nanummyeongjo.css");
+    @import url("https://fonts.googleapis.com/css?family=Oswald|Slabo+27px");
     #nprogress {
         pointer-events: none;
     }

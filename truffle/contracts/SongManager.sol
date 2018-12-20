@@ -12,6 +12,7 @@ import "./BayToken.sol";
 contract SongManager is Manager {
 
     event SongCreated(uint indexed songID, string title, string ipfsHash);
+    event SongSelling(uint indexed songID, address indexed artistAcc);
 
     SongLib.Song[] public songs;
 

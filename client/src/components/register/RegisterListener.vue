@@ -48,7 +48,8 @@
           this.user.type = 'Listener'
           this.user.name = name
           this.user.address = listenerAddr
-
+          alert('Complete')
+          window.location.replace('/')
         } catch(err) {
           console.error('Error occurred at RegisterListener.vue', err)
         }

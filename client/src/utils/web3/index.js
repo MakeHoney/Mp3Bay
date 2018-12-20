@@ -1,5 +1,6 @@
 import Web3 from 'web3'
-import { userIdentification } from '../../utils'
+import axios from 'axios'
+import { userIdentification, getPlayList } from '../../utils'
 import config from '../../config'
 
 export default {
@@ -37,7 +38,6 @@ export default {
         try {
           const newCoinbase = (await web3.eth.getAccounts())[0]
           const newBalance = await web3.eth.getBalance(newCoinbase)
-          console.log(state.web3.web3Instance())
           const newBatBalance = await state.contractInstance()
             .methods.balanceOf().call({
             from: newCoinbase
@@ -48,6 +48,16 @@ export default {
             batBalance: newBatBalance
           })
           rootState.user.type = await userIdentification.userType()
+          if (rootState.user.type === 'Listener') {
+            // Refresh play list when account changes
+            rootState.playList = await getPlayList(rootState)
+          } else if (rootState.user.type === 'Artist') {
+            rootState.user.pictureHost = `${rootState.apiHost}/artist/load-picture?id=${rootState.user.artistID}`
+
+            const url = `${rootState.apiHost}/artist/load-user-description?id=${rootState.user.artistID}`
+            const { data } = await axios.get(url)
+            rootState.user.description = data.description
+          }
           if(window.location.href !== `${config.HOST}/`) {
             window.location.replace('/')
           }
@@ -67,12 +77,23 @@ export default {
               from: web3Copy.coinbase
             })
           state.web3 = web3Copy
+
           rootState.user.type = await userIdentification.userType()
+          // if (rootState.user.type === 'Listener') {
+          //   // Refresh play list when account changes
+          //   // rootState.playList = await getPlayList(rootState)
+          // } else if (rootState.user.type === 'Artist') {
+          //   rootState.user.pictureHost = `${rootState.apiHost}/artist/load-picture?id=${rootState.user.artistID}`
+          //
+          //   const url = `${rootState.apiHost}/artist/load-user-description?id=${rootState.user.artistID}`
+          //   const { data } = await axios.get(url)
+          //   rootState.user.description = data.description
+          // }
         } catch (err) {
           console.error(err)
         }
       }
-    }, 2000)
+    }, 1000)
   }
 }
 
@@ -93,4 +114,6 @@ const clearWeb3Instance = state => {
 const clearUserInfo = rootState => {
   rootState.user.name = null
   rootState.user.type = null
+  rootState.user.pictureHost = null
+  rootState.user.description = null
 }

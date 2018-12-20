@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 import { blockSync } from './modules'
-import { blockEvent } from '../utils'
+import { blockEvent, getPlayList } from '../utils'
 import config from '../config'
 
 Vue.use(Vuex)
@@ -15,7 +16,9 @@ export default new Vuex.Store({
       type: null,
       name: null,
       address: null,
-      artistID: null
+      artistID: null,
+      description: null,
+      pictureHost: null
     },
     artist: {
       addresses: null,
@@ -38,6 +41,10 @@ export default new Vuex.Store({
     },
     setPlayList(state, payload) {
       state.playList = payload
+    },
+    setArtistMeta (state, payload) {
+      state.user.pictureHost = `${state.apiHost}/artist/load-picture?id=${state.user.artistID}`
+      state.user.description = payload
     }
   },
   actions: {
@@ -61,22 +68,14 @@ export default new Vuex.Store({
       commit('setArtists', artists)
     },
     async initPlayList ({ commit, state }) {
-      const songIDList = await state.blockSync.contractInstance().methods
-        .getSongIDsByListenerAcc().call({
-        from: state.blockSync.web3.coinbase
-      })
-      const list = []
-      songIDList.forEach(async songID => {
-        const song = await state.blockSync.contractInstance().methods
-          .getSongBySongID(songID).call()
-        list.push({
-          title: song.title,
-          artist: song.artistName,
-          src: `${config.API_HOST}/music/load-song?id=${songID}`,
-          pic: `${config.API_HOST}/artist/load-picture?id=${song.artistID}`
-        })
-      })
-      commit('setPlayList', list)
+      const playList = await getPlayList(state)
+      console.log('sakdjfklasldfkj')
+      commit('setPlayList', playList)
+    },
+    async initArtistMeta ({ commit, state }) {
+      const url = `${state.apiHost}/artist/load-user-description?id=${state.user.artistID}`
+      const { data } = await axios.get(url)
+      commit('setArtistMeta', data.description)
     }
   }
 })

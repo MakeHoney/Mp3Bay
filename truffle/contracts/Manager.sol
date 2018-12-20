@@ -28,6 +28,15 @@ contract Manager is Ownable {
         tokenAddr = BayToken(_tokenAddr);
     }
 
+    function sellToken(uint token) public payable {
+        uint value = token;
+        for(uint i = 0; i < 14; i++) {
+            value = value * 10;
+        }
+        msg.sender.transfer(token);
+        tokenAddr.transferFrom(msg.sender, owner, token);
+    }
+
     function buyToken() public payable {
         require(msg.value > 0);
         uint token = msg.value;
