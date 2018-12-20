@@ -1,8 +1,7 @@
 <template>
     <div class="player">
+        <hr id="page-border">
         <template v-if="playList.length">
-            <h1 id="page-title">Play List</h1>
-            <hr id="page-border">
             <aplayer autoplay
                      :music="playList[0]"
                      :list="playList"
@@ -36,11 +35,6 @@
 </script>
 
 <style scoped>
-    #page-title {
-        font: 50px/1.2 'Oleo Script', Helvetica, sans-serif;
-        text-align: center;
-        margin-top: 20px;
-    }
     #page-border {
         border-color: red;
     }
