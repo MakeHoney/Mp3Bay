@@ -68,6 +68,9 @@
           this.user.type = 'Artist'
           this.user.name = name
           this.user.address = artistAddr
+
+          alert('Complete')
+          window.location.replace('/')
         } catch(err) {
           console.error('Error occurred at RegisterArtist.vue', err)
         }
