@@ -5,7 +5,6 @@ import store from '@/store'
 import { RouteHelper } from './helpers'
 import { userIdentification } from '../utils'
 import Home from '@/components/Home'
-import Player from '@/components/Player'
 import Artists from '@/components/Artists'
 import Artist from '@/components/Artist'
 import RegisterArtist from '@/components/register/RegisterArtist'
@@ -24,11 +23,6 @@ const router = new Router({
             component: Home
         },
         {
-            path: '/player',
-            name: 'player',
-            component: Player
-        },
-        {
             path: '/artists',
             name: 'artists',
             component: Artists
@@ -39,7 +33,6 @@ const router = new Router({
             component: Artist
         },
         {
-            // URL 수정 필요
             path: '/artist/register-song',
             name: 'register-song',
             component: RegisterSong
