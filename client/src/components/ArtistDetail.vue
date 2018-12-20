@@ -70,7 +70,7 @@
             from: this.web3.coinbase,
             gas: 200000
           })
-          this.mySongIDList = await this.contractMethods.getSongIDsByListenerAcc().call({
+          this.mySongIDList = await this.contractMethods.getSongIDsByListenerAcc('owned').call({
             from: this.web3.coinbase
           })
 
@@ -108,7 +108,7 @@
     },
     async mounted () {
       this.$EventBus.$on('detailButtonClicked', this.triggerDetailModal)
-      this.mySongIDList = await this.contractMethods.getSongIDsByListenerAcc().call({
+      this.mySongIDList = await this.contractMethods.getSongIDsByListenerAcc('owned').call({
         from: this.web3.coinbase
       })
     }

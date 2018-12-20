@@ -2,7 +2,7 @@ import config from "../../config"
 
 export default async state => {
   const songIDList = await state.blockSync.contractInstance().methods
-    .getSongIDsByListenerAcc().call({
+    .getSongIDsByListenerAcc('owned').call({
       from: state.blockSync.web3.coinbase
     })
   const list = []
