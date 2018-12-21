@@ -69,7 +69,6 @@ export default new Vuex.Store({
     },
     async initPlayList ({ commit, state }) {
       const playList = await getPlayList(state)
-      console.log('sakdjfklasldfkj')
       commit('setPlayList', playList)
     },
     async initArtistMeta ({ commit, state }) {
