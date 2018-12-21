@@ -6,7 +6,6 @@ import { RouteHelper } from './helpers'
 import { userIdentification } from '../utils'
 import Home from '@/components/Home'
 import Artists from '@/components/artists/Artists'
-import Artist from '@/components/artists/Artist'
 import RegisterArtist from '@/components/register/RegisterArtist'
 import RegisterListener from '@/components/register/RegisterListener'
 import RegisterSong from '@/components/register/RegisterSong'
@@ -26,11 +25,6 @@ const router = new Router({
             path: '/artists',
             name: 'artists',
             component: Artists
-        },
-        {
-            path: '/artists/:id',
-            name: 'artist',
-            component: Artist
         },
         {
             path: '/artist/register-song',
