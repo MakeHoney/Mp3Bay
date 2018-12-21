@@ -66,7 +66,7 @@
 <script>
   import { mapState } from 'vuex'
   import GetBat from './GetBat'
-  import Player from '../Player'
+  import Player from './Player'
   export default {
     name: 'nav-bar',
     computed: {
