@@ -6,7 +6,7 @@ import "./BayToken.sol";
 
 /*
     TODO: memory <-> storage
-    view / pure / external / internal
+    TODO: Addr이 필요한 프로퍼티인지 다시 생각해보고 리팩토링(삭제)
 */
 
 contract SongManager is Manager {
@@ -62,7 +62,6 @@ contract SongManager is Manager {
         // require(listenerAccToSongs[msg.sender].songIDToSong[_id].id == 100, "the song already exsits!");
         // require(msg.value == 1 ether, "not enough or too much ether to buy a song!");
         address artistAccount = songIDToArtistAccount[_id];
-        artistAccount.transfer(msg.value);
 
         // Pay 100 token to artist
         tokenAddr.transferFrom(msg.sender, artistAccount, 100);
@@ -111,17 +110,17 @@ contract SongManager is Manager {
         return songIDs;
     }
 
-    function getSongIDsByListenerAcc(string memory str) public view returns (uint[]) {
-        uint[] memory songIDs = new uint[](listenerAccountToSongCount[msg.sender]);
+    function getSongIDsByListenerAcc(address listener, string memory str) public view returns (uint[]) {
+        uint[] memory songIDs = new uint[](listenerAccountToSongCount[listener]);
         uint flag;
         uint count = 0;
         bytes memory conStr = bytes(str);
-        if (keccak256(conStr) == "owned") flag = 1;
-        else if (keccak256(conStr) == "posted") flag = 2;
+        if (keccak256(conStr) == keccak256("owned")) flag = 1;
+        else if (keccak256(conStr) == keccak256("posted")) flag = 2;
         else flag = 3;
 
         for(uint i = 0; i < songs.length; i++) {
-            if(listenerAccToSongs[msg.sender][i] == flag) {
+            if(listenerAccToSongs[listener][i] == flag) {
                 songIDs[count++] = i;
             }
         }
