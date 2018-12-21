@@ -72,7 +72,7 @@ contract SongManager is Manager {
         listenerAccountToSongCount[msg.sender]++;
     }
 
-    function buySongFromFM (address seller, uint songID) {
+    function buySongFromFM (address seller, uint songID) public onlyListener(msg.sender) {
         require(listenerAccToSongs[seller][songID] == 2);
         require(listenerAccToSongs[msg.sender][songID] == 0);
         address artist = songIDToArtistAccount[songID];
@@ -111,12 +111,13 @@ contract SongManager is Manager {
         return songIDs;
     }
 
-    function getSongIDsByListenerAcc(string str) public view returns (uint[]) {
+    function getSongIDsByListenerAcc(string memory str) public view returns (uint[]) {
         uint[] memory songIDs = new uint[](listenerAccountToSongCount[msg.sender]);
-        uint memory flag;
+        uint flag;
         uint count = 0;
-        if (str == "owned") flag = 1;
-        else if (str == "posted") flag = 2;
+        bytes memory conStr = bytes(str);
+        if (keccak256(conStr) == "owned") flag = 1;
+        else if (keccak256(conStr) == "posted") flag = 2;
         else flag = 3;
 
         for(uint i = 0; i < songs.length; i++) {
