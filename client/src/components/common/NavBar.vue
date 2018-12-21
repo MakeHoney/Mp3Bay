@@ -13,7 +13,7 @@
                     </b-navbar-nav>
                     <b-navbar-nav v-else-if="user.type === 'Listener'">
                         <b-nav-item :to="{ name: 'artists' }">Artists</b-nav-item>
-                        <b-nav-item :to="{ name: 'artists' }">Flee Market</b-nav-item>
+                        <b-nav-item :to="{ name: 'flee-market' }">Flee Market</b-nav-item>
                     </b-navbar-nav>
                     <b-navbar-nav v-else>
                         <b-nav-item :to=" { name: 'register-song' } ">Register Song</b-nav-item>
