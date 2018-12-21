@@ -19,7 +19,7 @@
 <script>
   import { mapState, mapGetters } from 'vuex'
   import ArtistDetail from './ArtistDetail'
-  import Artist from '@/components/Artist'
+  import Artist from './Artist'
   export default {
     name: 'artists',
     computed: {
