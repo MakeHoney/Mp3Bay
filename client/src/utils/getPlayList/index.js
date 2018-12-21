@@ -2,9 +2,7 @@ import config from "../../config"
 
 export default async state => {
   const songIDList = await state.blockSync.contractInstance().methods
-    .getSongIDsByListenerAcc('owned').call({
-      from: state.blockSync.web3.coinbase
-    })
+    .getSongIDsByListenerAcc(state.blockSync.web3.coinbase, 'owned').call()
   const list = []
   songIDList.forEach(async songID => {
     const song = await state.blockSync.contractInstance().methods
@@ -16,6 +14,5 @@ export default async state => {
       pic: `${config.API_HOST}/artist/load-picture?id=${song.artistID}`
     })
   })
-
   return list
 }
