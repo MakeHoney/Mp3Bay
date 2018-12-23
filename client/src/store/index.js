@@ -85,14 +85,15 @@ export default new Vuex.Store({
       listeners.forEach(async listener => {
         const listenerSongIDs = await contractMethods
           .getSongIDsByListenerAcc(listener.listenerAccount, 'posted').call()
-
+        
         listenerSongIDs.forEach(async songID => {
           const song = await contractMethods.getSongBySongID(songID).call()
           posts.push({
             sellerName: listener.name,
             sellerAcc: listener.listenerAccount,
             songTitle: song.title,
-            artistName: song.artistName
+            artistName: song.artistName,
+            songID
           })
         })
       })

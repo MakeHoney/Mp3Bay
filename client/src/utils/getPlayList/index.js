@@ -8,6 +8,7 @@ export default async state => {
     const song = await state.blockSync.contractInstance().methods
       .getSongBySongID(songID).call()
     list.push({
+      songID,
       title: song.title,
       artist: song.artistName,
       src: `${config.API_HOST}/music/load-song?id=${songID}`,
