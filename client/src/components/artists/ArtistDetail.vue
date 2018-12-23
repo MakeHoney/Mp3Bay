@@ -107,10 +107,11 @@
     },
     async mounted () {
       this.$EventBus.$on('detailButtonClicked', this.triggerDetailModal)
-      this.mySongIDList = await this.contractMethods
-        .getSongIDsByListenerAcc(this.web3.coinbase, 'owned').call({
-        from: this.web3.coinbase
-      })
+      const ownedSong = await this.contractMethods
+        .getSongIDsByListenerAcc(this.web3.coinbase, 'owned').call()
+      const postedSong = await this.contractMethods
+        .getSongIDsByListenerAcc(this.web3.coinbase, 'posted').call()
+      this.mySongIDList = ownedSong.concat(postedSong)
     }
   }
 </script>
