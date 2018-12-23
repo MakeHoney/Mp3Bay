@@ -22,7 +22,8 @@ export default {
     const keyLists = {
       SongCreated: [ 'songID', 'ipfsHash', 'title' ],
       // need description
-      ArtistCreated: [ 'artistID', 'userInfoHash', 'name' ]
+      ArtistCreated: [ 'artistID', 'userInfoHash', 'name' ],
+      ListenerCreated: [ 'listenerAccount', 'name' ]
     }
     const keyList = keyLists[eventName].slice()
     let result = []

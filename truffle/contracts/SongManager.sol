@@ -6,7 +6,7 @@ import "./BayToken.sol";
 
 /*
     TODO: memory <-> storage
-    view / pure / external / internal
+    TODO: Addr이 필요한 프로퍼티인지 다시 생각해보고 리팩토링(삭제)
 */
 
 contract SongManager is Manager {
@@ -16,8 +16,14 @@ contract SongManager is Manager {
 
     SongLib.Song[] public songs;
 
-    mapping (address => mapping(uint => bool)) public listenerAccountToSongs;
+    // Last uint represents state of songs
+    // 0: unowned song
+    // 1: owned song
+    // 2: song posted on flee market
+    mapping (address => mapping(uint => int256)) public listenerAccToSongs;
+
     mapping (address => uint) public listenerAccountToSongCount;
+    mapping (address => uint) public listenerAccountToPostedSongCount;
     mapping (uint => address) public songIDToArtistAccount;
     mapping (address => uint) public artistAccountToSongCount;
 
@@ -54,17 +60,47 @@ contract SongManager is Manager {
         // pay for music
 
         // wrong condition sentence (id == 100) need to be changed
-        // require(listenerAccountToSongs[msg.sender].songIDToSong[_id].id == 100, "the song already exsits!");
+        // require(listenerAccToSongs[msg.sender].songIDToSong[_id].id == 100, "the song already exsits!");
         // require(msg.value == 1 ether, "not enough or too much ether to buy a song!");
         address artistAccount = songIDToArtistAccount[_id];
-        artistAccount.transfer(msg.value);
 
         // Pay 100 token to artist
         tokenAddr.transferFrom(msg.sender, artistAccount, 100);
 
         // add song into listener' song list.
-        listenerAccountToSongs[msg.sender][_id] = true;
+        listenerAccToSongs[msg.sender][_id] = 1;
         listenerAccountToSongCount[msg.sender]++;
+    }
+
+    function buySongFromFM (address seller, uint songID) public onlyListener(msg.sender) {
+        require(listenerAccToSongs[seller][songID] == 2);
+        require(listenerAccToSongs[msg.sender][songID] == 0);
+        address artist = songIDToArtistAccount[songID];
+
+        tokenAddr.transferFrom(msg.sender, seller, 20);
+        tokenAddr.transferFrom(msg.sender, artist, 20);
+        tokenAddr.transferFrom(msg.sender, owner, 10);
+
+        listenerAccToSongs[seller][songID] = 0;
+        listenerAccToSongs[msg.sender][songID] = 1;
+        listenerAccountToSongCount[msg.sender]++;
+        listenerAccountToPostedSongCount[seller]--;
+    }
+
+    function postingSongOnFM(uint songID) public onlyListener(msg.sender) {
+        require(listenerAccToSongs[msg.sender][songID] == 1);
+        listenerAccToSongs[msg.sender][songID] = 2;
+
+        listenerAccountToSongCount[msg.sender]--;
+        listenerAccountToPostedSongCount[msg.sender]++;
+    }
+
+    function removePosting(uint songID) public onlyListener(msg.sender) {
+        require(listenerAccToSongs[msg.sender][songID] == 2);
+        listenerAccToSongs[msg.sender][songID] = 1;
+
+        listenerAccountToSongCount[msg.sender]++;
+        listenerAccountToPostedSongCount[msg.sender]--;
     }
 
     // is this needed?
@@ -83,13 +119,22 @@ contract SongManager is Manager {
         return songIDs;
     }
 
-    function getSongIDsByListenerAcc() public view returns (uint[]) {
-        uint[] memory songIDs = new uint[](listenerAccountToSongCount[msg.sender]);
+    function getSongIDsByListenerAcc(address listener, string memory str) public view returns (int256[]) {
+        int256[] memory songIDs;
+        int256 flag;
         uint count = 0;
+        bytes memory conStr = bytes(str);
+        if (keccak256(conStr) == keccak256("owned")) {
+            songIDs = new int256[](listenerAccountToSongCount[listener]);
+            flag = 1;
+        } else if (keccak256(conStr) == keccak256("posted")) {
+            songIDs = new int256[](listenerAccountToPostedSongCount[listener]);
+            flag = 2;
+        } else flag = 3;
 
         for(uint i = 0; i < songs.length; i++) {
-            if(listenerAccountToSongs[msg.sender][i]) {
-                songIDs[count++] = i;
+            if(listenerAccToSongs[listener][i] == flag) {
+                songIDs[count++] = int256(i);
             }
         }
         return songIDs;

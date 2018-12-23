@@ -25,7 +25,11 @@ export default new Vuex.Store({
       names: null
     },
     apiHost: config.API_HOST,
+    // For artists page
     artists: [],
+    // For flee market page
+    posts: [],
+
     playList: []
   },
   mutations: {
@@ -36,7 +40,6 @@ export default new Vuex.Store({
       state.artist.names = payload
     },
     setArtists(state, payload) {
-      console.log(payload)
       state.artists = payload
     },
     setPlayList(state, payload) {
@@ -45,17 +48,22 @@ export default new Vuex.Store({
     setArtistMeta (state, payload) {
       state.user.pictureHost = `${state.apiHost}/artist/load-picture?id=${state.user.artistID}`
       state.user.description = payload
+    },
+    setPosts (state, payload) {
+      state.posts = payload
     }
   },
   actions: {
     async getArtistAddresses({ commit, state }) {
-      let result = await state.blockSync.contractInstance().methods.getAllArtistsAddrs().call()
+      let result = await state.blockSync.contractInstance()
+        .methods.getAllArtistsAddrs().call()
       commit('setArtistAddresses', result)
     },
     async getArtistNames({ commit, state }) {
       let result = []
       for(let i = 0; i < state.artist.addresses.length; i++) {
-        result.push(await state.blockSync.contractInstance().methods.getArtistNameByIndex(i).call())
+        result.push(await state.blockSync.contractInstance()
+          .methods.getArtistNameByIndex(i).call())
       }
       commit('setArtistNames', result)
     },
@@ -67,9 +75,32 @@ export default new Vuex.Store({
       // artists.reverse()
       commit('setArtists', artists)
     },
+    async getPosts ({ commit }) {
+      const eventName = 'ListenerCreated'
+      const events = await blockEvent.getEventsFromBlock(eventName)
+      const listeners = await blockEvent.getDataFromEvents(eventName, events)
+      const contractMethods = this.getters['blockSync/contractMethods']
+
+      const posts = []
+      listeners.forEach(async listener => {
+        const listenerSongIDs = await contractMethods
+          .getSongIDsByListenerAcc(listener.listenerAccount, 'posted').call()
+        
+        listenerSongIDs.forEach(async songID => {
+          const song = await contractMethods.getSongBySongID(songID).call()
+          posts.push({
+            sellerName: listener.name,
+            sellerAcc: listener.listenerAccount,
+            songTitle: song.title,
+            artistName: song.artistName,
+            songID
+          })
+        })
+      })
+      commit('setPosts', posts)
+    },
     async initPlayList ({ commit, state }) {
       const playList = await getPlayList(state)
-      console.log('sakdjfklasldfkj')
       commit('setPlayList', playList)
     },
     async initArtistMeta ({ commit, state }) {
