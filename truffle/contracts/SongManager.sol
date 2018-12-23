@@ -20,9 +20,10 @@ contract SongManager is Manager {
     // 0: unowned song
     // 1: owned song
     // 2: song posted on flee market
-    mapping (address => mapping(uint => uint)) public listenerAccToSongs;
+    mapping (address => mapping(uint => int256)) public listenerAccToSongs;
 
     mapping (address => uint) public listenerAccountToSongCount;
+    mapping (address => uint) public listenerAccountToPostedSongCount;
     mapping (uint => address) public songIDToArtistAccount;
     mapping (address => uint) public artistAccountToSongCount;
 
@@ -82,16 +83,24 @@ contract SongManager is Manager {
 
         listenerAccToSongs[seller][songID] = 0;
         listenerAccToSongs[msg.sender][songID] = 1;
+        listenerAccountToSongCount[msg.sender]++;
+        listenerAccountToPostedSongCount[seller]--;
     }
 
     function postingSongOnFM(uint songID) public onlyListener(msg.sender) {
         require(listenerAccToSongs[msg.sender][songID] == 1);
         listenerAccToSongs[msg.sender][songID] = 2;
+
+        listenerAccountToSongCount[msg.sender]--;
+        listenerAccountToPostedSongCount[msg.sender]++;
     }
 
     function removePosting(uint songID) public onlyListener(msg.sender) {
         require(listenerAccToSongs[msg.sender][songID] == 2);
         listenerAccToSongs[msg.sender][songID] = 1;
+
+        listenerAccountToSongCount[msg.sender]++;
+        listenerAccountToPostedSongCount[msg.sender]--;
     }
 
     // is this needed?
@@ -110,18 +119,22 @@ contract SongManager is Manager {
         return songIDs;
     }
 
-    function getSongIDsByListenerAcc(address listener, string memory str) public view returns (uint[]) {
-        uint[] memory songIDs = new uint[](listenerAccountToSongCount[listener]);
-        uint flag;
+    function getSongIDsByListenerAcc(address listener, string memory str) public view returns (int256[]) {
+        int256[] memory songIDs;
+        int256 flag;
         uint count = 0;
         bytes memory conStr = bytes(str);
-        if (keccak256(conStr) == keccak256("owned")) flag = 1;
-        else if (keccak256(conStr) == keccak256("posted")) flag = 2;
-        else flag = 3;
+        if (keccak256(conStr) == keccak256("owned")) {
+            songIDs = new int256[](listenerAccountToSongCount[listener]);
+            flag = 1;
+        } else if (keccak256(conStr) == keccak256("posted")) {
+            songIDs = new int256[](listenerAccountToPostedSongCount[listener]);
+            flag = 2;
+        } else flag = 3;
 
         for(uint i = 0; i < songs.length; i++) {
             if(listenerAccToSongs[listener][i] == flag) {
-                songIDs[count++] = i;
+                songIDs[count++] = int256(i);
             }
         }
         return songIDs;
