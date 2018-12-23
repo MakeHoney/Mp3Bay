@@ -1,32 +1,34 @@
 <template>
     <div>
         <h1 class="page-title">Flee Market</h1>
+        <post-modal/>
         <hr class="page-border">
-        <button @click="foo">Post</button>
 
         <div>
-            <post></post>
-            <post></post>
-            <post></post>
+            <template v-for="post in posts">
+                <post :postInfo="post"></post>
+            </template>
         </div>
     </div>
 </template>
 
 <script>
   import Post from './Post'
-  import { blockEvent } from '../../utils'
+  import PostModal from './PostModal'
+  import { mapState } from 'vuex'
   export default {
     name: 'flee-market',
     components: {
-      Post
+      Post,
+      PostModal
     },
-    methods: {
-      async foo() {
-        // const events = await blockEvent.getEventsFromBlock('ListenerCreated')
-        // const result = await blockEvent.getDataFromEvents('ListenerCreated', events)
-        // console.log(result)
-        await this.$store.dispatch('getPosts')
-      }
+    computed: {
+      ...mapState([
+        'posts'
+      ])
+    },
+    async created () {
+      await this.$store.dispatch('getPosts')
     }
   }
 </script>
